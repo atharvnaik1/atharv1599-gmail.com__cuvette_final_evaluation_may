@@ -1,23 +1,34 @@
 import React from 'react';
 import './Sidebar.css';
-import { MdOutlineTableChart } from "react-icons/md";
-import { CgViewComfortable } from "react-icons/cg";
+import { BsWindowSidebar } from "react-icons/bs";
+import { LuLayout } from "react-icons/lu";
+import { GoDatabase } from "react-icons/go";
+import { HiOutlineCog8Tooth } from "react-icons/hi2";
 
 const Sidebar = () => {
   return (
-    <div className="sidebar">
+    <nav className="sidebar">
       <div className="logo-section">
-        <h3>Pro Manage</h3>
+      <img src="../public/Group.png" alt="Cube Icon" className="icon-cube" />
       </div>
-      <nav className="nav-links">
-        <a href="#" className="nav-link active">Board</a>
-        <a href="#" className="nav-link">Analytics</a>
-        <a href="#" className="nav-link">Settings</a>
-      </nav>
+      <ul className="nav-links">
+        <li className="nav-link">
+          <LuLayout className="sidebar-icon" />
+          <span className='nav-text'>Board</span>
+        </li>
+        <li className="nav-link">
+          <GoDatabase className="sidebar-icon" />
+          <span className='nav-text'>Analytics</span>
+        </li>
+        <li className="nav-link">
+          <HiOutlineCog8Tooth className="sidebar-icon" />
+          <span className='nav-text'>Settings</span>
+        </li>
+      </ul>
       <div className="logout-section">
         <a href="#" className="logout-btn">Log out</a>
       </div>
-    </div>
+    </nav>
   );
 };
 

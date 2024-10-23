@@ -12,7 +12,7 @@ const Dashboard = () => {
         <Header />
         <div className="board-section">
           <TaskBoard title="Backlog" />
-          <TaskBoard title="To do" />
+          <TaskBoard title="To do" showPlus={true} />
           <TaskBoard title="In progress" />
           <TaskBoard title="Done" />
         </div>

@@ -1,24 +1,55 @@
 .task-board {
-    background-color: #f0f2fc;
-    border-radius: 8px;
-    padding: 20px;
-    width: 200px;
-    min-height: 400px;
-    margin-right: 20px;
-  }
-  
-  .task-board-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .task-board-header h3 {
-    font-size: 16px;
-  }
-  
-  .task-board-header span {
-    font-size: 24px;
-    cursor: pointer;
-  }
-  
+  background-color: #f0f2fc;
+  border-radius: 8px;
+  padding: 20px;
+  width: 200px;
+  min-height: 400px;
+  margin-right: 20px;
+}
+
+.task-board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-board-header h3 {
+  font-size: 16px;
+}
+
+.task-board-controls {
+  display: flex;
+  align-items: center;
+}
+
+.task-board-header span {
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 10px; /* Add some space between + and the icon */
+}
+
+.task-board-header .plus-icon {
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 20px;
+  color: gray;
+   /* Space between the plus and the copy-minus icon */
+}
+
+.copy-minus-icon {
+  font-size: 18px;
+  transform: scaleX(-1); /* This will mirror the icon horizontally */
+  cursor: pointer;
+  color: gray;
+}
+.task-board-body {
+  margin-top: 20px;
+}
+.task-item {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+}

@@ -8,28 +8,42 @@
     padding: 20px;
   }
   
-  .logo-section h3 {
-    font-size: 18px;
-    color: #333;
-  }
+
   
-  .nav-links {
-    margin-top: 20px;
-  }
+.nav-links {
+        list-style: none;
+        padding: 0;
+      }
+
   
-  .nav-link {
-    display: block;
-    padding: 10px;
-    font-size: 16px;
-    color: #333;
-    text-decoration: none;
-    margin-bottom: 10px;
-  }
+      .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        margin: 10px 0 ;
+        margin-left: 20px;
+        border-radius: 8px;
+        font-size: 16px;
+        color: #6c757d;
+        cursor: pointer;
+        text-decoration: none;
+      }
   
-  .nav-link.active {
-    background-color: #e0e0e0;
-    border-radius: 5px;
-  }
+      .nav-link:hover {
+        background-color: #e9ecef;
+        color: #000;
+      }
+      .sidebar-icon {
+        margin-right: 10px;
+        font-size: 18px;
+        color: inherit;
+      }
+     .nav-text{
+        font-size: 18px;
+        margin-left: 10px;
+
+
+     }
   
   .logout-section {
     margin-top: auto;
