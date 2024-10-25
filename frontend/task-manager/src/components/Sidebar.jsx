@@ -4,6 +4,7 @@ import { BsWindowSidebar } from "react-icons/bs";
 import { LuLayout } from "react-icons/lu";
 import { GoDatabase } from "react-icons/go";
 import { HiOutlineCog8Tooth } from "react-icons/hi2";
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
@@ -14,15 +15,15 @@ const Sidebar = () => {
       <ul className="nav-links">
         <li className="nav-link">
           <LuLayout className="sidebar-icon" />
-          <span className='nav-text'>Board</span>
+          <Link to="/dashboard" className='nav-text'>Board</Link>
         </li>
         <li className="nav-link">
           <GoDatabase className="sidebar-icon" />
-          <span className='nav-text'>Analytics</span>
+          <Link to="/analytics" className='nav-text'>Analytics</Link>
         </li>
         <li className="nav-link">
           <HiOutlineCog8Tooth className="sidebar-icon" />
-          <span className='nav-text'>Settings</span>
+          <Link to="/settings" className='nav-text'>Settings</Link>
         </li>
       </ul>
       <div className="logout-section">

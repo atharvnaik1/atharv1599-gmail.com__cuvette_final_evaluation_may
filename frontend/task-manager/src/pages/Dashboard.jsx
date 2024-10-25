@@ -1,22 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import TaskBoard from '../components/TaskBoard';
 import './Dashboard.css';
 
 const Dashboard = () => {
+  const [tasks, setTasks] = useState([]);
+  
   return (
     <div className="dashboard-container">
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className="dashboard-main">
         <Header />
         <div className="board-section">
-          <TaskBoard title="Backlog" />
-          <TaskBoard title="To do" showPlus={true} />
-          <TaskBoard title="In progress" />
-          <TaskBoard title="Done" />
+          {/* Render TaskBoard once and manage the columns inside TaskBoard */}
+          <TaskBoard tasks={tasks} setTasks={setTasks} />
         </div>
       </div>
+     
     </div>
   );
 };

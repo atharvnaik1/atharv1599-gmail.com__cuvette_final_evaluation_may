@@ -1,0 +1,132 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 500px;
+  }
+  
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .priority-options {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .priority-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .priority-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .red { background-color: red; }
+  .blue { background-color: blue; }
+  .green { background-color: green; }
+  
+  .selected {
+    font-weight: bold;
+  }
+  .assign-to-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .assign-to-container input {
+    z-index: index -1;
+    width: 100px
+
+    /* padding-right: 30px; space for the icon */
+  }
+  
+  .dropdown-icon {
+    position:absolute;
+    left:250px;
+    padding-left: 200px;
+    z-index: 3;
+    cursor: pointer;
+    color: #696868; /* adjust color as needed */
+    font-size: 1.2em;
+  }
+  
+  
+  .checklist-item {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .add-checklist-item {
+    color: blue;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  }
+  .due-date-btn {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .due-date-btn:hover {
+    background-color: #e0e0e0;
+  }
+  
+  
+  .cancel-btn, .save-btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .cancel-btn {
+    background-color: #f8d7da;
+    color: #721c24;
+    
+  }
+  
+  .save-btn {
+    background-color: #007bff;
+    color: white;
+  }
+  .save-btn:hover {
+    background-color: #0056b3;
+  }

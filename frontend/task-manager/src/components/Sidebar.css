@@ -29,7 +29,7 @@
         text-decoration: none;
       }
   
-      .nav-link:hover {
+      .nav-link:hover, .nav-text:hover {
         background-color: #e9ecef;
         color: #000;
       }
@@ -41,10 +41,10 @@
      .nav-text{
         font-size: 18px;
         margin-left: 10px;
-
-
+        color:gray;
+        text-decoration: none;
      }
-  
+     
   .logout-section {
     margin-top: auto;
   }
