@@ -1,6 +1,8 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
+const taskRoutes = require('./routes/tasks'); 
+
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
@@ -31,6 +33,7 @@ logToFile('Server started.');
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/tasks', taskRoutes);
 
 // Define root route
 app.get('/', (req, res) => {
