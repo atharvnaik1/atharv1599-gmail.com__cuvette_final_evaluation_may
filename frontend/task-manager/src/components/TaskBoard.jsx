@@ -15,7 +15,7 @@ const setAuthHeader = () => {
   }
 };
 
-const TaskBoard =({ initialTasks = [] }) => {
+const TaskBoard =() => {
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false); // Modal visibility state
   const [currentTask, setCurrentTask] = useState(null); // Track task being edited or created
