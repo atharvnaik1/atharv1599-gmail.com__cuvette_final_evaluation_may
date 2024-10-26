@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { Link } from 'react-router-dom';  // Import Link for navigation
 import './login.css';
+import {loginUser } from '../api/auth';
 
 function LoginPage() {
   const [email, setEmail] = useState('');

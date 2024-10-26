@@ -1,5 +1,5 @@
 const express = require('express');
-const auth = require('../middleware/auth');
+const auth = require('../utils/auth');
 const router = express.Router();
 
 // In-memory tasks (in a real setup, these would be in a database)
@@ -19,6 +19,7 @@ router.post('/', auth, (req, res) => {
     title,
     priority,
     status,
+    checklist,
     userId: req.user,
   };
   tasks.push(newTask);
@@ -27,7 +28,9 @@ router.post('/', auth, (req, res) => {
 
 // Delete a task
 router.delete('/:id', auth, (req, res) => {
-  tasks = tasks.filter((task) => task.id !== req.params.id || task.userId !== req.user);
+  const taskId = req.params.id;
+  const userId = req.user;
+  tasks = tasks.filter((task) => !(task.id === taskId && task.userId === userId));
   res.json({ msg: 'Task deleted' });
 });
 

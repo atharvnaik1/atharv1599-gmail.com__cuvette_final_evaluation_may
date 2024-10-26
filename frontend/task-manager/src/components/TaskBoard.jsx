@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './TaskBoard.css';
 import { LuCopyMinus } from 'react-icons/lu';
 import { FaEdit, FaTrash } from 'react-icons/fa'; // Import edit and delete icons
@@ -6,10 +6,94 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TaskModal from './TaskModal'; // Import the modal component
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io'; // Import arrow icons for collapsing
 
-const TaskBoard = ({ tasks, setTasks }) => {
+const setAuthHeader = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    return { Authorization: `Bearer ${token}` };
+  } else {
+    return {};
+  }
+};
+
+const TaskBoard =({ initialTasks = [] }) => {
+  const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false); // Modal visibility state
   const [currentTask, setCurrentTask] = useState(null); // Track task being edited or created
   const [taskStatus, setTaskStatus] = useState(''); // To track which column the task is being created for
+
+
+  // Fetch tasks from backend on component mount
+  useEffect(() => {
+    const initializeTasks = async () => {
+      try {
+        const response = await fetch('/api/tasks', {
+          headers: setAuthHeader(),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setTasks(data);
+        } else {
+          throw new Error('Failed to fetch tasks');
+        }
+      } catch (error) {
+        console.error("Error fetching tasks from backend:", error);
+        // Fallback to local storage if backend fetch fails
+        const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        setTasks(storedTasks);
+      }
+    };
+    initializeTasks();
+  }, []);
+
+  useEffect(() => {
+    // Sync local storage whenever tasks change
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
+
+  // const fetchTasksFromBackend = async () => {
+  //   const response = await fetch('/api/tasks', {
+  //     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  //   });
+  //   if (response.ok) {
+  //     const data = await response.json();
+  //     setTasks(data);
+  //   } else {
+  //     throw new Error('Failed to fetch tasks from backend');
+  //   }
+  // };
+
+
+  const saveTaskToBackend = async (newTask) => {
+    try {
+      const response = await fetch('/api/tasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...setAuthHeader(),
+        },
+        body: JSON.stringify(newTask),
+      });
+      if (response.ok) {
+        const savedTask = await response.json();
+        setTasks((prevTasks) => [...prevTasks, savedTask]);
+      } else {
+        throw new Error('Failed to save task');
+      }
+    } catch (error) {
+      console.error("Error saving task to backend:", error);
+    }
+  };
+
+  const deleteTaskFromBackend = async (taskId) => {
+    await fetch(`/api/tasks/${taskId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        ...setAuthHeader(),
+      },
+    });
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+  };
 
   // Function to open the modal for task creation or editing
   const openModal = (task = null, status = '') => {
@@ -28,18 +112,26 @@ const TaskBoard = ({ tasks, setTasks }) => {
   const saveTask = (newTask) => {
     if (currentTask) {
       // Editing an existing task
-      setTasks(tasks.map(task => (task.id === currentTask.id ? { ...task, ...newTask } : task)));
-    } else {
-      // Adding a new task
-      const taskId = Date.now().toString(); // Generate unique ID for new tasks
-      setTasks([...tasks, { id: taskId, ...newTask, status: taskStatus }]); // Add new task with its appropriate status
-    }
-    closeModal(); // Close the modal after saving
-  };
+      const updatedTasks = tasks.map((task) =>
+        task.id === currentTask.id ? { ...task, ...newTask } : task
+      );
+      setTasks(updatedTasks);
+      localStorage.setItem('tasks', JSON.stringify(updatedTasks)); // Update local storage
+        } else {
+          // Adding a new task
+          const taskId = Date.now().toString();
+          const newTaskWithId = { id: taskId, ...newTask, status: taskStatus };
+          setTasks((prevTasks) => [...prevTasks, newTaskWithId]);
+          saveTaskToBackend(newTaskWithId); // Save to backend
+        }
+        closeModal();
+      };
+    
 
   // Function to delete a task
   const deleteTask = (taskId) => {
     setTasks(tasks.filter(task => task.id !== taskId)); // Filter out the task with the matching ID
+    deleteTaskFromBackend(taskId);
   };
 
   // Function to toggle the collapsible checklist
@@ -65,6 +157,8 @@ const TaskBoard = ({ tasks, setTasks }) => {
     movedTask.status = result.destination.droppableId; // Update task status based on the new column
     updatedTasks.splice(result.destination.index, 0, movedTask);
     setTasks(updatedTasks);
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks)); // Update local storage
+
   };
 
   // Function to filter tasks by status

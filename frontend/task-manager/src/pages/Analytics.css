@@ -1,34 +1,47 @@
 .analytics-page {
-    padding: 20px;
-  }
-  
-  h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  .stats-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .stat-item {
-    background-color: #f0f2fc;
-    padding: 20px;
-    border-radius: 8px;
-    width: 200px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .stat-item h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  
-  .stat-item p {
-    font-size: 22px;
-    color: #333;
-  }
-  
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.stats-container {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.status-section, .priority-section {
+  flex: 1;
+  background-color: #f4faff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status-section h3, .priority-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.stat-item p {
+  color: #333;
+}
+
+.stat-item span {
+  font-weight: bold;
+  color: #1d72f3;
+}

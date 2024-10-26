@@ -22,6 +22,11 @@ const AnalyticsPage = ({ tasks }) => {
       const pastDue = tasks.filter(task => new Date(task.dueDate) < new Date() && task.status !== 'done').length;
       const completed = tasks.filter(task => task.status === 'done').length;
 
+      const lowPriority = tasks.filter(task => task.priority === 'low').length;
+      const moderatePriority = tasks.filter(task => task.priority === 'moderate').length;
+      const highPriority = tasks.filter(task => task.priority === 'high').length;
+
+
       setTaskStats({
         totalTasks,
         backlog,
@@ -30,6 +35,9 @@ const AnalyticsPage = ({ tasks }) => {
         done,
         pastDue,
         completed,
+        lowPriority,
+        moderatePriority,
+        highPriority,
       });
     };
 
@@ -38,39 +46,49 @@ const AnalyticsPage = ({ tasks }) => {
 
   return (
     <div className="analytics-page">
-      <h2>Analytics Overview</h2>
-      <div className="stats-container">
+    <h2>Analytics Overview</h2>
+    <div className="stats-container">
+      <div className="status-section">
+        <h3>Task Status</h3>
         <div className="stat-item">
-          <h3>Total Tasks</h3>
-          <p>{taskStats.totalTasks}</p>
+          <p>Backlog Tasks</p>
+          <span>{taskStats.backlog}</span>
         </div>
         <div className="stat-item">
-          <h3>Backlog Tasks</h3>
-          <p>{taskStats.backlog}</p>
+          <p>To-Do Tasks</p>
+          <span>{taskStats.todo}</span>
         </div>
         <div className="stat-item">
-          <h3>To-Do Tasks</h3>
-          <p>{taskStats.todo}</p>
+          <p>In Progress</p>
+          <span>{taskStats.inProgress}</span>
         </div>
         <div className="stat-item">
-          <h3>In Progress</h3>
-          <p>{taskStats.inProgress}</p>
+          <p>Completed Tasks</p>
+          <span>{taskStats.completed}</span>
+        </div>
+      </div>
+      <div className="priority-section">
+        <h3>Task Priority</h3>
+        <div className="stat-item">
+          <p>Low Priority</p>
+          <span>{taskStats.lowPriority}</span>
         </div>
         <div className="stat-item">
-          <h3>Done Tasks</h3>
-          <p>{taskStats.done}</p>
+          <p>Moderate Priority</p>
+          <span>{taskStats.moderatePriority}</span>
         </div>
         <div className="stat-item">
-          <h3>Past Due Tasks</h3>
-          <p>{taskStats.pastDue}</p>
+          <p>High Priority</p>
+          <span>{taskStats.highPriority}</span>
         </div>
         <div className="stat-item">
-          <h3>Completed Tasks</h3>
-          <p>{taskStats.completed}</p>
+          <p>Due Date Tasks</p>
+          <span>{taskStats.pastDue}</span>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default AnalyticsPage;

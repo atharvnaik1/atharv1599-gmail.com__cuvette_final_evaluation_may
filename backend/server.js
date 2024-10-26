@@ -25,6 +25,8 @@ const logToFile = (message) => {
 
 // Middleware
 app.use(cors());
+app.use(cors({ origin: 'http://localhost:5173' }));
+
 app.use(bodyParser.json()); // Use body-parser to parse JSON request bodies
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded request bodies
 
@@ -34,6 +36,7 @@ logToFile('Server started.');
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use('/api/people', require('./routes/people'));
 
 // Define root route
 app.get('/', (req, res) => {

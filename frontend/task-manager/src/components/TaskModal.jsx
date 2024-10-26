@@ -63,7 +63,7 @@ const TaskModal = ({ task, closeModal, saveTask }) => {
 
   const handleSave = () => {
     if (!title.trim()) return; // Title is mandatory
-    const newTask = { title, priority, assignTo, checklist, dueDate };
+    const newTask = { title, priority, assignTo, checklist, dueDate, status: task ? task.status : 'backlog' };
     saveTask(newTask);
   };
 

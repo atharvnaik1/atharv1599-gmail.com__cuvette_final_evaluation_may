@@ -15,8 +15,15 @@ router.post('/register', async (req, res) => {
     if (user) return res.status(400).json({ msg: 'User already exists' });
 
     // Create a new user
-    user = new User({ name, email, password: await bcrypt.hash(password, 10) });
-    await user.save();
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    user = new User({
+      name,
+      email,
+      password: hashedPassword,
+    });
+       await user.save();
 
     // Generate a JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -48,3 +55,4 @@ router.post('/login', async (req, res) => {
 });
 
 module.exports = router;
+

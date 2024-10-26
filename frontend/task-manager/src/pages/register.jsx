@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';  // Import Link for navigation
 import './register.css';
+import { registerUser } from '../api/auth';
 
 function RegisterPage() {
   const [name, setName] = useState('');
@@ -10,7 +11,7 @@ function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     // Basic validation for name, email, and password
@@ -22,11 +23,18 @@ function RegisterPage() {
       setError('');
       alert('Registered successfully!');
     }
+
+    try {
+      await registerUser(name, email, password);
+      setSuccess('Registered successfully!');
+      setError('');
+    } catch (err) {
+      setError(err.response?.data?.msg || 'Registration failed');
+    }
   };
 
   return (
     <div className="container">
-      {/* Left Section with Background */}
       <div className="left-section">
         <img src="../public/back.png" alt="Background Image" className="background-image" /> 
         <img src="../Group-1.png" alt="Front Image" className="front-image" />
@@ -36,11 +44,9 @@ function RegisterPage() {
         </div>
       </div>
 
-      {/* Right Section for Registration */}
       <div className="right-section">
         <h2>Register</h2>
         <form onSubmit={handleRegister}>
-          {/* Name Input */}
           <div className="input-group">
             <FaUser className="icon" />
             <input
@@ -52,7 +58,6 @@ function RegisterPage() {
             />
           </div>
 
-          {/* Email Input */}
           <div className="input-group">
             <FaEnvelope className="icon" />
             <input
@@ -64,7 +69,6 @@ function RegisterPage() {
             />
           </div>
 
-          {/* Password Input */}
           <div className="input-group">
             <FaLock className="icon" />
             <input
@@ -76,7 +80,6 @@ function RegisterPage() {
             />
           </div>
 
-          {/* Confirm Password Input */}
           <div className="input-group">
             <FaLock className="icon" />
             <input
