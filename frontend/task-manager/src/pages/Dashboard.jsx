@@ -5,6 +5,14 @@ import TaskBoard from '../components/TaskBoard';
 import './Dashboard.css';
 
 const Dashboard = () => {
+  const currentDate = format(new Date(), "do MMM, yyyy");
+  const [dropDown, setDropDown] = useState(false);
+  const [refresh, setRefresh] = useState(0);
+  const [selectedFilter, setSelectedOption] = useState("Today");
+  const { username } = useAppContext();
+  const handleDropDown = () => {
+    setDropDown(!dropDown);
+  };
   const [tasks, setTasks] = useState([]);
   
   return (

@@ -1,94 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import './Analytics.css';
+import { fetchAnalytics } from "../api/AnalyticsApi";
 
-const AnalyticsPage = ({ tasks }) => {
-  const [taskStats, setTaskStats] = useState({
-    totalTasks: 0,
+const AnalyticsPage = () => {
+  const [taskStats, setTaskStats] = useState( {statusAnalytics: {
     backlog: 0,
-    todo: 0,
-    inProgress: 0,
-    done: 0,
-    pastDue: 0,
+    "to-do": 0,
+    "in-progress": 0,
     completed: 0,
-  });
-
+  },
+  priorityAnalytics: {
+    Low: 0,
+    Moderate: 0,
+    High: 0,
+  }}
+  );
+  
   useEffect(() => {
-    const calculateStats = () => {
-      const totalTasks = tasks.length;
-      const backlog = tasks.filter(task => task.status === 'backlog').length;
-      const todo = tasks.filter(task => task.status === 'todo').length;
-      const inProgress = tasks.filter(task => task.status === 'in-progress').length;
-      const done = tasks.filter(task => task.status === 'done').length;
-      const pastDue = tasks.filter(task => new Date(task.dueDate) < new Date() && task.status !== 'done').length;
-      const completed = tasks.filter(task => task.status === 'done').length;
-
-      const lowPriority = tasks.filter(task => task.priority === 'low').length;
-      const moderatePriority = tasks.filter(task => task.priority === 'moderate').length;
-      const highPriority = tasks.filter(task => task.priority === 'high').length;
-
-
-      setTaskStats({
-        totalTasks,
-        backlog,
-        todo,
-        inProgress,
-        done,
-        pastDue,
-        completed,
-        lowPriority,
-        moderatePriority,
-        highPriority,
-      });
+    const getAnalytics = async () => {
+      try {
+        const data = await fetchAnalytics();
+        setTaskStats({
+          statusAnalytics: data.statusAnalytics || {},
+          priorityAnalytics: data.priorityAnalytics || {},
+        });
+      } catch (error) {
+        console.error("Error fetching analytics:", error);
+      }
     };
-
-    calculateStats();
-  }, [tasks]);
+    getAnalytics();
+  }, []);
 
   return (
-    <div className="analytics-page">
-    <h2>Analytics Overview</h2>
-    <div className="stats-container">
-      <div className="status-section">
-        <h3>Task Status</h3>
-        <div className="stat-item">
-          <p>Backlog Tasks</p>
-          <span>{taskStats.backlog}</span>
-        </div>
-        <div className="stat-item">
-          <p>To-Do Tasks</p>
-          <span>{taskStats.todo}</span>
-        </div>
-        <div className="stat-item">
-          <p>In Progress</p>
-          <span>{taskStats.inProgress}</span>
-        </div>
-        <div className="stat-item">
-          <p>Completed Tasks</p>
-          <span>{taskStats.completed}</span>
-        </div>
+    <div className="analyticsContainer">
+    <p>Analytics</p>
+    <div className="boxContainer">
+      <div className="box1">
+        <ul>
+          <li>Backlog Tasks</li>
+          <li>To-Do Tasks</li>
+          <li>In-Progress Tasks</li>
+          <li>Completed Tasks</li>
+        </ul>
+        <ul style={{ listStyle: "none" }}>
+          <li>{taskStats?.statusAnalytics.backlog || 0}</li>
+          <li>{taskStats?.statusAnalytics["to-do"]|| 0}</li>
+          <li>{taskStats?.statusAnalytics["in-progress"]  || 0}</li>
+          {/* <li>{taskStats?.completedTasks || 0}</li> */}
+        </ul>
       </div>
-      <div className="priority-section">
-        <h3>Task Priority</h3>
-        <div className="stat-item">
-          <p>Low Priority</p>
-          <span>{taskStats.lowPriority}</span>
-        </div>
-        <div className="stat-item">
-          <p>Moderate Priority</p>
-          <span>{taskStats.moderatePriority}</span>
-        </div>
-        <div className="stat-item">
-          <p>High Priority</p>
-          <span>{taskStats.highPriority}</span>
-        </div>
-        <div className="stat-item">
-          <p>Due Date Tasks</p>
-          <span>{taskStats.pastDue}</span>
-        </div>
+      <div className="box2">
+        <ul>
+          <li>Low Priority</li>
+          <li>Moderate Priority</li>
+          <li>High Priority</li>
+          <li>Due Date Tasks</li>
+        </ul>
+        <ul style={{ listStyle: "none" }}>
+          <li>{taskStats?.priorityAnalytics.Low  || 0}</li>
+          <li>{taskStats?.priorityAnalytics.Moderate|| 0}</li>
+          <li>{taskStats?.priorityAnalytics.High|| 0}</li>
+          {/* <li>{taskStats?.cardsWithDueDate || 0}</li> */}
+        </ul>
       </div>
     </div>
   </div>
 );
-};
+}
 
 export default AnalyticsPage;

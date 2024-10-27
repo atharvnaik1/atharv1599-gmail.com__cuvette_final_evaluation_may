@@ -1,47 +1,35 @@
-.analytics-page {
-  padding: 20px;
-  font-family: Arial, sans-serif;
+.analyticsContainer {
+  margin-top: 25px;
+  margin-left: 5%;
 }
-
-h2 {
-  font-size: 1.8rem;
+.analyticsContainer p {
+  font-size: 23px;
+  font-weight: 600;
+}
+.boxContainer {
+  display: flex;
+  gap: 5%;
+}
+.box1 ul,
+.box2 ul {
+  border-radius: 10px;
+  padding: 20px;
+  margin: 0;
+  margin-left: 20px;
+}
+.box1 li,
+.box2 li {
   margin-bottom: 20px;
-  color: #333;
 }
-
-.stats-container {
+.box1,
+.box2 {
+  background-color: #f9fcff;
   display: flex;
-  gap: 20px;
   justify-content: space-between;
-}
-
-.status-section, .priority-section {
-  flex: 1;
-  background-color: #f4faff;
-  padding: 20px;
+  width: 30vw;
+  height: 25vh;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-.status-section h3, .priority-section h3 {
-  font-size: 1.2rem;
-  margin-bottom: 15px;
-  color: #555;
-}
-
-.stat-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 10px 0;
-  font-size: 1rem;
-}
-
-.stat-item p {
-  color: #333;
-}
-
-.stat-item span {
-  font-weight: bold;
-  color: #1d72f3;
+li::marker {
+  color: #90c4cc;
 }

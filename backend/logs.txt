@@ -46,3 +46,244 @@
 2024-10-26T07:07:01.991Z - Received GET request for /routes/tasks
 2024-10-26T09:16:20.244Z - Server started.
 2024-10-26T09:16:20.259Z - Server running on port 5000
+2024-10-26T14:55:55.064Z - Server started.
+2024-10-26T14:55:55.091Z - Server running on port 5000
+2024-10-26T16:41:31.500Z - Server started.
+2024-10-26T16:41:31.516Z - Server running on port 5000
+2024-10-26T16:41:51.300Z - Server started.
+2024-10-26T16:41:51.313Z - Server running on port 5000
+2024-10-26T16:47:46.824Z - Server started.
+2024-10-26T16:47:46.839Z - Server running on port 5000
+2024-10-26T17:37:22.011Z - Server started.
+2024-10-26T17:37:22.025Z - Server running on port 5000
+2024-10-26T17:38:33.430Z - Server started.
+2024-10-26T17:38:33.444Z - Server running on port 5000
+2024-10-26T17:39:37.480Z - Server started.
+2024-10-26T17:39:37.503Z - Server running on port 5000
+2024-10-26T17:40:17.205Z - Server started.
+2024-10-26T17:40:17.218Z - Server running on port 5000
+2024-10-26T18:43:45.954Z - Server started.
+2024-10-26T18:43:45.971Z - Server running on port 5000
+2024-10-26T18:44:25.199Z - Server started.
+2024-10-26T18:44:25.221Z - Server running on port 5000
+2024-10-26T18:44:31.882Z - Server started.
+2024-10-26T18:44:31.898Z - Server running on port 5000
+2024-10-26T18:44:37.886Z - Server started.
+2024-10-26T18:44:37.901Z - Server running on port 5000
+2024-10-26T18:44:39.358Z - Server started.
+2024-10-26T18:44:39.374Z - Server running on port 5000
+2024-10-26T18:44:40.851Z - Server started.
+2024-10-26T18:44:40.863Z - Server running on port 5000
+2024-10-26T18:45:06.608Z - Server started.
+2024-10-26T18:45:06.621Z - Server running on port 5000
+2024-10-27T05:27:31.778Z - Server started.
+2024-10-27T05:27:31.798Z - Server running on port 5000
+2024-10-27T06:13:56.211Z - Server started.
+2024-10-27T06:13:56.229Z - Server running on port 5000
+2024-10-27T06:14:23.404Z - Server started.
+2024-10-27T06:14:23.417Z - Server running on port 5000
+2024-10-27T06:22:51.137Z - Server started.
+2024-10-27T06:22:51.149Z - Server running on port 5000
+2024-10-27T06:30:38.543Z - Server started.
+2024-10-27T06:30:38.556Z - Server running on port 5000
+2024-10-27T06:56:49.372Z - Received GET request for /favicon.ico
+2024-10-27T07:10:12.215Z - Server started.
+2024-10-27T07:10:12.228Z - Server running on port 5000
+2024-10-27T07:12:37.021Z - Received GET request for /api
+2024-10-27T07:12:41.788Z - Received GET request for /api/auth
+2024-10-27T07:13:34.543Z - Received GET request for /api/auth/register
+2024-10-27T07:13:39.719Z - Received GET request for /api/auth/login
+2024-10-27T07:13:45.570Z - Received GET request for /api/users/login
+2024-10-27T08:56:17.918Z - Received PUT request for /api/tasks/undefined
+2024-10-27T08:56:30.066Z - Received PUT request for /api/tasks/undefined
+2024-10-27T08:56:57.450Z - Received PUT request for /api/tasks/undefined
+2024-10-27T08:57:07.670Z - Received PUT request for /api/tasks/undefined
+2024-10-27T08:57:14.353Z - Received PUT request for /api/tasks/undefined
+2024-10-27T09:39:14.096Z - Received PUT request for /api/tasks/undefined
+2024-10-27T09:39:15.198Z - Received PUT request for /api/tasks/undefined
+2024-10-27T09:39:15.376Z - Received PUT request for /api/tasks/undefined
+2024-10-27T09:39:44.752Z - Received PUT request for /api/tasks/undefined
+2024-10-27T10:08:47.619Z - Received PUT request for /api/tasks/undefined
+2024-10-27T10:15:40.930Z - Received PUT request for /api/tasks/undefined
+2024-10-27T10:48:56.689Z - Received PUT request for /api/tasks/671de8b53ef097fedce5f658
+2024-10-27T10:48:57.559Z - Received PUT request for /api/tasks/671de8b53ef097fedce5f658
+2024-10-27T10:48:57.833Z - Received PUT request for /api/tasks/671de8b53ef097fedce5f658
+2024-10-27T10:52:57.484Z - Received PUT request for /api/tasks/671e1b583ef097fedce5f96a
+2024-10-27T10:54:23.970Z - Received PUT request for /api/tasks/671e1b583ef097fedce5f96a
+2024-10-27T16:59:00.181Z - Received GET request for /api/analytics
+2024-10-27T16:59:00.199Z - Received GET request for /api/analytics
+2024-10-27T16:59:06.154Z - Received GET request for /api/analytics
+2024-10-27T16:59:19.916Z - Received GET request for /api/analytics
+2024-10-27T16:59:19.927Z - Received GET request for /api/analytics
+2024-10-27T17:00:32.200Z - Received GET request for /api/tasksanalytics
+2024-10-27T17:00:33.155Z - Received GET request for /api/tasks/analytics
+2024-10-27T17:00:34.151Z - Received GET request for /api/tasks/analytics
+2024-10-27T17:00:53.401Z - Server started.
+2024-10-27T17:00:53.412Z - Server running on port 5000
+2024-10-27T17:39:44.399Z - Server started.
+2024-10-27T17:39:44.413Z - Server running on port 5000
+2024-10-27T17:51:15.830Z - Server started.
+2024-10-27T17:51:15.848Z - Server running on port 5000
+2024-10-27T17:51:18.348Z - Server started.
+2024-10-27T17:51:18.363Z - Server running on port 5000
+2024-10-27T17:51:24.543Z - Server started.
+2024-10-27T17:51:24.557Z - Server running on port 5000
+2024-10-27T17:55:53.640Z - Server started.
+2024-10-27T17:55:53.665Z - Server running on port 5000
+2024-10-27T17:55:56.391Z - Server started.
+2024-10-27T17:55:56.413Z - Server running on port 5000
+2024-10-27T17:56:09.132Z - Server started.
+2024-10-27T17:56:09.155Z - Server running on port 5000
+2024-10-27T17:56:13.568Z - Server started.
+2024-10-27T17:56:13.581Z - Server running on port 5000
+2024-10-27T18:49:44.716Z - Server started.
+2024-10-27T18:49:44.740Z - Server running on port 5000
+2024-10-27T18:49:48.127Z - Server started.
+2024-10-27T18:49:48.139Z - Server running on port 5000
+2024-10-27T19:14:26.271Z - Server started.
+2024-10-27T19:14:26.286Z - Server running on port 5000
+2024-10-27T19:14:28.359Z - Server started.
+2024-10-27T19:14:28.373Z - Server running on port 5000
+2024-10-27T19:15:24.081Z - Server started.
+2024-10-27T19:15:24.097Z - Server running on port 5000
+2024-10-27T19:21:19.189Z - Server started.
+2024-10-27T19:21:19.226Z - Server running on port 5000
+2024-10-27T19:28:15.116Z - Server started.
+2024-10-27T19:28:15.131Z - Server running on port 5000
+2024-10-27T19:29:17.217Z - Server started.
+2024-10-27T19:29:17.231Z - Server running on port 5000
+2024-10-27T19:29:23.111Z - Server started.
+2024-10-27T19:29:23.132Z - Server running on port 5000
+2024-10-27T19:30:30.621Z - Server started.
+2024-10-27T19:30:30.637Z - Server running on port 5000
+2024-10-27T19:31:21.490Z - Server started.
+2024-10-27T19:31:21.542Z - Server running on port 5000
+2024-10-27T19:31:24.861Z - Server started.
+2024-10-27T19:31:24.887Z - Server running on port 5000
+2024-10-27T19:31:27.690Z - Server started.
+2024-10-27T19:31:27.705Z - Server running on port 5000
+2024-10-27T19:31:30.691Z - Server started.
+2024-10-27T19:31:30.704Z - Server running on port 5000
+2024-10-27T19:31:33.989Z - Server started.
+2024-10-27T19:31:34.006Z - Server running on port 5000
+2024-10-27T19:31:39.953Z - Server started.
+2024-10-27T19:31:39.975Z - Server running on port 5000
+2024-10-27T19:31:41.943Z - Server started.
+2024-10-27T19:31:41.957Z - Server running on port 5000
+2024-10-27T19:34:15.623Z - Server started.
+2024-10-27T19:34:15.638Z - Server running on port 5000
+2024-10-27T19:34:45.540Z - Server started.
+2024-10-27T19:34:45.555Z - Server running on port 5000
+2024-10-27T19:34:47.516Z - Server started.
+2024-10-27T19:34:47.530Z - Server running on port 5000
+2024-10-27T19:34:49.895Z - Server started.
+2024-10-27T19:34:49.909Z - Server running on port 5000
+2024-10-27T19:34:54.331Z - Server started.
+2024-10-27T19:34:54.343Z - Server running on port 5000
+2024-10-27T19:35:06.456Z - Server started.
+2024-10-27T19:35:06.470Z - Server running on port 5000
+2024-10-27T19:35:09.867Z - Server started.
+2024-10-27T19:35:09.881Z - Server running on port 5000
+2024-10-27T19:35:27.494Z - Server started.
+2024-10-27T19:35:27.550Z - Server running on port 5000
+2024-10-27T19:36:44.463Z - Server started.
+2024-10-27T19:36:44.533Z - Server running on port 5000
+2024-10-27T19:36:48.694Z - Server started.
+2024-10-27T19:36:48.708Z - Server running on port 5000
+2024-10-27T19:36:53.293Z - Server started.
+2024-10-27T19:36:53.309Z - Server running on port 5000
+2024-10-27T19:37:27.773Z - Server started.
+2024-10-27T19:37:27.786Z - Server running on port 5000
+2024-10-27T19:37:32.364Z - Server started.
+2024-10-27T19:37:32.388Z - Server running on port 5000
+2024-10-27T19:38:12.789Z - Server started.
+2024-10-27T19:38:12.802Z - Server running on port 5000
+2024-10-27T19:38:41.999Z - Server started.
+2024-10-27T19:38:42.012Z - Server running on port 5000
+2024-10-27T19:38:48.322Z - Server started.
+2024-10-27T19:38:48.337Z - Server running on port 5000
+2024-10-27T19:38:52.964Z - Server started.
+2024-10-27T19:38:52.979Z - Server running on port 5000
+2024-10-27T19:39:45.149Z - Server started.
+2024-10-27T19:39:45.163Z - Server running on port 5000
+2024-10-27T19:40:15.580Z - Server started.
+2024-10-27T19:40:15.593Z - Server running on port 5000
+2024-10-27T19:41:38.955Z - Server started.
+2024-10-27T19:41:38.970Z - Server running on port 5000
+2024-10-27T19:42:13.711Z - Server started.
+2024-10-27T19:42:13.729Z - Server running on port 5000
+2024-10-27T19:42:19.405Z - Server started.
+2024-10-27T19:42:19.420Z - Server running on port 5000
+2024-10-27T19:43:14.861Z - Server started.
+2024-10-27T19:43:14.881Z - Server running on port 5000
+2024-10-27T19:43:27.842Z - Server started.
+2024-10-27T19:43:27.855Z - Server running on port 5000
+2024-10-27T19:43:33.747Z - Server started.
+2024-10-27T19:43:33.759Z - Server running on port 5000
+2024-10-27T19:44:14.886Z - Server started.
+2024-10-27T19:44:14.899Z - Server running on port 5000
+2024-10-27T19:44:58.277Z - Server started.
+2024-10-27T19:44:58.293Z - Server running on port 5000
+2024-10-27T19:45:06.657Z - Server started.
+2024-10-27T19:45:06.670Z - Server running on port 5000
+2024-10-27T19:45:10.214Z - Server started.
+2024-10-27T19:45:10.228Z - Server running on port 5000
+2024-10-27T19:45:21.118Z - Server started.
+2024-10-27T19:45:21.131Z - Server running on port 5000
+2024-10-27T19:46:55.593Z - Server started.
+2024-10-27T19:46:55.609Z - Server running on port 5000
+2024-10-27T19:50:01.226Z - Server started.
+2024-10-27T19:50:01.277Z - Server running on port 5000
+2024-10-27T19:54:05.571Z - Server started.
+2024-10-27T19:54:05.601Z - Server running on port 5000
+2024-10-27T19:54:18.879Z - Server started.
+2024-10-27T19:54:18.901Z - Server running on port 5000
+2024-10-27T19:55:08.859Z - Server started.
+2024-10-27T19:55:08.871Z - Server running on port 5000
+2024-10-27T19:55:12.782Z - Server started.
+2024-10-27T19:55:12.798Z - Server running on port 5000
+2024-10-27T19:55:17.053Z - Server started.
+2024-10-27T19:55:17.070Z - Server running on port 5000
+2024-10-27T19:55:22.908Z - Server started.
+2024-10-27T19:55:22.923Z - Server running on port 5000
+2024-10-27T19:55:45.606Z - Server started.
+2024-10-27T19:55:45.628Z - Server running on port 5000
+2024-10-27T19:55:47.919Z - Server started.
+2024-10-27T19:55:47.934Z - Server running on port 5000
+2024-10-27T19:55:49.991Z - Server started.
+2024-10-27T19:55:50.010Z - Server running on port 5000
+2024-10-27T19:56:16.470Z - Server started.
+2024-10-27T19:56:16.484Z - Server running on port 5000
+2024-10-27T19:56:19.671Z - Server started.
+2024-10-27T19:56:19.704Z - Server running on port 5000
+2024-10-27T19:56:24.067Z - Server started.
+2024-10-27T19:56:24.080Z - Server running on port 5000
+2024-10-27T19:56:34.987Z - Server started.
+2024-10-27T19:56:35.035Z - Server running on port 5000
+2024-10-27T19:56:38.915Z - Server started.
+2024-10-27T19:56:38.935Z - Server running on port 5000
+2024-10-27T19:56:41.209Z - Server started.
+2024-10-27T19:56:41.222Z - Server running on port 5000
+2024-10-27T19:56:50.533Z - Server started.
+2024-10-27T19:56:50.548Z - Server running on port 5000
+2024-10-27T19:56:53.566Z - Server started.
+2024-10-27T19:56:53.581Z - Server running on port 5000
+2024-10-27T19:57:04.801Z - Server started.
+2024-10-27T19:57:04.816Z - Server running on port 5000
+2024-10-27T19:57:10.780Z - Server started.
+2024-10-27T19:57:10.799Z - Server running on port 5000
+2024-10-27T19:57:49.567Z - Server started.
+2024-10-27T19:57:49.581Z - Server running on port 5000
+2024-10-27T19:57:57.647Z - Server started.
+2024-10-27T19:57:57.660Z - Server running on port 5000
+2024-10-27T19:59:30.179Z - Server started.
+2024-10-27T19:59:30.194Z - Server running on port 5000
+2024-10-27T19:59:32.439Z - Server started.
+2024-10-27T19:59:32.455Z - Server running on port 5000
+2024-10-27T20:00:10.676Z - Server started.
+2024-10-27T20:00:10.694Z - Server running on port 5000
+2024-10-27T20:01:26.305Z - Server started.
+2024-10-27T20:01:26.321Z - Server running on port 5000
+2024-10-27T20:01:31.474Z - Server started.
+2024-10-27T20:01:31.491Z - Server running on port 5000
+2024-10-27T20:12:01.946Z - Received PUT request for /api/tasks/671de8b53ef097fedce5f658

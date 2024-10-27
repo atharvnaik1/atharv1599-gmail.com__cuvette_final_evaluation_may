@@ -2,23 +2,36 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './TaskModal.css';
-import { FaChevronDown } from 'react-icons/fa'; // React icon for the dropdown
+import { FaChevronDown } from 'react-icons/fa';
+import { saveTask, updateTask } from '../api/taskApi';
 
-const TaskModal = ({ task, closeModal, saveTask }) => {
+const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
   const [title, setTitle] = useState(task ? task.title : '');
   const [priority, setPriority] = useState(task ? task.priority : 'Moderate');
   const [assignTo, setAssignTo] = useState(task ? task.assignTo : []);
   const [checklist, setChecklist] = useState(task ? task.checklist : [{ text: '', completed: false }]);
-  const [dueDate, setDueDate] = useState(null);
+  const [dueDate, setDueDate] = useState(task ? new Date(task.dueDate) : null);
   const [emailList, setEmailList] = useState([]);
-  const [dropdownOpen, setDropdownOpen] = useState(false); // State to control dropdown visibility
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  // Load the list of emails from localStorage
-  const loadEmailList = () => {
-    const storedEmails = JSON.parse(localStorage.getItem('savedEmails')) || [];
-    setEmailList(storedEmails);
-  };
+  // Load email list from localStorage initially
+  useEffect(() => {
+    const loadEmailList = () => {
+      const storedEmails = JSON.parse(localStorage.getItem('savedEmails')) || [];
+      setEmailList(storedEmails);
+    };
 
+    loadEmailList();
+
+    const handleStorageChange = (e) => {
+      if (e.key === 'savedEmails') loadEmailList();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  // Set initial values when editing an existing task
   useEffect(() => {
     if (task) {
       setTitle(task.title);
@@ -27,59 +40,61 @@ const TaskModal = ({ task, closeModal, saveTask }) => {
       setChecklist(task.checklist);
       setDueDate(task.dueDate ? new Date(task.dueDate) : null);
     }
-
-    // Load email list initially when component mounts
-    loadEmailList();
-
-    // Event listener for localStorage changes
-    const handleStorageChange = (e) => {
-      if (e.key === 'savedEmails') loadEmailList();
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    // Cleanup listener on component unmount
-    return () => window.removeEventListener('storage', handleStorageChange);
   }, [task]);
 
-  const addChecklistItem = () => {
-    setChecklist([...checklist, { text: '', completed: false }]);
-  };
+  const addChecklistItem = () => setChecklist([...checklist, { text: '', completed: false }]);
 
   const handleChecklistChange = (index, newValue, isCompleted = null) => {
-    const updatedChecklist = [...checklist];
-    if (isCompleted !== null) {
-      updatedChecklist[index].completed = isCompleted;
-    } else {
-      updatedChecklist[index].text = newValue;
-    }
-    setChecklist(updatedChecklist);
+    setChecklist((prev) => {
+      const updatedChecklist = [...prev];
+      if (isCompleted !== null) {
+        updatedChecklist[index].completed = isCompleted;
+      } else {
+        updatedChecklist[index].text = newValue;
+      }
+      return updatedChecklist;
+    });
   };
 
-  const removeChecklistItem = (index) => {
-    const updatedChecklist = checklist.filter((_, idx) => idx !== index);
-    setChecklist(updatedChecklist);
-  };
-
-  const handleSave = () => {
-    if (!title.trim()) return; // Title is mandatory
-    const newTask = { title, priority, assignTo, checklist, dueDate, status: task ? task.status : 'backlog' };
-    saveTask(newTask);
-  };
+  const removeChecklistItem = (index) => setChecklist(checklist.filter((_, idx) => idx !== index));
 
   const handleAssignToChange = (email) => {
     if (!assignTo.includes(email)) {
-      setAssignTo([...assignTo, email]); // Add selected email to the assignTo list
+      setAssignTo([...assignTo, email]);
     }
-    setDropdownOpen(false); // Close the dropdown after selection
+    setDropdownOpen(false);
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen); // Toggle dropdown visibility
-  };
+  const toggleDropdown = () => setDropdownOpen((prev) => !prev);
 
-  const removeAssignedEmail = (email) => {
-    setAssignTo(assignTo.filter((assignedEmail) => assignedEmail !== email)); // Remove email from assignTo list
+  const removeAssignedEmail = (email) => setAssignTo(assignTo.filter((assignedEmail) => assignedEmail !== email));
+
+  const handleSave = async () => {
+    if (!title.trim()) return;
+
+    const newTask = {
+      title,
+      priority,
+      assignTo,
+      checklist,
+      dueDate: dueDate ? dueDate.toISOString() : null,
+      status: task ? task.status : status,
+    };
+
+    try {
+      if (task && task._id) {
+        await updateTask(task._id, newTask);
+      } else {
+        await saveTask(newTask);
+      }
+      
+      
+        // await refreshTasks(); // Refresh tasks on the board
+    
+      closeModal();
+    } catch (error) {
+      console.error("Error saving task:", error);
+    }
   };
 
   return (
@@ -101,22 +116,13 @@ const TaskModal = ({ task, closeModal, saveTask }) => {
           <div className="form-group">
             <label>Select Priority *</label>
             <div className="priority-options">
-              <button
-                className={`priority-btn ${priority === 'High' ? 'selected' : ''}`}
-                onClick={() => setPriority('High')}
-              >
+              <button className={`priority-btn ${priority === 'High' ? 'selected' : ''}`} onClick={() => setPriority('High')}>
                 <span className="priority-dot red"></span> High Priority
               </button>
-              <button
-                className={`priority-btn ${priority === 'Moderate' ? 'selected' : ''}`}
-                onClick={() => setPriority('Moderate')}
-              >
+              <button className={`priority-btn ${priority === 'Moderate' ? 'selected' : ''}`} onClick={() => setPriority('Moderate')}>
                 <span className="priority-dot blue"></span> Moderate Priority
               </button>
-              <button
-                className={`priority-btn ${priority === 'Low' ? 'selected' : ''}`}
-                onClick={() => setPriority('Low')}
-              >
+              <button className={`priority-btn ${priority === 'Low' ? 'selected' : ''}`} onClick={() => setPriority('Low')}>
                 <span className="priority-dot green"></span> Low Priority
               </button>
             </div>
@@ -125,30 +131,19 @@ const TaskModal = ({ task, closeModal, saveTask }) => {
           <div className="form-group assign-to-group">
             <label>Assign to</label>
             <div className="assign-to-container">
-              {/* Display selected emails */}
               {assignTo.map((email, index) => (
                 <span key={index} className="assigned-email">
                   {email}
                   <button onClick={() => removeAssignedEmail(email)} className="remove-email-btn">x</button>
                 </span>
               ))}
-              <input
-                type="text"
-                placeholder="Select or type to add"
-                readOnly
-                onClick={toggleDropdown} // Toggle dropdown when input is clicked
-              />
+              <input type="text" placeholder="Select or type to add" readOnly onClick={toggleDropdown} />
               <FaChevronDown className="dropdown-icon" onClick={toggleDropdown} />
             </div>
-            {/* Dropdown list of emails */}
             {dropdownOpen && (
               <div className="dropdown-menu">
                 {emailList.map((email, index) => (
-                  <div
-                    key={index}
-                    className="dropdown-item"
-                    onClick={() => handleAssignToChange(email)}
-                  >
+                  <div key={index} className="dropdown-item" onClick={() => handleAssignToChange(email)}>
                     {email}
                   </div>
                 ))}
