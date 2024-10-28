@@ -7,6 +7,7 @@ import Sidebar from './components/Sidebar';
 import './App.css';
 import AnalyticsPage from './pages/Analytics';
 import SettingsPage from './pages/SettingsPage';
+// import AppLayout from "./AppContext/AppLayout";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           {/* Define routes for login and register */}
           <Route path="/" element={<LoginPage />} />
+          {/* <Route path="/*" element={<AppLayout />} /> */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/dashboard" element={<Dashboard />} />

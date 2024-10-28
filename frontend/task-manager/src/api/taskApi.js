@@ -8,6 +8,9 @@ const getAuthHeaders = () => {
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
+
+
+
 // Fetch all tasks
 export const fetchTasks = async () => {
   try {

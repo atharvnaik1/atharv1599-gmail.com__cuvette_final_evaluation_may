@@ -3,7 +3,12 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './TaskModal.css';
 import { FaChevronDown } from 'react-icons/fa';
+import { format, addDays, subDays } from "date-fns";
+// import toast from "react-toastify";
 import { saveTask, updateTask } from '../api/taskApi';
+import { GoDotFill } from "react-icons/go";
+import { MdDelete } from "react-icons/md";
+
 
 const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
   const [title, setTitle] = useState(task ? task.title : '');
@@ -96,6 +101,8 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
       console.error("Error saving task:", error);
     }
   };
+  const completedCount = checklist.filter(item => item.completed).length;
+  const totalCount = checklist.length;
 
   return (
     <div className="modal-overlay">
@@ -103,7 +110,7 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
         <h3>{task ? 'Edit Task' : 'Add New Task'}</h3>
         <div className="modal-form">
           <div className="form-group">
-            <label>Title *</label>
+            <label className="titel">Title <span>*</span></label>
             <input
               type="text"
               value={title}
@@ -114,7 +121,9 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
           </div>
 
           <div className="form-group">
-            <label>Select Priority *</label>
+          <div className="select-priority-container">
+
+            <label className='select'>Select Priority <span>*</span></label>
             <div className="priority-options">
               <button className={`priority-btn ${priority === 'High' ? 'selected' : ''}`} onClick={() => setPriority('High')}>
                 <span className="priority-dot red"></span> High Priority
@@ -125,6 +134,7 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
               <button className={`priority-btn ${priority === 'Low' ? 'selected' : ''}`} onClick={() => setPriority('Low')}>
                 <span className="priority-dot green"></span> Low Priority
               </button>
+              </div>
             </div>
           </div>
 
@@ -152,7 +162,8 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
           </div>
 
           <div className="form-group">
-            <label>Checklist *</label>
+            <label>Checklist({completedCount}/{totalCount})</label>
+
             {checklist.map((item, index) => (
               <div key={index} className="checklist-item">
                 <input
@@ -164,18 +175,29 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
                   type="text"
                   value={item.text}
                   onChange={(e) => handleChecklistChange(index, e.target.value)}
-                  placeholder="Task to be done"
+                  placeholder="Add Task Here"
                   className="task-input"
                 />
-                <button onClick={() => removeChecklistItem(index)}>Delete</button>
+                < MdDelete  
+                className="deleteIcon"
+                size={"30px"}
+                onClick={() => removeChecklistItem(index)}
+                  />
               </div>
             ))}
             <button onClick={addChecklistItem} className="add-checklist-item">+ Add New</button>
           </div>
 
           <div className="modal-actions">
+          <div className="duedate-btn">
             <DatePicker
               selected={dueDate}
+              excludeDateIntervals={[
+                {
+                  start: subDays(new Date(), 100),
+                  end: addDays(new Date(), 0),
+                },
+              ]}
               onChange={(date) => setDueDate(date)}
               customInput={
                 <button className="due-date-btn">
@@ -184,8 +206,11 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
               }
               dateFormat="MM/dd/yyyy"
             />
+            </div>
+            <div className="end-btn">
             <button onClick={closeModal} className="cancel-btn">Cancel</button>
             <button onClick={handleSave} className="save-btn">Save</button>
+            </div>
           </div>
         </div>
       </div>

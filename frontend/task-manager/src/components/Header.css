@@ -1,36 +1,36 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
 
 .welcome-section h1 {
-    font-size: 24px;
-    margin-right: 120px;
-  }
+  font-size: 24px;
+  margin-right: 120px;
+}
 .board-container {
-    display: flex;
-    align-items: center;
-  }
+  display: flex;
+  align-items: center;
+}
 .board-container h2 {
-    font-size: 30px;
-    margin-right: 20px;
-  }
+  font-size: 30px;
+  margin-right: 20px;
+}
 .addPeople-container {
-    display: flex;
-    align-items: center;
-    color: gray;
-  }
+  display: flex;
+  align-items: center;
+  color: gray;
+}
 .icon {
-    margin-right: 5px;
-  }
+  margin-right: 5px;
+}
 .add-people-text {
-    font-size: 18px;
-  }
+  font-size: 18px;
+}
 
 .date-section p {
-    font-size: 14px;
-    color: gray;
-  }
-  
+  font-size: 14px;
+  color: gray;
+}

@@ -1,40 +1,64 @@
 import React, { useState } from 'react';
 import './Header.css';
 import { LuUsers2 } from "react-icons/lu";
-import PeopleModal from './Peoplemodal';
+import PeopleModal from './PeopleModal';
+import { format } from 'date-fns';
+import { FaChevronDown } from 'react-icons/fa';
+// import { useAppContext } from '../AppContext/AppLayout'; // Import context hook
+
 
 const Header = () => {
+  // const { username } = useAppContext() || {}; // Add fallback if context is undefined
   const [showPeopleModal, setShowPeopleModal] = useState(false);
   const [assignedPeople, setAssignedPeople] = useState([]);
-  const openPeopleModal = () => {
-    setShowPeopleModal(true);
-  };
-  const closePeopleModal = () => {
-    setShowPeopleModal(false);
-  };
+  const [dropDown, setDropDown] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("Today");
+
+  const currentDate = format(new Date(), "do MMM, yyyy");
+  const openPeopleModal = () => setShowPeopleModal(true);
+  const closePeopleModal = () => setShowPeopleModal(false);
+
   const addPeople = (email) => {
-    setAssignedPeople([...assignedPeople, email]); // Add the email to the list
-    closePeopleModal(); // Close the modal after adding
+    setAssignedPeople([...assignedPeople, email]);
+    closePeopleModal();
   };
+
+  const handleDropDown = () => setDropDown(!dropDown);
+  const handleOptionChange = (option) => {
+    setSelectedFilter(option);
+    setDropDown(false);
+  };
+
   return (
     <div className="header">
       <div className="welcome-section">
-        <h1>Welcome!{}</h1>
+        <h1>Welcome, {"Guest"}!</h1> {/* Provide a fallback text */}
         <div className="board-container">
-          
-        <h2>Board</h2>
-        <div className="addPeople-container"onClick={openPeopleModal}>
-        <LuUsers2 className='icon' />
-        <span className='add-people-text'>Add People</span>
-        </div>
-      </div>  
-    </div>
+          <h2>Board</h2>
+          <div className="addPeople-container" onClick={openPeopleModal}>
+            <LuUsers2 className='icon' />
+            <span className='add-people-text'>Add People</span>
+          </div>
+        </div>  
+      </div>
       <div className="date-section">
-        <p>12th Jan, 2024</p>
-        <p>This week ▼</p>
+        <p className="current-date">{currentDate}</p>
+        <div className="filter-container">
+          <p className="board-label">Board</p>
+          <div className="dropDown" onClick={handleDropDown}>
+            {selectedFilter}
+            <FaChevronDown className="dropdown-icon" />
+          </div>
+          {dropDown && (
+            <div className="dropDownList">
+              <div onClick={() => handleOptionChange("Today")}>Today</div>
+              <div onClick={() => handleOptionChange("This Week")}>This Week</div>
+              <div onClick={() => handleOptionChange("This Month")}>This Month</div>
+            </div>
+          )}
+        </div>
       </div>
       {showPeopleModal && <PeopleModal closeModal={closePeopleModal} addPeople={addPeople} />}
-
     </div>
   );
 };

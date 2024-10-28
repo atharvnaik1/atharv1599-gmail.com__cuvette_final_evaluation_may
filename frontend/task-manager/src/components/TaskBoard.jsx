@@ -312,7 +312,8 @@ const TaskBoard = () => {
         </Droppable>
 
       </DragDropContext>
-      <AnalyticsPage tasks={tasks} />
+      {/* <AnalyticsPage tasks={tasks} /> */}
+      
       {/* Modal for adding or editing a task */}
       {showModal && <TaskModal task={currentTask} closeModal={closeModal} saveTask={saveTaskHandler} />}
     </div>

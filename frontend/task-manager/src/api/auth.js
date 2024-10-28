@@ -51,3 +51,22 @@ const token = localStorage.getItem('token');
 if (token) {
   setAuthToken(token);
 }
+
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token'); // Assumes token is stored in localStorage
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
+
+export const verifyToken = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/verify-token`, {
+      headers: getAuthHeaders()
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    throw error.response?.data?.message || "Token verification failed. Please login again.";
+  }
+};
+
