@@ -64,11 +64,16 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
   const removeChecklistItem = (index) => setChecklist(checklist.filter((_, idx) => idx !== index));
 
   const handleAssignToChange = (email) => {
-    if (!assignTo.includes(email)) {
+    if (assignTo.includes(email)) {
+      // Remove the email if already assigned
+      setAssignTo(assignTo.filter((assignedEmail) => assignedEmail !== email));
+    } else {
+      // Add the email if not assigned
       setAssignTo([...assignTo, email]);
     }
-    setDropdownOpen(false);
+    setDropdownOpen(true);
   };
+
 
   const toggleDropdown = () => setDropdownOpen((prev) => !prev);
 
@@ -144,30 +149,30 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
           <div className="form-group assign-to-group">
             <label>Assign to</label>
             <div className="assign-to-container">
-              {assignTo.map((email, index) => (
-                <span key={index} className="assigned-email">
-                  {email}
-                  <button onClick={() => removeAssignedEmail(email)} className="remove-email-btn">x</button>
-                </span>
-              ))}
+            
               <input type="text" placeholder="Select or type to add" readOnly onClick={toggleDropdown} />
               <FaChevronDown className="dropdown-icon" onClick={toggleDropdown} />
             </div>
             {dropdownOpen && (
-  <div className="dropdown-menu">
-    {emailList.map((email, index) => {
-      const initials = email.split('@')[0].slice(0, 2).toUpperCase();
-      return (
-        <div key={index} className="dropdown-item">
-          <div className="email-circle">{initials}</div>
-          <span className="email-text">{email}</span>
-          <button className="assign-button" onClick={() => handleAssignToChange(email)}>Assign</button>
-        </div>
-      );
-    })}
-  </div>
-)}
-
+              <div className="dropdown-menu">
+                {emailList.map((email, index) => {
+                  const initials = email.split('@')[0].slice(0, 2).toUpperCase();
+                  const isAssigned = assignTo.includes(email);
+                  return (
+                    <div key={index} className="dropdown-item">
+                      <div className="email-circle">{initials}</div>
+                      <span className="email-text">{email}</span>
+                      <button 
+                        className={`assign-button ${isAssigned ? 'assigned' : ''}`} 
+                        onClick={() => handleAssignToChange(email)}
+                      >
+                        {isAssigned ? 'Assigned' : 'Assign'}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           <div className="form-group">
