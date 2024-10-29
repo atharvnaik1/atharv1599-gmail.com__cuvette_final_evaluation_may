@@ -90,11 +90,12 @@
     position: relative;
     display: flex;
     align-items: center;
+    width: 100%;
   }
   
   .assign-to-container input {
     z-index: index -1;
-    width: 100px
+     width: 90%;
 
     /* padding-right: 30px; space for the icon */
   }
