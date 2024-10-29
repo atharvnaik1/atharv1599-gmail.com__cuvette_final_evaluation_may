@@ -45,10 +45,15 @@ const Header = () => {
         <p className="current-date">{currentDate}</p>
         <div className="filter-container">
           <p className="board-label">Board</p>
+          
           <div className="drop-down" onClick={handleDropDown}>
             {selectedFilter}
-            <FaChevronDown className="dropdown-icon" />
+           <div className="chevron-icon" onClick={handleDropDown}>
+          <FaChevronDown />
           </div>
+          
+          </div>
+           
           {dropDown && (
             <div className="drop-down-list">
               <div onClick={() => handleOptionChange("Today")}>Today</div>
@@ -58,6 +63,7 @@ const Header = () => {
           )}
         </div>
       </div>
+      
       {showPeopleModal && <PeopleModal closeModal={closePeopleModal} addPeople={addPeople} />}
     </div>
   );

@@ -1,3 +1,4 @@
+/* Header styling */
 .header {
   display: flex;
   justify-content: space-between;
@@ -5,78 +6,94 @@
   padding: 20px;
 }
 
-
+/* Welcome section styling */
 .welcome-section h1 {
   font-size: 24px;
   margin-right: 120px;
 }
+
 .board-container {
   display: flex;
   align-items: center;
 }
+
 .board-container h2 {
   font-size: 30px;
   margin-right: 20px;
 }
+
 .addPeople-container {
   display: flex;
   align-items: center;
   color: gray;
 }
-.date-section{
+
+.icon {
+  margin-right: 5px;
+}
+
+.add-people-text {
+  font-size: 18px;
+}
+
+/* Date section styling */
+.date-section {
   position: relative;
   color: #707070;
   font-size: 16px;
   font-family: var(--poppins);
 }
 
+.date-section p {
+  font-size: 14px;
+  color: gray;
+}
+
+/* Dropdown container styling */
 .drop-down {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: white;
-  padding: 10px;
+  padding: 8px 10px; /* Adjust padding for tighter alignment */
   border-radius: 5px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  width: 120px; /* Adjust width as needed */
+  width: 175px;
 }
 
-.dropdown-icon {
- padding-left: 10px;
- left: 10px;
- transition: transform 0.3s ease;
+/* Dropdown icon styling */
+.chevron-icon{
+  margin-left: 80px; 
+  
+  transition: transform 0.3s ease;
+  font-size: 14px;
+
 }
 
- .drop-down-list { 
+/* Dropdown list styling */
+.drop-down-list {
+  position: absolute;
   background-color: white;
-  top: 100%; 
+  top: 100%;
   left: 0;
   width: 140px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   padding: 10px 0;
-  box-shadow: 0px 2px 22px rgba(126, 122, 122, 0.25);
+  box-shadow: 0px 2px 22px rgba(116, 120, 120, 0.20);
   font-family: var(--poppins);
   font-size: 15px;
   font-weight: 500;
-  z-index: 10; 
-} 
+  z-index: 10;
+}
 
 .drop-down-list div {
   padding: 8px 15px;
   cursor: pointer;
-} 
+}
 
 .drop-down-list div:hover {
   background-color: aliceblue;
   border-radius: 3px;
-}
-.icon {
-  margin-right: 5px;
-}
-.add-people-text {
-  font-size: 18px;
-}
-
-.date-section p {
-  font-size: 14px;
-  color: gray;
 }
