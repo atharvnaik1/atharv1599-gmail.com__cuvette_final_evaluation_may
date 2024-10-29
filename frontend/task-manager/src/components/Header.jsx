@@ -45,12 +45,12 @@ const Header = () => {
         <p className="current-date">{currentDate}</p>
         <div className="filter-container">
           <p className="board-label">Board</p>
-          <div className="dropDown" onClick={handleDropDown}>
+          <div className="drop-down" onClick={handleDropDown}>
             {selectedFilter}
             <FaChevronDown className="dropdown-icon" />
           </div>
           {dropDown && (
-            <div className="dropDownList">
+            <div className="drop-down-list">
               <div onClick={() => handleOptionChange("Today")}>Today</div>
               <div onClick={() => handleOptionChange("This Week")}>This Week</div>
               <div onClick={() => handleOptionChange("This Month")}>This Month</div>
