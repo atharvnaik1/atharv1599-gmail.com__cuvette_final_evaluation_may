@@ -110,14 +110,17 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
         <h3>{task ? 'Edit Task' : 'Add New Task'}</h3>
         <div className="modal-form">
           <div className="form-group">
+            <div className="title-container">
             <label className="titel">Title <span>*</span></label>
             <input
+              className='title-input'
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter Task Title"
               required
             />
+            </div>
           </div>
 
           <div className="form-group">
@@ -151,14 +154,20 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
               <FaChevronDown className="dropdown-icon" onClick={toggleDropdown} />
             </div>
             {dropdownOpen && (
-              <div className="dropdown-menu">
-                {emailList.map((email, index) => (
-                  <div key={index} className="dropdown-item" onClick={() => handleAssignToChange(email)}>
-                    {email}
-                  </div>
-                ))}
-              </div>
-            )}
+  <div className="dropdown-menu">
+    {emailList.map((email, index) => {
+      const initials = email.split('@')[0].slice(0, 2).toUpperCase();
+      return (
+        <div key={index} className="dropdown-item">
+          <div className="email-circle">{initials}</div>
+          <span className="email-text">{email}</span>
+          <button className="assign-button" onClick={() => handleAssignToChange(email)}>Assign</button>
+        </div>
+      );
+    })}
+  </div>
+)}
+
           </div>
 
           <div className="form-group">
