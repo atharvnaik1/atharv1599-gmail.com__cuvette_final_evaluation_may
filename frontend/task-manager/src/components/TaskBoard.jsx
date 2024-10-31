@@ -7,6 +7,7 @@ import TaskModal from './TaskModal';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import { fetchTasks, saveTask, updateTask, deleteTask } from '../api/taskApi';
 import AnalyticsPage from '../pages/Analytics';
+import { format } from "date-fns";
 
 const TaskBoard = () => {
   const [tasks, setTasks] = useState([]);
@@ -51,9 +52,14 @@ const TaskBoard = () => {
     closeModal();
   };
 
-  const deleteTaskHandler = async (_id) => {
-    await deleteTask(__dirnameid);
-    refreshTasks();
+  const deleteTaskHandler = async (id) => {
+    console.log("Deleting task with ID:", id);
+    try {
+      await deleteTask(id); 
+      refreshTasks(); 
+    } catch (error) {
+      console.error("Failed to delete task:", error);
+    }
   };
 
   const toggleChecklist = (id) => {
@@ -76,6 +82,11 @@ const TaskBoard = () => {
     movedTask.status = result.destination.droppableId;
     updatedTasks.splice(result.destination.index, 0, movedTask);
     setTasks(updatedTasks);
+  };
+
+  const updateTaskStatus = (task, newStatus) => {
+    const updatedTask = { ...task, status: newStatus };
+    updateTask(task.id, updatedTask).then(refreshTasks);
   };
 
   const renderTasksByStatus = (status) => {
@@ -101,9 +112,14 @@ const TaskBoard = () => {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
+                        
                         <div className="task-header">
-                          <h4 title={task.title}>{task.title}</h4>
-                          <p>{task.priority} priority</p>
+                        <div className="priority">                
+    <p>{task.priority} priority</p>
+    <p>{task.assignTo}</p>
+                        </div>
+                        
+                        <h4 title={task.title}>{task.title}</h4>
                         </div>
                         <div className="checklist-header">
                           <span>Checklist {calculateChecklistProgress(task.checklist)}</span>
@@ -181,7 +197,7 @@ const TaskBoard = () => {
                         )}
                         <div className="task-actions">
                           <FaEdit className="edit-icon" onClick={() => openModal(task)} />
-                          <FaTrash className="delete-icon" onClick={() => deleteTaskHandler(task.id)} />
+                          <FaTrash className="delete-icon" onClick={() => deleteTaskHandler(task._id)} />
                         </div>
                       </div>
                     )}
@@ -299,7 +315,7 @@ const TaskBoard = () => {
 
                         <div className="task-actions">
                           <FaEdit className="edit-icon" onClick={() => openModal(task)} />
-                          <FaTrash className="delete-icon" onClick={() => deleteTask(task.id)} />
+                          <FaTrash className="delete-icon" onClick={() => deleteTask(task._id)} />
                         </div>
                       </div>
                     )}

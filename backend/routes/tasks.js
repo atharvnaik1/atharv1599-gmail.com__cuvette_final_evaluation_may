@@ -227,24 +227,19 @@ router.put('/:id', auth, async (req, res) => {
 // });
 
 
-// Delete a task
-router.delete('/delete/:id', auth, async (req, res) => {
+// Delete a task by ID
+// Delete a task by _id
+router.delete('/:id', auth, async (req, res) => {
   const { id } = req.params;
+
   try {
-    const task = await Task.findById(id);
-    if (!task) return res.status(404).json({ msg: 'Task not found' });
-    if (task.userId.toString() !== req.user) {
-      return res
-        .status(403)
-        .json({ error: "Unauthorized to delete" });
-    }
-    await task.deleteOne();
-    res
-      .status(200)
-      .json({ status: "success", message: "Task deleted successfully" });
+    const deletedTask = await Task.findOneAndDelete({ _id: id, userId: req.user });
+
+    if (!deletedTask) return res.status(404).json({ msg: 'Task not found' });
+
+    res.status(200).json({ msg: 'Task deleted successfully' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ msg: 'Failed to delete task', error });
   }
 });
 

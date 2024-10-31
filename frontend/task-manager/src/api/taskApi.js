@@ -70,20 +70,19 @@ export const updateTask = async (id, updatedTask) => {
   }
 };
 
-// Delete a task
-export const deleteTask = async (_id) => {
+// Delete a task by ID
+export const deleteTask = async (id) => {
   try {
-    await axios.delete(`${API_URL}/${_id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeaders(),
-      },
+    const response = await axios.delete(`${API_URL}/${id}`, {
+      headers: getAuthHeaders(), // Attach the auth headers
     });
+    return response.data;
   } catch (error) {
     console.error("Error deleting task:", error);
     throw error;
   }
 };
+
 
 
 

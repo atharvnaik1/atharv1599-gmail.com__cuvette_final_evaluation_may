@@ -6,7 +6,6 @@ import { FaChevronDown } from 'react-icons/fa';
 import { format, addDays, subDays } from "date-fns";
 // import toast from "react-toastify";
 import { saveTask, updateTask } from '../api/taskApi';
-import { GoDotFill } from "react-icons/go";
 import { MdDelete } from "react-icons/md";
 
 
