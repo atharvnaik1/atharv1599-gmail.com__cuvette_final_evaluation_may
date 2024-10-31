@@ -24,6 +24,20 @@ export const fetchTasks = async () => {
   }
 };
 
+// Fetch a task by ID
+
+export const fetchTaskById = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/${id}`, {
+      headers: getAuthHeaders(), // Attach the auth headers
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching task by ID:", error);
+    throw error;
+  }
+};
+
 // Save a new task
 export const saveTask = async (task) => {
   try {
@@ -41,9 +55,9 @@ export const saveTask = async (task) => {
 };
 
 // Update an existing task
-export const updateTask = async (_id, updatedTask) => {
+export const updateTask = async (id, updatedTask) => {
   try {
-    const response = await axios.put(`${API_URL}/${_id}`, updatedTask, {
+    const response = await axios.put(`${API_URL}/${id}`, updatedTask, {
       headers: {
         'Content-Type': 'application/json',
         ...getAuthHeaders(),

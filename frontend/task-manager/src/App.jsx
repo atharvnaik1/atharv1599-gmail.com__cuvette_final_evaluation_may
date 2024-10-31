@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { lazy, Suspense, useEffect,useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/login';  // Import LoginPage component
 import RegisterPage from './pages/register';  // Import RegisterPage component
@@ -7,8 +7,7 @@ import Sidebar from './components/Sidebar';
 import './App.css';
 import AnalyticsPage from './pages/Analytics';
 import SettingsPage from './pages/SettingsPage';
-// import AppLayout from "./AppContext/AppLayout";
-
+const AppLayout = lazy(() => import("./AppContext/AppLayout")); 
 
 function App() {
   const [tasks, setTasks] = useState([]);

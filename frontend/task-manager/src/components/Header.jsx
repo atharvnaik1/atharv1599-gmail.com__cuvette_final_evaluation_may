@@ -8,7 +8,7 @@ import { FaChevronDown } from 'react-icons/fa';
 
 
 const Header = () => {
-  // const { username } = useAppContext() || {}; // Add fallback if context is undefined
+  // const { username } = useAppContext() ;
   const [showPeopleModal, setShowPeopleModal] = useState(false);
   const [assignedPeople, setAssignedPeople] = useState([]);
   const [dropDown, setDropDown] = useState(false);
@@ -32,7 +32,7 @@ const Header = () => {
   return (
     <div className="header">
       <div className="welcome-section">
-        <h1>Welcome, {"Guest"}!</h1> {/* Provide a fallback text */}
+        <h1>Welcome{}!</h1> {/* Provide a fallback text */}
         <div className="board-container">
           <h2>Board</h2>
           <div className="addPeople-container" onClick={openPeopleModal}>

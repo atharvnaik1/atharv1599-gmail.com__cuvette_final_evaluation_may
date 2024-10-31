@@ -1,52 +1,48 @@
-// import React, { useEffect, useState } from "react";
-// import { Outlet, useNavigate } from "react-router-dom";
-// import { verifyToken } from "../api/auth"; 
-// import Sidebar from "../components/Sidebar";
-// import Header from "../components/Header"; // Import Header
+import React, { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import userApi from "../api/userApi"; 
+import Sidebar from "../components/Sidebar";
 
-// const AppContext = React.createContext();
+const AppContext = React.createContext();
 
-// function AppLayout() {
-//   const navigate = useNavigate();
-//   const [user, setUser] = useState(null); // Initialize as null
+function AppLayout() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null); // Initialize as null
 
-//   const validateSession = async () => {
-//     try {
-//       const response = await verifyToken();
-//       if (response?.message === "ok") {
-//         setUser(response?.name);
-//       } else {
-//         navigate("/login");
-//       }
-//     } catch (error) {
-//       navigate("/login");
-//       console.error(error);
-//     }
-//   };
+  const validateSession = async () => {
+    try {
+      const response = await userApi.verifyToken();
+      if (response?.message === "ok") {
+        setUser(response?.name);
+      } else {
+        navigate("/login");
+      }
+    } catch (error) {
+      navigate("/login");
+      console.error(error);
+    }
+  };
 
-//   useEffect(() => {
-//     validateSession();
-//   }, [navigate]);
+  useEffect(() => {
+    validateSession();
+  }, [navigate]);
 
-//   const appProps = {
-//     username: user,
-//   };
+  const appProps = {
+    username: user,
+  };
 
-//   return (
-//     <AppContext.Provider value={appProps}>
-//       <div style={{ display: "flex" }}>
-//         <Header />
-//         <div style={{ display: "flex" }}>
-//           <Sidebar />
-//           <Outlet />
-//         </div>
-//       </div>
-//     </AppContext.Provider>
-//   );
-// }
+  return (
+    <AppContext.Provider value={appProps}>
+    <div style={{ display: "flex" }}>
+      <Sidebar />
+      <Outlet />
+    </div>
+  </AppContext.Provider>
+  );
+}
 
-// export function useAppContext() {
-//   return React.useContext(AppContext);
-// }
+export function useAppContext() {
+  return React.useContext(AppContext);
+}
 
-// export default AppLayout;
+export default AppLayout;

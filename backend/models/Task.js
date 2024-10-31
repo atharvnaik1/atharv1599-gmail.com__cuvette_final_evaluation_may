@@ -13,7 +13,7 @@ const taskSchema = new mongoose.Schema({
   checklist: [checklistItemSchema], // Array of checklist items
   dueDate: { type: Date },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to the User
-  createdAt: {
+  creationDate: {
     type: Date,
     default: Date.now,
   },

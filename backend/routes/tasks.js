@@ -100,6 +100,9 @@ router.get("/analytics", auth, async (req, res) => {
 });
 
 // Get all tasks for the authenticated user
+
+
+
 router.get('/', auth, async (req, res) => {
   try {
     const tasks = await Task.find({ userId: req.user }).select('_id title priority status assignTo checklist dueDate');;
@@ -108,6 +111,18 @@ router.get('/', auth, async (req, res) => {
     res.status(500).json({ msg: 'Failed to fetch tasks' });
   }
 });
+
+router.get('/:id', auth, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const tasks= await Task.findById(id);
+    if (!tasks) return res.status(404).json({ msg: 'Task not found' });
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).json({ msg: 'Failed to fetch task' });
+  }
+});
+
 
 // Create a new task for the authenticated user
 router.post('/', auth, async (req, res) => {
@@ -130,69 +145,86 @@ try {
 }
 });
 // Update an existing task by _id
-router.patch('/update/:id', auth, async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
   const { id } = req.params;
-  const TaskData= await TaskValidator.validateAsync(req.body);
-  if (!id) {
-    return res
-      .status(400)
-      .json({ status: "failed", error: "id required for updating"});
-  }
+  const updates= req.body;
+  
   try {
-    const updatedTask = await Task.findOne(
-      {_id: id, userId: req.user,
-      });
+    const updatedTask = await Task.findOneAndUpdate(
+      { _id: id, userId: req.user },
+      updates,
+      { new: true, runValidators: true }
+    );
 
     if (!updatedTask) return res.status(404).json({ msg: 'Task not found' });
-    if (TaskData.title) updatedTask.title = TaskData.title;
-    if (TaskData.priority) updatedTask.priority = TaskData.priority;
-    if (TaskData.tasks) updatedTask.tasks = TaskData.tasks;
-    if (TaskData.dueDate) updatedTask.dueDate = TaskData.dueDate;
-    if (TaskData.status) updatedTask.status = TaskData.status;
-    await updatedTask.save();
-   
+
+    res.status(200).json({ msg: 'Task updated successfully', updatedTask });
+  } catch (error) {
+    res.status(500).json({ msg: 'Failed to update task', error });
+  }
+});
+
+    // if (!updatedTask) return res.status(404).json({ msg: 'Task not found' });
+    // if (TaskData.title) updatedTask.title = TaskData.title;
+    // // if (TaskData.priority) updatedTask.priority = TaskData.priority;
+    // // // if (TaskData.tasks) updatedTask.tasks = TaskData.tasks;
+    // // if (TaskData.dueDate) updatedTask.dueDate = TaskData.dueDate;
+    // // if (TaskData.status) updatedTask.status = TaskData.status;
+    // await updatedTask.save();
+    //   return res.status(200).json({
+    //     status: "success",
+    //     message: "Task updated successfully", updatedTask
+    //   });
+
     // res.json(updatedTask);
 
-  } catch (error) {
-    res.status(400).json({ msg: 'Failed to update task' });
-  }
-});
+//   } catch (error) { 
+//     if (error.details) {
+//       return res
+//         .status(400)
+//         .json({ error: "Validation failed", details: error.details });
+//     } else {
+//       console.log(error);
+//       return res.status(500).send("Internal server error");
+//     }
+//   }
+// });
 
 
-router.patch("/update/status/:id", auth, async (req, res) => {
-  try {
-    const {id} = req.params;
-    const { status, tasks } = req.body;
+// router.patch("/update/status/:id", auth, async (req, res) => {
+//   try {
+//     const {id} = req.params;
+//     const { status, tasks } = req.body;
 
-    if (!id) {
-      return res.status(400).json({
-        status: "failed",
-        error: "ID is required for updating",
-      });
-    }
-    const Taskdata = await Task.findOne({
-      _id: id,
-     userId: req.user,
-    });
-    if (!Taskdata) {
-      return res.status(404).json({ error: "TAsk not found" });
-    }
-    if (status) {
-      Taskdata.status = status;
-    }
-    if (tasks) {
-      Taskdata.tasks = tasks;
-    }
-    await Taskdata.save();
-    return res.status(200).json({
-      status: "success",
-      message: "Task updated successfully",
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send("Internal server error");
-  }
-});
+//     if (!id) {
+//       return res.status(400).json({
+//         status: "failed",
+//         error: "ID is required for updating",
+//       });
+//     }
+//     const Taskdata = await Task.findOne({
+//       _id: id,
+//      userId: req.user,
+//     });
+//     if (!Taskdata) {
+//       return res.status(404).json({ error: "TAsk not found" });
+//     }
+//     if (status) {
+//       Taskdata.status = status;
+//     }
+//     if (tasks) {
+//       Taskdata.tasks = tasks;
+//     }
+//     await Taskdata.save();
+//     return res.status(200).json({
+//       status: "success",
+//       message: "Task updated successfully",
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).send("Internal server error");
+//   }
+// });
 
 
 // Delete a task

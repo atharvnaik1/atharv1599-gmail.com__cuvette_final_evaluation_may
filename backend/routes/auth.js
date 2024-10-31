@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const router = express.Router();
+const auth = require('../utils/auth');  
+// req.use=id ; req.username=user.name
 require('dotenv').config();
 
 // Register Route
@@ -51,6 +53,46 @@ router.post('/login', async (req, res) => {
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');
+  }
+});
+
+
+router.get("/verify-token", auth, (req, res) => {
+  const username = req.username;
+  if (username) {
+    res.status(200).json({ message: "ok", name: username });
+  } else {
+    res.status(401).json({ message: "failed" });
+  }
+});
+
+router.patch("/update", auth, async (req, res) => {
+  try {
+    const { name, oldPassword, newPassword } = req.body;
+    const user = await User.findById(req.user);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    if (oldPassword) {
+      const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+      if (!isPasswordValid) {
+        return res
+          .status(401)
+          .json({ status: "failed", error: "Old password is incorrect" });
+      }
+      if (newPassword) {
+        const newHashedPassword = await bcrypt.hashSync(newPassword, 10);
+        user.password = newHashedPassword;
+      }
+    }
+    if (name) {
+      user.name = name;
+    }
+    const data = await user.save();
+    res.status(200).json({ status: "success", updatedData: data });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
