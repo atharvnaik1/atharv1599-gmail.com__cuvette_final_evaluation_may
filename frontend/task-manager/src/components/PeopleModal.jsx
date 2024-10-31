@@ -1,20 +1,22 @@
+// PeopleModal.jsx
 import React, { useState } from 'react';
-import './PeopleModal.css'; // Custom CSS for modal styling
+import './PeopleModal.css';
+import { addPerson } from '../api/PeopleApi';
+
 const PeopleModal = ({ closeModal, addPeople }) => {
   const [email, setEmail] = useState('');
-  const handleSave = () => {
-    if (!email.trim()) return; // Do not proceed if email input is empty
-    
-    // Retrieve existing emails from localStorage, or set it to an empty array if none exist
-    const existingEmails = JSON.parse(localStorage.getItem('savedEmails')) || [];
-    
-    // Only add the new email if it doesn't already exist in the list
-    if (!existingEmails.includes(email)) {
-      const updatedEmails = [...existingEmails, email];
-      localStorage.setItem('savedEmails', JSON.stringify(updatedEmails)); // Save updated list to localStorage
+
+  const handleSave = async () => {
+    if (!email.trim()) return;
+
+    try {
+      await addPerson(email);
+      addPeople(email); // Update parent component's people list
+    } catch (error) {
+      console.error("Error saving person:", error);
     }
-    addPeople(email); // Call the addPeople function with the email
   };
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -39,4 +41,5 @@ const PeopleModal = ({ closeModal, addPeople }) => {
     </div>
   );
 };
+
 export default PeopleModal;

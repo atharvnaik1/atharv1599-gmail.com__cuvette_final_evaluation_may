@@ -7,6 +7,7 @@ import { format, addDays, subDays } from "date-fns";
 // import toast from "react-toastify";
 import { saveTask, updateTask } from '../api/taskApi';
 import { MdDelete } from "react-icons/md";
+import { getPeople } from '../api/PeopleApi';
 
 
 const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
@@ -19,21 +20,26 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   // Load email list from localStorage initially
+  // Load email list from database
   useEffect(() => {
-    const loadEmailList = () => {
-      const storedEmails = JSON.parse(localStorage.getItem('savedEmails')) || [];
-      setEmailList(storedEmails);
+    const loadEmailList = async () => {
+      try {
+        const people = await getPeople();
+        setEmailList(people.map((person) => person.email));
+      } catch (error) {
+        console.error("Error loading people:", error);
+      }
     };
 
     loadEmailList();
-
-    const handleStorageChange = (e) => {
-      if (e.key === 'savedEmails') loadEmailList();
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
+  //   const handleStorageChange = (e) => {
+  //     if (e.key === 'savedEmails') loadEmailList();
+  //   };
+
+  //   window.addEventListener('storage', handleStorageChange);
+  //   return () => window.removeEventListener('storage', handleStorageChange);
+  // }, []);
 
   // Set initial values when editing an existing task
   useEffect(() => {

@@ -2,7 +2,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/tasks'); 
-
+const peopleRoutes = require('./routes/people');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
@@ -36,7 +36,7 @@ logToFile('Server started.');
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
-app.use('/api/people', require('./routes/people'));
+app.use('/api/people', peopleRoutes);
 
 // Define root route
 app.get('/', (req, res) => {
