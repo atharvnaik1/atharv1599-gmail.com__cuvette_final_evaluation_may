@@ -8,12 +8,15 @@ import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import { fetchTasks, saveTask, updateTask, deleteTask } from '../api/taskApi';
 import { BsThreeDots } from "react-icons/bs";
 import { format, isToday, isThisWeek, isThisMonth } from 'date-fns';
+import DeleteModal from './DeleteModal';
 
 const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
   const [showModal, setShowModal] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
   const [taskStatus, setTaskStatus] = useState('');
   const [activeTaskOptions, setActiveTaskOptions] = useState(null);
+  const [taskToDelete, setTaskToDelete] = useState(null);
+
 
   // Fetch tasks from backend when component mounts
   const refreshTasks = async () => {
@@ -50,6 +53,22 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
     }
     refreshTasks();
     closeModal();
+  };
+
+  const confirmDeleteTask = (taskId) => {
+    setTaskToDelete(taskId);
+  };
+
+  const onDeleteConfirm = async () => {
+    if (taskToDelete) {
+      await deleteTaskHandler(taskToDelete); // Assuming deleteTaskHandler is defined
+      refreshTasks(); // Refresh tasks after deletion
+    }
+    setTaskToDelete(null); // Close the modal
+  };
+
+  const onCancelDelete = () => {
+    setTaskToDelete(null); // Close the modal without deleting
   };
 
   const deleteTaskHandler = async (id) => {
@@ -122,7 +141,7 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
                 <div className="options-box">
                   <p onClick={() => openModal(task)}>Edit</p>
                   <p>Share</p>
-                  <p onClick={() => deleteTaskHandler(task._id)}>Delete</p>
+                  <p onClick={() => confirmDeleteTask(task._id)}>Delete</p>
                 </div>
               )}
               <div className="task-title" title={task.title}>
@@ -215,7 +234,14 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
           </Droppable>
         ))}
       </DragDropContext>
-      {showModal && <TaskModal task={currentTask} closeModal={closeModal} saveTask={saveTaskHandler} />}
+      {showModal && <TaskModal task={currentTask} closeModal={closeModal} saveTask={saveTaskHandler} 
+      />}
+      {taskToDelete && (
+        <DeleteModal
+          onDeleteConfirm={onDeleteConfirm}
+          onCancel={onCancelDelete} 
+          />
+      )}
     </div>
   );
 };

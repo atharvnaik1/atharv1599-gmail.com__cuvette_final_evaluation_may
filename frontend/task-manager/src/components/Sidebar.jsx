@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Sidebar.css';
-import { BsWindowSidebar } from "react-icons/bs";
+import LogoutModal from './LogoutModal';
 import { LuLayout } from "react-icons/lu";
 import { GoDatabase } from "react-icons/go";
 import { HiOutlineCog8Tooth } from "react-icons/hi2";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogoutClick = () => {
+    setShowModal(true);
+  };
+
+  const handleConfirmLogout = () => {
+    setShowModal(false);
+    navigate('/');
+  };
+
+  const handleCancelLogout = () => {
+    setShowModal(false);
+  };
+
   return (
     <nav className="sidebar">
       <div className="logo-section">
-      <img src="../public/Group.png" alt="Cube Icon" className="icon-cube" />
+        <img src="../public/Group.png" alt="Cube Icon" className="icon-cube" />
       </div>
       <ul className="nav-links">
         <li className="nav-link">
@@ -27,8 +43,12 @@ const Sidebar = () => {
         </li>
       </ul>
       <div className="logout-section">
-        <a href="#" className="logout-btn">Log out</a>
+        <button onClick={handleLogoutClick} className="logout-btn">Log out</button>
       </div>
+
+      {showModal && (
+        <LogoutModal onConfirm={handleConfirmLogout} onCancel={handleCancelLogout} />
+      )}
     </nav>
   );
 };

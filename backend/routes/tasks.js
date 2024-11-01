@@ -5,58 +5,6 @@ const Task = require('../models/Task');
 const TaskValidator = require("../validator/TaskValidator");
 
 
-const {
-  startofDay,
-  endofDay,
-  startofWeek,
-  endofWeek,
-  startofMonth,
-  endofMonth,
-} = require("date-fns");
-
-router.get("/:dateFilter/:status", auth, async (req, res) => {
-  try {
-    const { dateFilter, status } = req.params;
-    const currentDate = new Date();
-    let startDate, endDate;
-
-    if (!dateFilter || dateFilter.trim() === "") {
-      startDate = new Date(0);  // Start from the epoch if no filter is provided
-      endDate = currentDate;
-    } else {
-      switch (dateFilter.toLowerCase()) {
-        case "today":
-          startDate =  startofDay(currentDate);
-          endDate = endofDay(currentDate);
-          break;
-        case "thisweek":
-          startDate = startofWeek(currentDate, { weekStartsOn: 1 });
-          endDate = endofWeek(currentDate, { weekStartsOn: 1 });
-          break;
-        case "thismonth":
-          startDate = startofMonth(currentDate);
-          endDate = endofMonth(currentDate);
-          break;
-        default:
-          return res.status(400).json({ error: "Invalid date filter provided" });
-      }
-    }
-
-    const filters = {
-      createdAt: { $gte: startDate, $lt: endDate },
-      userId: req.user,
-      ...(status && { status: status}),
-    };
-
-    const TasksbyDate = await Task.find(filters);
-    res.status(200).json({ TasksbyDate });
-  } catch (err) {
-    console.error("Error fetching tasks:", err);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
-
-
 router.get("/analytics", auth, async (req, res) => {
   try {
     const getAll = await Task.find({
