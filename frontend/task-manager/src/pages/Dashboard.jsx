@@ -11,15 +11,17 @@ const Dashboard = () => {
 
  
   const [tasks, setTasks] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState("This Week");
+
   
   return (
     <div className="dashboard-container"> 
       {/* <Sidebar /> */}
       <div className="dashboard-main">
-        <Header />
+        <Header selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter}/>
         <div className="board-section">
           {/* Render TaskBoard once and manage the columns inside TaskBoard */}
-          <TaskBoard tasks={tasks} setTasks={setTasks} />
+          <TaskBoard tasks={tasks} setTasks={setTasks} selectedFilter={selectedFilter}/>
         </div>
       </div>
      

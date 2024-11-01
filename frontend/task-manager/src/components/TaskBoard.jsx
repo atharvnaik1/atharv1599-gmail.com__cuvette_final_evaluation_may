@@ -6,13 +6,10 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TaskModal from './TaskModal';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import { fetchTasks, saveTask, updateTask, deleteTask } from '../api/taskApi';
-import AnalyticsPage from '../pages/Analytics';
 import { BsThreeDots } from "react-icons/bs";
-import { format } from "date-fns";
+import { format, isToday, isThisWeek, isThisMonth } from 'date-fns';
 
-
-const TaskBoard = () => {
-  const [tasks, setTasks] = useState([]);
+const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
   const [showModal, setShowModal] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
   const [taskStatus, setTaskStatus] = useState('');
@@ -57,8 +54,8 @@ const TaskBoard = () => {
 
   const deleteTaskHandler = async (id) => {
     try {
-      await deleteTask(id); 
-      refreshTasks(); 
+      await deleteTask(id);
+      refreshTasks();
     } catch (error) {
       console.error("Failed to delete task:", error);
     }
@@ -91,8 +88,80 @@ const TaskBoard = () => {
     updateTask(task._id, updatedTask).then(refreshTasks);
   };
 
+  const filterTasksByDueDate = (task) => {
+    const dueDate = new Date(task.dueDate);
+    if (selectedFilter === "Today") return isToday(dueDate);
+    if (selectedFilter === "This Week") return isThisWeek(dueDate);
+    if (selectedFilter === "This Month") return isThisMonth(dueDate);
+    return true; // If no specific filter is applied
+  };
+
+  
   const renderTasksByStatus = (status) => {
-    return tasks.filter((task) => task.status === status);
+    return tasks
+      .filter((task) => task.status === status && filterTasksByDueDate(task))
+      .map((task, index) => (
+        <Draggable key={task._id} draggableId={task._id} index={index}>
+          {(provided) => (
+            <div
+              className="task-item"
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+            >
+              <div className="task-header">
+                <div className="priority">
+                  <p>{task.priority} priority</p>
+                </div>
+                <BsThreeDots
+                  className="options-icon"
+                  onClick={() => toggleOptions(task._id)}
+                />
+              </div>
+              {activeTaskOptions === task._id && (
+                <div className="options-box">
+                  <p onClick={() => openModal(task)}>Edit</p>
+                  <p>Share</p>
+                  <p onClick={() => deleteTaskHandler(task._id)}>Delete</p>
+                </div>
+              )}
+              <div className="task-title" title={task.title}>
+                {task.title}
+              </div>
+              <div className="checklist-header">
+                <span>Checklist {calculateChecklistProgress(task.checklist)}</span>
+                {task.isChecklistOpen ? (
+                  <IoIosArrowUp
+                    className="collapse-icon"
+                    onClick={() => toggleChecklist(task._id)}
+                  />
+                ) : (
+                  <IoIosArrowDown
+                    className="collapse-icon"
+                    onClick={() => toggleChecklist(task._id)}
+                  />
+                )}
+              </div>
+              {task.isChecklistOpen && (
+                <div className="checklist">
+                  {task.checklist.map((item, idx) => (
+                    <div key={idx} className="checklist-item">
+                      <input type="checkbox" checked={item.completed} readOnly />
+                      <span>{item.text}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="task-footer">
+                <div className="due-date">
+                  {task.dueDate ? format(new Date(task.dueDate), 'do MMM') : ''}
+                </div>
+                {renderStatusButtons(task, status)}
+              </div>
+            </div>
+          )}
+        </Draggable>
+      ));
   };
 
   const toggleOptions = (taskId) => {
@@ -125,7 +194,7 @@ const TaskBoard = () => {
           <Droppable key={column} droppableId={column}>
             {(provided) => (
               <div className="task-board" {...provided.droppableProps} ref={provided.innerRef}>
-               <div className="task-board-header">
+                <div className="task-board-header">
                   <h3>{column}</h3>
                   {column === 'to-do' && (
                     <span className="plus-icon" onClick={() => openModal(null, 'to-do')}>
@@ -133,73 +202,12 @@ const TaskBoard = () => {
                     </span>
                   )}
                   <LuCopyMinus
-  className="copy-minus-icon"
-  onClick={() => closeAllChecklistsInColumn(column)}
-/>
+                    className="copy-minus-icon"
+                    onClick={() => closeAllChecklistsInColumn(column)}
+                  />
                 </div>
                 <div className="task-board-body">
-                  {renderTasksByStatus(column).map((task, index) => (
-                    <Draggable key={task._id} draggableId={task._id} index={index}>
-                      {(provided) => (
-                        <div
-                          className="task-item"
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <div className="task-header">
-                            <div className="priority">
-                              <p>{task.priority} priority</p>
-                            </div>
-                            <BsThreeDots
-                              className="options-icon"
-                              onClick={() => toggleOptions(task._id)}
-                            />
-                          </div>
-                          {activeTaskOptions === task._id && (
-                            <div className="options-box">
-                              <p onClick={() => openModal(task)}>Edit</p>
-                              <p>Share</p>
-                              <p onClick={() => deleteTaskHandler(task._id)}>Delete</p>
-                            </div>
-                          )}
-                          <div className="task-title" title={task.title}>
-                            {task.title}
-                          </div>
-                          <div className="checklist-header">
-                            <span>Checklist {calculateChecklistProgress(task.checklist)}</span>
-                            {task.isChecklistOpen ? (
-                              <IoIosArrowUp
-                                className="collapse-icon"
-                                onClick={() => toggleChecklist(task._id)}
-                              />
-                            ) : (
-                              <IoIosArrowDown
-                                className="collapse-icon"
-                                onClick={() => toggleChecklist(task._id)}
-                              />
-                            )}
-                          </div>
-                          {task.isChecklistOpen && (
-                            <div className="checklist">
-                              {task.checklist.map((item, idx) => (
-                                <div key={idx} className="checklist-item">
-                                  <input type="checkbox" checked={item.completed} readOnly />
-                                  <span>{item.text}</span>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                          <div className="task-footer">
-                          <div className="due-date">
-    {task.dueDate ? format(new Date(task.dueDate), 'do MMM') : ''}
-  </div>
-                            {renderStatusButtons(task, column)}
-                          </div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
+                  {renderTasksByStatus(column)}
                   {provided.placeholder}
                 </div>
               </div>

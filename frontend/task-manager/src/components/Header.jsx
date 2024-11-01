@@ -7,12 +7,12 @@ import { FaChevronDown } from 'react-icons/fa';
 // import { useAppContext } from '../AppContext/AppLayout'; // Import context hook
 
 
-const Header = () => {
+const Header = ({ selectedFilter, setSelectedFilter }) => {
   // const { username } = useAppContext() ;
   const [showPeopleModal, setShowPeopleModal] = useState(false);
   const [assignedPeople, setAssignedPeople] = useState([]);
   const [dropDown, setDropDown] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState("Today");
+  // const [selectedFilter, setSelectedFilter] = useState("Today");
 
   const currentDate = format(new Date(), "do MMM, yyyy");
   const openPeopleModal = () => setShowPeopleModal(true);
@@ -24,6 +24,7 @@ const Header = () => {
   };
 
   const handleDropDown = () => setDropDown(!dropDown);
+
   const handleOptionChange = (option) => {
     setSelectedFilter(option);
     setDropDown(false);
