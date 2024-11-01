@@ -8,7 +8,17 @@ const getAuthHeaders = () => {
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
-
+export const fetchTasksByDateAndStatus = async (dateFilter, status) => {
+  try {
+    const response = await axios.get(`${API_URL}/${dateFilter}/${status}`, {
+      headers: getAuthHeaders(), // Attach the auth headers
+    });
+    return response.data.TasksbyDate;
+  } catch (error) {
+    console.error("Error fetching tasks by date and status:", error);
+    throw error;
+  }
+};
 
 
 // Fetch all tasks

@@ -66,28 +66,39 @@ router.get("/verify-token", auth, (req, res) => {
   }
 });
 
-router.patch("/update", auth, async (req, res) => {
+router.patch("/update-password", auth, async (req, res) => {
   try {
-    const { name, oldPassword, newPassword } = req.body;
+    const { name, oldPassword, newPassword, email } = req.body;  // Add 'email'
     const user = await User.findById(req.user);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+
+    // Update password if 'oldPassword' and 'newPassword' are provided
     if (oldPassword) {
       const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
       if (!isPasswordValid) {
         return res
           .status(401)
-          .json({ status: "failed", error: "Old password is incorrect" });
+          .json({ status: "failed", error: "Enter the correct old password" });
       }
       if (newPassword) {
-        const newHashedPassword = await bcrypt.hashSync(newPassword, 10);
-        user.password = newHashedPassword;
+        const salt = await bcrypt.genSalt(10);
+        const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+        user.password = hashedNewPassword;
       }
     }
+
+    // Update name if provided
     if (name) {
       user.name = name;
     }
+
+    // Update email if provided
+    if (email) {
+      user.email = email;
+    }
+
     const data = await user.save();
     res.status(200).json({ status: "success", updatedData: data });
   } catch (error) {
@@ -95,6 +106,7 @@ router.patch("/update", auth, async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 module.exports = router;
 

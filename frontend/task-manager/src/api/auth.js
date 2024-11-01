@@ -30,6 +30,28 @@ export const loginUser = async (email, password) => {
     throw error.response?.data?.message || "Login failed. Please check your credentials.";
   }
 };
+export const updatePassword = async ({ name, oldPassword, newPassword, email }) => {
+  try {
+    const response = await fetch(`${API_URL}/update-password`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders(),
+      },
+      body: JSON.stringify({ name, oldPassword, newPassword, email }), // Include 'email'
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to update');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Update Password API error:', error);
+    throw error;
+  }
+};
 
 // Logout the user
 export const logoutUser = () => {

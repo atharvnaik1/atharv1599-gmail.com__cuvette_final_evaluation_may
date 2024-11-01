@@ -6,59 +6,56 @@ const TaskValidator = require("../validator/TaskValidator");
 
 
 const {
-  startOfWeek,
-  endOfWeek,
-  endOfDay,
-  startOfDay,
-  startOfMonth,
-  endOfMonth,
+  startofDay,
+  endofDay,
+  startofWeek,
+  endofWeek,
+  startofMonth,
+  endofMonth,
 } = require("date-fns");
 
-// router.get(
-//   "/all/:datePreference/:status",
-//   auth,
-//   async (req, res) => {
-//     try {
-//       let {Newdate, status } = req.params;
-//       const currentDate = new Date();
-//       let startDate, endDate;
+router.get("/:dateFilter/:status", auth, async (req, res) => {
+  try {
+    const { dateFilter, status } = req.params;
+    const currentDate = new Date();
+    let startDate, endDate;
 
-//       if (!Newdate|| Newdate.trim() === "") {
-//         startDate = new Date(0);
-//         endDate = new Date();
-//       } else {
-//         switch (Newdate) {
-//           case "today":
-//             startDate = startOfDay(currentDate);
-//             endDate = endOfDay(currentDate);
-//             break;
-//           case "thisweek":
-//             startDate = startOfWeek(currentDate, { weekStartsOn: 1 });
-//             endDate = endOfWeek(currentDate, { weekStartsOn: 1 });
-//             break;
-//           case "thismonth":
-//             startDate = startOfMonth(currentDate);
-//             endDate = endOfMonth(currentDate);
-//             break;
-//           default:
-//             return res.status(400).json({ error: "Invalid date" });
-//         }
-//       }
+    if (!dateFilter || dateFilter.trim() === "") {
+      startDate = new Date(0);  // Start from the epoch if no filter is provided
+      endDate = currentDate;
+    } else {
+      switch (dateFilter.toLowerCase()) {
+        case "today":
+          startDate =  startofDay(currentDate);
+          endDate = endofDay(currentDate);
+          break;
+        case "thisweek":
+          startDate = startofWeek(currentDate, { weekStartsOn: 1 });
+          endDate = endofWeek(currentDate, { weekStartsOn: 1 });
+          break;
+        case "thismonth":
+          startDate = startofMonth(currentDate);
+          endDate = endofMonth(currentDate);
+          break;
+        default:
+          return res.status(400).json({ error: "Invalid date filter provided" });
+      }
+    }
 
-//       const query = {
-//         createdAt: { $gte: startDate, $lt: endDate },
-//         userId: req.user,
-//         ...(status && { status: status.toLowerCase() }),
-//       };
+    const filters = {
+      createdAt: { $gte: startDate, $lt: endDate },
+      userId: req.user,
+      ...(status && { status: status}),
+    };
 
-//       const TaskByDate = await Task.find(query);
-//       res.status(200).json({ data: TaskByDate });
-//     } catch (error) {
-//       console.error(error);
-//       res.status(500).send("Internal Server Error");
-//     }
-//   }
-// );
+    const TasksbyDate = await Task.find(filters);
+    res.status(200).json({ TasksbyDate });
+  } catch (err) {
+    console.error("Error fetching tasks:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 
 router.get("/analytics", auth, async (req, res) => {
   try {
@@ -227,7 +224,6 @@ router.put('/:id', auth, async (req, res) => {
 // });
 
 
-// Delete a task by ID
 // Delete a task by _id
 router.delete('/:id', auth, async (req, res) => {
   const { id } = req.params;

@@ -8,12 +8,15 @@ import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import { fetchTasks, saveTask, updateTask, deleteTask } from '../api/taskApi';
 import AnalyticsPage from '../pages/Analytics';
 import { format } from "date-fns";
+import { BsThreeDots } from "react-icons/bs";
+
 
 const TaskBoard = () => {
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
   const [taskStatus, setTaskStatus] = useState('');
+  const [activeTaskOptions, setActiveTaskOptions] = useState(null);
 
   // Fetch tasks from backend when component mounts
   const refreshTasks = async () => {
@@ -65,7 +68,7 @@ const TaskBoard = () => {
   const toggleChecklist = (id) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
-        task.id === id ? { ...task, isChecklistOpen: !task.isChecklistOpen } : task
+        task._id === id ? { ...task, isChecklistOpen: !task.isChecklistOpen } : task
       )
     );
   };
@@ -92,6 +95,11 @@ const TaskBoard = () => {
   const renderTasksByStatus = (status) => {
     return tasks.filter((task) => task.status === status);
   };
+
+  const toggleOptions = (taskId) => {
+    setActiveTaskOptions((prev) => (prev === taskId ? null : taskId));
+  };
+
   return (
     <div className="task-board-wrapper">
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -104,7 +112,7 @@ const TaskBoard = () => {
               </div>
               <div className="task-board-body">
                 {renderTasksByStatus('backlog').map((task, index) => (
-                  <Draggable key={task.id} draggableId={task.id} index={index}>
+                  <Draggable key={task._id} draggableId={task._id} index={index}>
                     {(provided) => (
                       <div
                         className="task-item"
@@ -116,17 +124,29 @@ const TaskBoard = () => {
                         <div className="task-header">
                         <div className="priority">                
     <p>{task.priority} priority</p>
-    <p>{task.assignTo}</p>
+    
+
+    {/* <p>{task.assignTo}</p> */}
                         </div>
-                        
-                        <h4 title={task.title}>{task.title}</h4>
+                        <BsThreeDots className="options-icon" onClick={() => toggleOptions(task._id)} />
+
                         </div>
+                        {activeTaskOptions === task._id && (
+                          <div className="options-box">
+                            <p onClick={() => openModal(task)}>Edit</p>
+                            <p>Share</p>
+                            <p onClick={() => deleteTaskHandler(task._id)}>Delete</p>
+                          </div>
+                        )}
+                         <div className="task-title"               
+                        title={task.title}>{task.title}</div>
+                       
                         <div className="checklist-header">
                           <span>Checklist {calculateChecklistProgress(task.checklist)}</span>
                           {task.isChecklistOpen ? (
-                            <IoIosArrowUp className="collapse-icon" onClick={() => toggleChecklist(task.id)} />
+                            <IoIosArrowUp className="collapse-icon" onClick={() => toggleChecklist(task._id)} />
                           ) : (
-                            <IoIosArrowDown className="collapse-icon" onClick={() => toggleChecklist(task.id)} />
+                            <IoIosArrowDown className="collapse-icon" onClick={() => toggleChecklist(task._id)} />
                           )}
                         </div>
                         {task.isChecklistOpen && (
@@ -139,10 +159,10 @@ const TaskBoard = () => {
                             ))}
                           </div>
                         )}
-                        <div className="task-actions">
+                        {/* <div className="task-actions">
                           <FaEdit className="edit-icon" onClick={() => openModal(task)} />
                           <FaTrash className="delete-icon" onClick={() => deleteTaskHandler(task.id)} />
-                        </div>
+                        </div> */}
                       </div>
                     )}
                   </Draggable>
