@@ -63,10 +63,10 @@ router.get("/analytics", auth, async (req, res) => {
       userId: req.user,
     });
 
-    // const DueDateTask = await Task.countDocuments({
-    //   userId: req.user,
-    //   dueDate: { $exists: true, $ne: null },
-    // });
+    const DueDateTask = await Task.countDocuments({
+      userId: req.user,
+      dueDate: { $exists: true, $ne: null },
+    });
     const statusAnalytics = getAll.reduce((result, task) => {
       const status = task.status || "Unknown";
       result[status] = (result[status] || 0) + 1;
@@ -86,7 +86,7 @@ router.get("/analytics", auth, async (req, res) => {
 
     res.json({
       priorityAnalytics,
-      // DueDateTask,
+      DueDateTask,
       statusAnalytics,
       // completedTasks,
     });

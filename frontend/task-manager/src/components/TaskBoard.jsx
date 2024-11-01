@@ -7,8 +7,8 @@ import TaskModal from './TaskModal';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import { fetchTasks, saveTask, updateTask, deleteTask } from '../api/taskApi';
 import AnalyticsPage from '../pages/Analytics';
-import { format } from "date-fns";
 import { BsThreeDots } from "react-icons/bs";
+import { format } from "date-fns";
 
 
 const TaskBoard = () => {
@@ -19,7 +19,7 @@ const TaskBoard = () => {
   const [activeTaskOptions, setActiveTaskOptions] = useState(null);
 
   // Fetch tasks from backend when component mounts
-const refreshTasks = async () => {
+  const refreshTasks = async () => {
     try {
       const data = await fetchTasks();
       setTasks(Array.isArray(data) ? data : []);
@@ -56,7 +56,6 @@ const refreshTasks = async () => {
   };
 
   const deleteTaskHandler = async (id) => {
-    console.log("Deleting task with ID:", id);
     try {
       await deleteTask(id); 
       refreshTasks(); 
@@ -89,7 +88,7 @@ const refreshTasks = async () => {
 
   const updateTaskStatus = (task, newStatus) => {
     const updatedTask = { ...task, status: newStatus };
-    updateTask(task.id, updatedTask).then(refreshTasks);
+    updateTask(task._id, updatedTask).then(refreshTasks);
   };
 
   const renderTasksByStatus = (status) => {
@@ -100,303 +99,114 @@ const refreshTasks = async () => {
     setActiveTaskOptions((prev) => (prev === taskId ? null : taskId));
   };
 
-//useState.
-  const handleChange = (changeBoard) => {
-    if (changeBoard === "backlog") {
-        return (
-            <>
-                <div className={StylesCard.butFooter} onClick={() => toggleBoard("inProgress")} value='inProgress'>PROGRESS</div>
-                <div className={StylesCard.butFooter} onClick={() => toggleBoard("toDo")} value='toDo'>TO DO</div>
-                <div className={StylesCard.butFooter} onClick={() => toggleBoard("done")} value='done'>DONE</div>
-            </>
-        );
-    }
+  const renderStatusButtons = (task, currentStatus) => {
+    const statuses = ['backlog', 'to-do', 'in-progress', 'done'];
+    return statuses
+      .filter((status) => status !== currentStatus)
+      .map((status) => (
+        <button key={status} onClick={() => updateTaskStatus(task, status)}>
+          {status}
+        </button>
+      ));
+  };
 
-    if (changeBoard === "inProgress") {
-        return (
-            <>
-                <div className={StylesCard.butFooter} onClick={() => toggleBoard("backlog")} value='backlog'>BACKLOG</div>
-                <div className={StylesCard.butFooter} onClick={() => toggleBoard("toDo")} value='toDo'>TO DO</div>
-                <div className={StylesCard.butFooter} onClick={() => toggleBoard("done")} value='done'>DONE</div>
-            </>
-        );
-    }
-
-    if (changeBoard === "toDo") {
-        return (
-            <>
-                <div className={StylesCard.butFooter} onClick={() => toggleBoard("backlog")} value='backlog'>BACKLOG</div>
-                <div className={StylesCard.butFooter} onClick={() => toggleBoard("inProgress")} value='inProgress'>PROGRESS</div>
-                <div className={StylesCard.butFooter} onClick={() => toggleBoard("done")} value='done'>DONE</div>
-            </>
-        );
-    }
-
-    if (changeBoard === "done") {
-        return (
-            <>
-                <div className={StylesCard.butFooter} onClick={() => toggleBoard("backlog")} value='backlog'>BACKLOG</div>
-                <div className={StylesCard.butFooter} onClick={() => toggleBoard("inProgress")} value='inProgress'>PROGRESS</div>
-                <div className={StylesCard.butFooter} onClick={() => toggleBoard("toDo")} value='toDo'>TO DO</div>
-            </>
-        );
-    }
-
-    return null;
-};
-
+  const closeAllChecklistsInColumn = (column) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.status === column ? { ...task, isChecklistOpen: false } : task
+      )
+    );
+  };
 
   return (
     <div className="task-board-wrapper">
       <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="backlog">
-          {(provided) => (
-            <div className="task-board" {...provided.droppableProps} ref={provided.innerRef}>
-              <div className="task-board-header">
-                <h3>Backlog</h3>
-                <LuCopyMinus className="copy-minus-icon" />
-              </div>
-              <div className="task-board-body">
-                {renderTasksByStatus('backlog').map((task, index) => (
-                  <Draggable key={task._id} draggableId={task._id} index={index}>
-                    {(provided) => (
-                      <div
-                        className="task-item"
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        
-                        <div className="task-header">
-                        <div className="priority">                
-    <p>{task.priority} priority</p>
-    
-
-    {/* <p>{task.assignTo}</p> */}
-                        </div>
-                        <BsThreeDots className="options-icon" onClick={() => toggleOptions(task._id)} />
-
-                        </div>
-                        {activeTaskOptions === task._id && (
-                          <div className="options-box">
-                            <p onClick={() => openModal(task)}>Edit</p>
-                            <p>Share</p>
-                            <p onClick={() => deleteTaskHandler(task._id)}>Delete</p>
+        {['backlog', 'to-do', 'in-progress', 'done'].map((column) => (
+          <Droppable key={column} droppableId={column}>
+            {(provided) => (
+              <div className="task-board" {...provided.droppableProps} ref={provided.innerRef}>
+               <div className="task-board-header">
+                  <h3>{column}</h3>
+                  {column === 'to-do' && (
+                    <span className="plus-icon" onClick={() => openModal(null, 'to-do')}>
+                      +
+                    </span>
+                  )}
+                  <LuCopyMinus
+  className="copy-minus-icon"
+  onClick={() => closeAllChecklistsInColumn(column)}
+/>
+                </div>
+                <div className="task-board-body">
+                  {renderTasksByStatus(column).map((task, index) => (
+                    <Draggable key={task._id} draggableId={task._id} index={index}>
+                      {(provided) => (
+                        <div
+                          className="task-item"
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <div className="task-header">
+                            <div className="priority">
+                              <p>{task.priority} priority</p>
+                            </div>
+                            <BsThreeDots
+                              className="options-icon"
+                              onClick={() => toggleOptions(task._id)}
+                            />
                           </div>
-                        )}
-                         <div className="task-title"               
-                        title={task.title}>{task.title}</div>
-                       
-                        <div className="checklist-header">
-                          <span>Checklist {calculateChecklistProgress(task.checklist)}</span>
-                          {task.isChecklistOpen ? (
-                            <IoIosArrowUp className="collapse-icon" onClick={() => toggleChecklist(task._id)} />
-                          ) : (
-                            <IoIosArrowDown className="collapse-icon" onClick={() => toggleChecklist(task._id)} />
+                          {activeTaskOptions === task._id && (
+                            <div className="options-box">
+                              <p onClick={() => openModal(task)}>Edit</p>
+                              <p>Share</p>
+                              <p onClick={() => deleteTaskHandler(task._id)}>Delete</p>
+                            </div>
                           )}
-                        </div>
-                        {task.isChecklistOpen && (
-                          <div className="checklist">
-                            {task.checklist.map((item, idx) => (
-                              <div key={idx} className="checklist-item">
-                                <input type="checkbox" checked={item.completed} readOnly />
-                                <span>{item.text}</span>
-                              </div>
-                            ))}
+                          <div className="task-title" title={task.title}>
+                            {task.title}
                           </div>
-                        )}
-                        {/* <div className="task-actions">
-                          <FaEdit className="edit-icon" onClick={() => openModal(task)} />
-                          <FaTrash className="delete-icon" onClick={() => deleteTaskHandler(task.id)} />
-                        </div> */}
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            </div>
-          )}
-        </Droppable>
-
-        {/* Repeat the above Droppable component for "To Do", "In Progress", and "Done" columns */}
-        {/* Example for "To Do" column */}
-        <Droppable droppableId="to-do">
-          {(provided) => (
-            <div className="task-board" {...provided.droppableProps} ref={provided.innerRef}>
-              <div className="task-board-header">
-                <h3>To Do</h3>
-                <span className="plus-icon" onClick={() => openModal(null, 'to-do')}>+</span>
-                <LuCopyMinus className="copy-minus-icon" />
-              </div>
-              <div className="task-board-body">
-                {renderTasksByStatus('to-do').map((task, index) => (
-                  <Draggable key={task.id} draggableId={task.id} index={index}>
-                    {(provided) => (
-                      <div
-                        className="task-item"
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <div className="task-header">
-                          <h4 title={task.title}>{task.title}</h4>
-                          <p>{task.priority} priority</p>
-                        </div>
-                        <div className="checklist-header">
-                          <span>Checklist {calculateChecklistProgress(task.checklist)}</span>
-                          {task.isChecklistOpen ? (
-                            <IoIosArrowUp className="collapse-icon" onClick={() => toggleChecklist(task.id)} />
-                          ) : (
-                            <IoIosArrowDown className="collapse-icon" onClick={() => toggleChecklist(task.id)} />
+                          <div className="checklist-header">
+                            <span>Checklist {calculateChecklistProgress(task.checklist)}</span>
+                            {task.isChecklistOpen ? (
+                              <IoIosArrowUp
+                                className="collapse-icon"
+                                onClick={() => toggleChecklist(task._id)}
+                              />
+                            ) : (
+                              <IoIosArrowDown
+                                className="collapse-icon"
+                                onClick={() => toggleChecklist(task._id)}
+                              />
+                            )}
+                          </div>
+                          {task.isChecklistOpen && (
+                            <div className="checklist">
+                              {task.checklist.map((item, idx) => (
+                                <div key={idx} className="checklist-item">
+                                  <input type="checkbox" checked={item.completed} readOnly />
+                                  <span>{item.text}</span>
+                                </div>
+                              ))}
+                            </div>
                           )}
-                        </div>
-                        {task.isChecklistOpen && (
-                          <div className="checklist">
-                            {task.checklist.map((item, idx) => (
-                              <div key={idx} className="checklist-item">
-                                <input type="checkbox" checked={item.completed} readOnly />
-                                <span>{item.text}</span>
-                              </div>
-                            ))}
+                          <div className="task-footer">
+                          <div className="due-date">
+    {task.dueDate ? format(new Date(task.dueDate), 'do MMM') : ''}
+  </div>
+                            {renderStatusButtons(task, column)}
                           </div>
-                        )}
-                        <div className="task-actions">
-                          <FaEdit className="edit-icon" onClick={() => openModal(task)} />
-                          <FaTrash className="delete-icon" onClick={() => deleteTaskHandler(task._id)} />
                         </div>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
               </div>
-            </div>
-          )}
-        </Droppable>
-
-        {/* In Progress Column */}
-        <Droppable droppableId="in-progress">
-          {(provided) => (
-            <div className="task-board" {...provided.droppableProps} ref={provided.innerRef}>
-              <div className="task-board-header">
-                <h3>In Progress</h3>
-                <LuCopyMinus className="copy-minus-icon" />
-              </div>
-              <div className="task-board-body">
-                {renderTasksByStatus('in-progress').map((task, index) => (
-                  <Draggable key={task.id} draggableId={task.id} index={index}>
-                    {(provided) => (
-                      <div
-                        className="task-item"
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <div className="task-header">
-                          <h4 title={task.title}>{task.title}</h4>
-                          <p>{task.priority} priority</p>
-                        </div>
-
-                        {/* Checklist progress */}
-                        <div className="checklist-header">
-                          <span>Checklist {calculateChecklistProgress(task.checklist)}</span>
-                          {task.isChecklistOpen ? (
-                            <IoIosArrowUp className="collapse-icon" onClick={() => toggleChecklist(task.id)} />
-                          ) : (
-                            <IoIosArrowDown className="collapse-icon" onClick={() => toggleChecklist(task.id)} />
-                          )}
-                        </div>
-
-                        {/* Checklist (collapsible) */}
-                        {task.isChecklistOpen && (
-                          <div className="checklist">
-                            {task.checklist.map((item, idx) => (
-                              <div key={idx} className="checklist-item">
-                                <input type="checkbox" checked={item.completed} readOnly />
-                                <span>{item.text}</span>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-
-                        <div className="task-actions">
-                          <FaEdit className="edit-icon" onClick={() => openModal(task)} />
-                          <FaTrash className="delete-icon" onClick={() => deleteTask(task.id)} />
-                        </div>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            </div>
-          )}
-        </Droppable>
-
-        {/* Done Column */}
-        <Droppable droppableId="done">
-          {(provided) => (
-            <div className="task-board" {...provided.droppableProps} ref={provided.innerRef}>
-              <div className="task-board-header">
-                <h3>Done</h3>
-                <LuCopyMinus className="copy-minus-icon" />
-              </div>
-              <div className="task-board-body">
-                {renderTasksByStatus('done').map((task, index) => (
-                  <Draggable key={task.id} draggableId={task.id} index={index}>
-                    {(provided) => (
-                      <div
-                        className="task-item"
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <div className="task-header">
-                          <h4 title={task.title}>{task.title}</h4>
-                          <p>{task.priority} priority</p>
-                        </div>
-
-                        {/* Checklist progress */}
-                        <div className="checklist-header">
-                          <span>Checklist {calculateChecklistProgress(task.checklist)}</span>
-                          {task.isChecklistOpen ? (
-                            <IoIosArrowUp className="collapse-icon" onClick={() => toggleChecklist(task.id)} />
-                          ) : (
-                            <IoIosArrowDown className="collapse-icon" onClick={() => toggleChecklist(task.id)} />
-                          )}
-                        </div>
-
-                        {/* Checklist (collapsible) */}
-                        {task.isChecklistOpen && (
-                          <div className="checklist">
-                            {task.checklist.map((item, idx) => (
-                              <div key={idx} className="checklist-item">
-                                <input type="checkbox" checked={item.completed} readOnly />
-                                <span>{item.text}</span>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-
-                        <div className="task-actions">
-                          <FaEdit className="edit-icon" onClick={() => openModal(task)} />
-                          <FaTrash className="delete-icon" onClick={() => deleteTask(task._id)} />
-                        </div>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            </div>
-          )}
-        </Droppable>
-
+            )}
+          </Droppable>
+        ))}
       </DragDropContext>
-      {/* <AnalyticsPage tasks={tasks} /> */}
-      
-      {/* Modal for adding or editing a task */}
       {showModal && <TaskModal task={currentTask} closeModal={closeModal} saveTask={saveTaskHandler} />}
     </div>
   );
