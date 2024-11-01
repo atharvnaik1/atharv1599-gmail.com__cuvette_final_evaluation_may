@@ -19,7 +19,7 @@ const TaskBoard = () => {
   const [activeTaskOptions, setActiveTaskOptions] = useState(null);
 
   // Fetch tasks from backend when component mounts
-  const refreshTasks = async () => {
+const refreshTasks = async () => {
     try {
       const data = await fetchTasks();
       setTasks(Array.isArray(data) ? data : []);
@@ -99,6 +99,52 @@ const TaskBoard = () => {
   const toggleOptions = (taskId) => {
     setActiveTaskOptions((prev) => (prev === taskId ? null : taskId));
   };
+
+//useState.
+  const handleChange = (changeBoard) => {
+    if (changeBoard === "backlog") {
+        return (
+            <>
+                <div className={StylesCard.butFooter} onClick={() => toggleBoard("inProgress")} value='inProgress'>PROGRESS</div>
+                <div className={StylesCard.butFooter} onClick={() => toggleBoard("toDo")} value='toDo'>TO DO</div>
+                <div className={StylesCard.butFooter} onClick={() => toggleBoard("done")} value='done'>DONE</div>
+            </>
+        );
+    }
+
+    if (changeBoard === "inProgress") {
+        return (
+            <>
+                <div className={StylesCard.butFooter} onClick={() => toggleBoard("backlog")} value='backlog'>BACKLOG</div>
+                <div className={StylesCard.butFooter} onClick={() => toggleBoard("toDo")} value='toDo'>TO DO</div>
+                <div className={StylesCard.butFooter} onClick={() => toggleBoard("done")} value='done'>DONE</div>
+            </>
+        );
+    }
+
+    if (changeBoard === "toDo") {
+        return (
+            <>
+                <div className={StylesCard.butFooter} onClick={() => toggleBoard("backlog")} value='backlog'>BACKLOG</div>
+                <div className={StylesCard.butFooter} onClick={() => toggleBoard("inProgress")} value='inProgress'>PROGRESS</div>
+                <div className={StylesCard.butFooter} onClick={() => toggleBoard("done")} value='done'>DONE</div>
+            </>
+        );
+    }
+
+    if (changeBoard === "done") {
+        return (
+            <>
+                <div className={StylesCard.butFooter} onClick={() => toggleBoard("backlog")} value='backlog'>BACKLOG</div>
+                <div className={StylesCard.butFooter} onClick={() => toggleBoard("inProgress")} value='inProgress'>PROGRESS</div>
+                <div className={StylesCard.butFooter} onClick={() => toggleBoard("toDo")} value='toDo'>TO DO</div>
+            </>
+        );
+    }
+
+    return null;
+};
+
 
   return (
     <div className="task-board-wrapper">
