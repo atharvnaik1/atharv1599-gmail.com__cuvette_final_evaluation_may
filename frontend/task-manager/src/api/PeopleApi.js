@@ -1,7 +1,7 @@
 // frontend/PeopleApi.js
 import axios from 'axios';
-
-const API_URL = 'http://localhost:5000/api/people'; // Update this to match your backend server's URL
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+const API_URL = `${BASE_URL}/api/people`; // Update this to match your backend server's URL
 
 // Function to get authorization headers
 const getAuthHeaders = () => {

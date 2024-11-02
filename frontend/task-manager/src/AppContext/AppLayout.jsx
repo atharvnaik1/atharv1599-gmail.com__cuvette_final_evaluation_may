@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import userApi from "../api/userApi"; 
 import Sidebar from "../components/Sidebar";
 
 const AppContext = React.createContext();

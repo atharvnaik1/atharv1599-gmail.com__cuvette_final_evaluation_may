@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const ANALYTICS_API_URL = 'http://localhost:5000/api/tasks/analytics'; // Update to your backend server's URL
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+const ANALYTICS_API_URL = `${BASE_URL}/api/tasks/analytics`// Update to your backend server's URL
 
 // Function to get Authorization Headers
 const getAuthHeaders = () => {
