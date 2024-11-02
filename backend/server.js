@@ -25,18 +25,20 @@ const logToFile = (message) => {
 
 // Middleware
 const allowedOrigins = [
-  // 'http://localhost:5173', // for local development frontend
-  'https://atharv1599-gmail-com-cuvette-final-evaluation-may.vercel.app' // Vercel production frontend URL
+  'https://atharv1599-gmail-com-cuvette-final-evaluation-may.vercel.app', // Vercel frontend URL
+  'http://localhost:5173' // Local development URL (optional)
 ];
 
 app.use(cors({
-  origin: (origin, callback) => {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, etc.) or requests from allowed origins
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
-  }
+  },
+  credentials: true // If you need to allow cookies or authorization headers
 }));
 // app.use(cors());
 // app.use(cors({ origin: 'http://localhost:5173' }));
