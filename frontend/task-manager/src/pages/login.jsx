@@ -33,7 +33,7 @@ function LoginPage() {
   return (
     <div className="login-container">
       <div className="login-left-section">
-        <img src="../back.png" alt="Background" className="login-background-image" /> 
+        <img src="../Back.png" alt="Background" className="login-background-image" /> 
         <img src="../Group-1.png" alt="Front" className="login-front-image" />
         <div className="login-welcome">
           <h1 className="login-welcome-text">Welcome aboard my friend</h1>
