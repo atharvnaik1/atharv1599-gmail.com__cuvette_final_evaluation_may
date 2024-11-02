@@ -1,0 +1,14 @@
+.link-copied-toast {
+    padding: 20px 55px;
+    background-color: #e4f8eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    transition: opacity 0.3s ease-in-out;
+    font-size: 16px; 
+    font-weight: 600;
+    color: #333;
+    gap: 16px;
+}
+  

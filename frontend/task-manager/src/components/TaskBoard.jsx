@@ -9,6 +9,9 @@ import { fetchTasks, saveTask, updateTask, deleteTask } from '../api/taskApi';
 import { BsThreeDots } from "react-icons/bs";
 import { format, isToday, isThisWeek, isThisMonth } from 'date-fns';
 import DeleteModal from './DeleteModal';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import LinkCopiedToast from './LinkToast';
 
 const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
   const [showModal, setShowModal] = useState(false);
@@ -17,7 +20,23 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
   const [activeTaskOptions, setActiveTaskOptions] = useState(null);
   const [taskToDelete, setTaskToDelete] = useState(null);
 
-
+  const shareTask = (taskId) => {
+    const shareableLink = `${window.location.origin}/task/${taskId}`;
+    navigator.clipboard.writeText(shareableLink).then(() => {
+      toast.success(<LinkCopiedToast />, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }).catch((error) => {
+      console.error("Failed to copy link:", error);
+      toast.error("Failed to copy link.");
+    });
+  };
   // Fetch tasks from backend when component mounts
   const refreshTasks = async () => {
     try {
@@ -119,7 +138,12 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
   const renderTasksByStatus = (status) => {
     return tasks
       .filter((task) => task.status === status && filterTasksByDueDate(task))
-      .map((task, index) => (
+      .map((task, index) => {
+        const priorityClass =
+        task.priority === 'High' ? 'red' :
+        task.priority === 'Moderate' ? 'blue' :
+        task.priority === 'Low' ? 'green' : '';
+return(
         <Draggable key={task._id} draggableId={task._id} index={index}>
           {(provided) => (
             <div
@@ -129,8 +153,9 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
               {...provided.dragHandleProps}
             >
               <div className="task-header">
-                <div className="priority">
-                  <p>{task.priority} priority</p>
+                <div className="priorityy">
+                <span className={`priority-dott ${priorityClass}`}></span>
+                <p>{task.priority} priority</p>
                 </div>
                 <BsThreeDots
                   className="options-icon"
@@ -140,8 +165,8 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
               {activeTaskOptions === task._id && (
                 <div className="options-box">
                   <p onClick={() => openModal(task)}>Edit</p>
-                  <p>Share</p>
-                  <p onClick={() => confirmDeleteTask(task._id)}>Delete</p>
+                  <p className='Share-btn' onClick={()=>shareTask(task._id) }>Share</p>
+                  <p className="Dlt-btn"onClick={() => confirmDeleteTask(task._id)}>Delete</p>
                 </div>
               )}
               <div className="task-title" title={task.title}>
@@ -173,14 +198,15 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
               )}
               <div className="task-footer">
                 <div className="due-date">
-                  {task.dueDate ? format(new Date(task.dueDate), 'do MMM') : ''}
+                  {task.dueDate ? format(new Date(task.dueDate), 'MMM d') : ''}
                 </div>
                 {renderStatusButtons(task, status)}
               </div>
             </div>
           )}
         </Draggable>
-      ));
+    );
+  });
   };
 
   const toggleOptions = (taskId) => {
@@ -192,7 +218,7 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
     return statuses
       .filter((status) => status !== currentStatus)
       .map((status) => (
-        <button key={status} onClick={() => updateTaskStatus(task, status)}>
+        <button className="status-btn"key={status} onClick={() => updateTaskStatus(task, status)}>
           {status}
         </button>
       ));
@@ -214,7 +240,7 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
             {(provided) => (
               <div className="task-board" {...provided.droppableProps} ref={provided.innerRef}>
                 <div className="task-board-header">
-                  <h3>{column}</h3>
+                  <h3>{column.replace('-', ' ')}</h3>
                   {column === 'to-do' && (
                     <span className="plus-icon" onClick={() => openModal(null, 'to-do')}>
                       +
@@ -242,6 +268,7 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
           onCancel={onCancelDelete} 
           />
       )}
+      <ToastContainer /> 
     </div>
   );
 };

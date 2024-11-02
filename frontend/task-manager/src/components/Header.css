@@ -1,25 +1,29 @@
-/* Header styling */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
+  margin-top: -30px;
+
 }
 
-/* Welcome section styling */
 .welcome-section h1 {
   font-size: 24px;
   margin-right: 120px;
+  margin-bottom: 5px;
 }
 
 .board-container {
   display: flex;
   align-items: center;
+  margin-bottom: -5px;
+  
 }
 
 .board-container h2 {
   font-size: 30px;
   margin-right: 20px;
+  
 }
 
 .addPeople-container {
@@ -45,12 +49,11 @@
   position: relative;
   color: #707070;
   font-size: 16px;
-  font-family: var(--poppins);
 }
 
 .date-section p {
-  font-size: 14px;
-  color: gray;
+  font-size: 15px;
+  color: rgb(116, 116, 116);
 }
 
 /* Dropdown container styling */
@@ -58,20 +61,22 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   padding: 8px 10px; /* Adjust padding for tighter alignment */
   border-radius: 5px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0px 2px 5px rgba(179, 178, 178, 0.1); */
   cursor: pointer;
   width: 175px;
+  color: black;
+  font-size: 15px;
 }
 
 /* Dropdown icon styling */
 .chevron-icon{
-  margin-left: 80px; 
+  margin-left: 5px; 
   
   transition: transform 0.3s ease;
-  font-size: 14px;
+  font-size: 13px;
 
 }
 
@@ -85,10 +90,10 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   padding: 10px 0;
-  box-shadow: 0px 2px 22px rgba(116, 120, 120, 0.20);
-  font-family: var(--poppins);
+  box-shadow: 0px 2px 22px rgba(116, 120, 120, 0.1);
   font-size: 15px;
   font-weight: 500;
+  color: #000;
   z-index: 10;
 }
 

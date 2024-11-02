@@ -45,8 +45,7 @@ const Header = ({ selectedFilter, setSelectedFilter }) => {
       <div className="date-section">
         <p className="current-date">{currentDate}</p>
         <div className="filter-container">
-          <p className="board-label">Board</p>
-          
+          <br />
           <div className="drop-down" onClick={handleDropDown}>
             {selectedFilter}
            <div className="chevron-icon" onClick={handleDropDown}>
@@ -60,6 +59,7 @@ const Header = ({ selectedFilter, setSelectedFilter }) => {
               <div onClick={() => handleOptionChange("Today")}>Today</div>
               <div onClick={() => handleOptionChange("This Week")}>This Week</div>
               <div onClick={() => handleOptionChange("This Month")}>This Month</div>
+              <div onClick={() => handleOptionChange("All Time")}>All Time</div>
             </div>
           )}
         </div>

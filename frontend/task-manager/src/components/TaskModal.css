@@ -86,6 +86,7 @@
     height: 5px;
     border-radius: 50%;
     margin-right: 10px;
+
   }
   
   .red { background-color: #FF2473; }
@@ -156,8 +157,10 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 0.9em;
+    margin-left: 190px;
+    margin-right: 10px;
   }
-  
+
   .assign-button:hover {
     background-color: #000000;
   }
@@ -170,7 +173,7 @@
     height: 35px;
     box-sizing: border-box;
     border: 1.5px solid #e2e2e2;
-    border-radius: 7px;
+    border-radius: 6px;
     font-size: 16px;
     padding: 5px 10px;
     margin: 5px 0;
@@ -178,7 +181,7 @@
   .checklist-item input[type="checkbox"] {
     width: 10%; /* Occupies 10% of the bordered area */
     margin-right: 10px; /* 10px gap between checkbox and input */
-}
+  }
 
   
   .add-checklist-item {
