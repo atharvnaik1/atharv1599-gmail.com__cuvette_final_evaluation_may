@@ -227,7 +227,7 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
             />
             </div>
             <div className="end-btn">
-            <button onClick={closeModal} className="cancel-btn">Cancel</button>
+            <button onClick={closeModal} className="cancelbtn">Cancel</button>
             <button onClick={handleSave} className="save-btn">Save</button>
             </div>
           </div>

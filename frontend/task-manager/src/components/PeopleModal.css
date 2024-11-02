@@ -8,6 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
   }
   
   .modal-content {
@@ -34,14 +35,14 @@
     gap: 10px;
   }
   
-  .cancel-btn, .save-btn {
+  .cancelbtn, .save-btn {
     padding: 10px 20px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
   }
   
-  .cancel-btn {
+  .cancelbtn {
     background-color: #f8d7da;
     color: #721c24;
   }
