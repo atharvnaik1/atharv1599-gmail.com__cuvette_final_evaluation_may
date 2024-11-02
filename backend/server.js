@@ -24,8 +24,22 @@ const logToFile = (message) => {
 };
 
 // Middleware
-app.use(cors());
-app.use(cors({ origin: 'http://localhost:5173' }));
+const allowedOrigins = [
+  'http://localhost:5173', // for local development frontend
+  'https://your-frontend.vercel.app' // Vercel production frontend URL
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+// app.use(cors());
+// app.use(cors({ origin: 'http://localhost:5173' }));
 
 app.use(bodyParser.json()); // Use body-parser to parse JSON request bodies
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded request bodies
