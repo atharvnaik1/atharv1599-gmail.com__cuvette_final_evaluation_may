@@ -20,7 +20,7 @@ function App() {
           {/* Define routes for login and register */}
           <Route path="/" element={<LoginPage />} />
           {/* <Route path="/*" element={<AppLayout />} /> */}
-          <Route path="/login" element={<LoginPage />} />
+          {/* <Route path="/login" element={<LoginPage />} /> */}
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/analytics" element={<AnalyticsPage tasks={tasks} />} />

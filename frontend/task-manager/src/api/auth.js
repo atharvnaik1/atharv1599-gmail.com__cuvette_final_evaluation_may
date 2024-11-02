@@ -1,6 +1,5 @@
 import axios from 'axios';
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-const API_URL = `${BASE_URL}/api/auth`; // Backend base URL
+ // Backend base URL
 
 // Register a new user
 export const registerUser = async (name, email, password) => {
@@ -14,20 +13,31 @@ export const registerUser = async (name, email, password) => {
 };
 
 // Login an existing user
-export const loginUser = async (email, password) => {
-  try {
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/login`, { email, password });
-    const { token } = response.data;
+export const loginUser = async (email, password, retries = 3) => {
+  const data = { email, password };
 
-    // Store the token and set authorization header for future requests
-    if (token) {
-      localStorage.setItem('token', token);
-      setAuthToken(token); // Apply the token globally to axios
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/login`, data, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const { token } = response.data;
+
+      // Store the token and set authorization header for future requests
+      if (token) {
+        localStorage.setItem('token', token);
+        setAuthToken(token); // Apply the token globally to axios
+      }
+      return response.data; // Return data to handle in UI if needed
+    } catch (error) {
+      if (i < retries - 1) {
+        console.warn(`Retrying login... Attempt ${i + 2}`);
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay between retries
+      } else {
+        console.error("Error logging in user:", error);
+        throw error.response?.data?.message || "Login failed. Please check your credentials.";
+      }
     }
-    return response.data; // Return data to handle in UI if needed
-  } catch (error) {
-    console.error("Error logging in user:", error);
-    throw error.response?.data?.message || "Login failed. Please check your credentials.";
   }
 };
 export const updatePassword = async ({ name, oldPassword, newPassword, email }) => {

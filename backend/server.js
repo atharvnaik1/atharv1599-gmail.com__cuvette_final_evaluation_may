@@ -26,7 +26,7 @@ const logToFile = (message) => {
 // Middleware
 const allowedOrigins = [
   'https://atharv1599-gmail-com-cuvette-final-evaluation-may.vercel.app', // Vercel frontend URL
-  'http://localhost:5173' // Local development URL (optional)
+  // 'http://localhost:5173' // Local development URL (optional)
 ];
 
 app.use(cors({
@@ -40,6 +40,7 @@ app.use(cors({
   },
   credentials: true // If you need to allow cookies or authorization headers
 }));
+app.options('*', cors());
 // app.use(cors());
 // app.use(cors({ origin: 'http://localhost:5173' }));
 
