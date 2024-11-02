@@ -36,7 +36,7 @@ function RegisterPage() {
   return (
     <div className="container">
       <div className="left-section">
-        <img src="../public/back.png" alt="Background Image" className="background-image" /> 
+        <img src="../back.png" alt="Background Image" className="background-image" /> 
         <img src="../Group-1.png" alt="Front Image" className="front-image" />
         <div className="welcome">
           <h1 className="welcome-text">Join us today!</h1>

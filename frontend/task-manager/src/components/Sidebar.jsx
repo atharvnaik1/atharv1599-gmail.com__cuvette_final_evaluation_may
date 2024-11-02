@@ -28,7 +28,7 @@ const Sidebar = () => {
   return (
     <nav className="sidebar">
       <div className="logo-section">
-        <img src="../public/Group.png" alt="Cube Icon" className="icon-cube" />
+        <img src="../Group.png" alt="Cube Icon" className="icon-cube" />
       </div>
       <ul className="nav-links">
         <li className="nav-link">
