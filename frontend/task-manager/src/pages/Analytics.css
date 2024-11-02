@@ -1,10 +1,19 @@
-.analyticsContainer {
-  margin-top: 25px;
-  margin-left: 5%;
+.analytics-page-container {
+  display: flex;
+  height: 100vh;
 }
-.analyticsContainer p {
-  font-size: 23px;
+
+.analytics-content {
+  margin-top: 25px;
+  padding-left: 20px;
+  /* margin-left: 5%; */
+}
+.analytics-content p {
+  font-size: 20px;
   font-weight: 600;
+  text-align: left;
+  margin-top: -5px;
+  margin-bottom: 80px;
 }
 .boxContainer {
   display: flex;
@@ -27,9 +36,22 @@
   display: flex;
   justify-content: space-between;
   width: 30vw;
-  height: 25vh;
+  height: fit-content;
   border-radius: 8px;
+  align-items: left;
 }
-li::marker {
-  color: #90c4cc;
+/* li::marker {
+  font-size: 1.8em; 
+  color: #90C4CC;
+} */
+.one li::marker, .three li::marker {
+  font-size: 1.8em; 
+  color: #90C4CC;
+}
+
+.two li, .four li {
+  padding: 10px;
+  list-style-type: none;
+  font-size: 0.9em; /* Smaller font size */
+  text-align: right;
 }

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';  // Import Link for navigation
 import './register.css';
 import { registerUser } from '../api/auth';
-
+import { FaRegUser, FaRegEnvelope } from 'react-icons/fa';
+import { RiLockLine } from 'react-icons/ri';
 function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -48,7 +48,7 @@ function RegisterPage() {
         <h2>Register</h2>
         <form onSubmit={handleRegister}>
           <div className="input-group">
-            <FaUser className="icon" />
+            <FaRegUser className="icon" />
             <input
               type="text"
               placeholder="Name"
@@ -59,7 +59,7 @@ function RegisterPage() {
           </div>
 
           <div className="input-group">
-            <FaEnvelope className="icon" />
+            <FaRegEnvelope className="icon" />
             <input
               type="email"
               placeholder="Email"
@@ -70,7 +70,7 @@ function RegisterPage() {
           </div>
 
           <div className="input-group">
-            <FaLock className="icon" />
+            <RiLockLine className="icon" />
             <input
               type="password"
               placeholder="Password"
@@ -81,7 +81,7 @@ function RegisterPage() {
           </div>
 
           <div className="input-group">
-            <FaLock className="icon" />
+            <RiLockLine className="icon" />
             <input
               type="password"
               placeholder="Confirm Password"
@@ -96,9 +96,10 @@ function RegisterPage() {
           <button type="submit" className="register-btn">Register</button>
         </form>
 
-        <p className="login-text">
-          Already have an account? <Link to="/login" className="login-btn">Login</Link>
-        </p>
+        <div className="login-section">
+          <p>Have an account?</p>
+          <Link to="/Login" className="login-btn">Login</Link>
+        </div>
       </div>
     </div>
   );

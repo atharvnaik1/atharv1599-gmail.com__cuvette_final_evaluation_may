@@ -1,11 +1,12 @@
 .sidebar {
     width: 200px;
     height: 100vh;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 20px;
+    border: 1px solid #e9ecef;
   }
   
 
@@ -16,7 +17,7 @@
       }
 
   
-      .nav-link {
+.nav-link {
         display: flex;
         align-items: center;
         padding: 10px;
@@ -25,8 +26,11 @@
         border-radius: 8px;
         font-size: 16px;
         color: #6c757d;
-        cursor: pointer;
+       
         text-decoration: none;
+      }
+      .nav-text{
+        cursor: pointer;
       }
   
       .nav-link:hover, .nav-text:hover {
@@ -47,11 +51,22 @@
      
   .logout-section {
     margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family:  var(--font-poppins);
+    padding: 10px;
+    
   }
   
   .logout-btn {
     color: red;
     text-decoration: none;
     font-size: 16px;
+    margin-bottom: 100px;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    
   }
   

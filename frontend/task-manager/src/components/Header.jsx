@@ -3,7 +3,8 @@ import './Header.css';
 import { LuUsers2 } from "react-icons/lu";
 import PeopleModal from './PeopleModal';
 import { format } from 'date-fns';
-import { FaChevronDown } from 'react-icons/fa';
+import { FaChevronDown } from "react-icons/fa6";
+
 // import { useAppContext } from '../AppContext/AppLayout'; // Import context hook
 
 

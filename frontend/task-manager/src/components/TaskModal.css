@@ -181,7 +181,7 @@
   .checklist-item input[type="checkbox"] {
     width: 10%; /* Occupies 10% of the bordered area */
     margin-right: 10px; /* 10px gap between checkbox and input */
-  }
+}
 
   
   .add-checklist-item {

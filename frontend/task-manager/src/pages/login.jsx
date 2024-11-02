@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import './login.css';
 import { loginUser } from '../api/auth';
-
+import { FaRegEnvelope } from 'react-icons/fa';
+import { RiLockLine } from "react-icons/ri";
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,21 +31,21 @@ function LoginPage() {
   };
 
   return (
-    <div className="container">
-      <div className="left-section">
-        <img src="../public/back.png" alt="Background" className="background-image" /> 
-        <img src="../Group-1.png" alt="Front" className="front-image" />
-        <div className="welcome">
-          <h1 className="welcome-text">Welcome aboard my friend</h1>
-          <p className="text">Just a couple of clicks and we start</p>
+    <div className="login-container">
+      <div className="login-left-section">
+        <img src="../public/back.png" alt="Background" className="login-background-image" /> 
+        <img src="../Group-1.png" alt="Front" className="login-front-image" />
+        <div className="login-welcome">
+          <h1 className="login-welcome-text">Welcome aboard my friend</h1>
+          <p className="login-text">Just a couple of clicks and we start</p>
         </div>
       </div>
 
-      <div className="right-section">
+      <div className="login-right-section">
         <h2>Login</h2>
         <form onSubmit={handleLogin}>
-          <div className="input-group">
-            <FaEnvelope className="icon" />
+          <div className="login-input-group">
+            <FaRegEnvelope className="icon" />
             <input
               type="email"
               placeholder="Email"
@@ -55,8 +55,8 @@ function LoginPage() {
             />
           </div>
 
-          <div className="input-group">
-            <FaLock className="icon" />
+          <div className="login-input-group">
+            <RiLockLine className="icon" />
             <input
               type="password"
               placeholder="Password"
@@ -66,14 +66,15 @@ function LoginPage() {
             />
           </div>
 
-          {error && <p className="error-message">{error}</p>}
+          {error && <p className="login-error-message">{error}</p>}
 
-          <button type="submit" className="login-btn">Login</button>
+          <button type="submit" className="login-login-btn">Login</button>
         </form>
 
-        <p className="register-text">
-          Don't have an account? <Link to="/register" className="register-btn">Register</Link>
-        </p>
+        <div className="login-register-section">
+          <p>Have no account yet?</p>
+          <Link to="/register" className="login-register-btn">Register</Link>
+        </div>
       </div>
     </div>
   );

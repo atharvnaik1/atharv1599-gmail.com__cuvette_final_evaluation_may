@@ -5,6 +5,8 @@ import { LuLayout } from "react-icons/lu";
 import { GoDatabase } from "react-icons/go";
 import { HiOutlineCog8Tooth } from "react-icons/hi2";
 import { Link, useNavigate } from 'react-router-dom';
+import { MdLogout } from "react-icons/md";
+
 
 const Sidebar = () => {
   const [showModal, setShowModal] = useState(false);
@@ -43,7 +45,10 @@ const Sidebar = () => {
         </li>
       </ul>
       <div className="logout-section">
-        <button onClick={handleLogoutClick} className="logout-btn">Log out</button>
+      <button onClick={handleLogoutClick} className="logout-btn">
+    <MdLogout className="logout-icon" />
+     Log out
+  </button>
       </div>
 
       {showModal && (

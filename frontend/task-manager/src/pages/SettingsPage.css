@@ -1,17 +1,21 @@
+.settings-page-container{
+  display: flex;
+}
 .title{
   position: absolute;
-  margin-left: 130px;         
+  margin-left: 100px;         
   left: 12%;
+  margin-top: 20px;
+  font-size: 22px;
 }
 .settings-container {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
     width: 300px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-left: 130px;
     position: absolute;  
-  top: 100px;           
+  top: 80px;           
   left: 12%;
    
   }
@@ -30,11 +34,12 @@
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 6px;
   }
   
   .update-btn {
-    width: 100%;
+
+    width: 90%;
     background-color: #17a2b8;
     color: white;
     padding: 10px;
@@ -42,9 +47,31 @@
     border-radius: 30px;
     cursor: pointer;
     font-size: 16px;
+    display: flex;
+    justify-content: center;
   }
   
   .update-btn:hover {
     background-color: #13919b;
+  }
+  
+  .input-icon-container {
+    position: relative;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #858484; 
+    
+    font-family: var(--font-poppins);
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    padding-left: 35px; /* To make room for the icon */
   }
   

@@ -15,7 +15,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-      <Sidebar />
+      {/* <Sidebar /> */}
         <Routes>
           {/* Define routes for login and register */}
           <Route path="/" element={<LoginPage />} />
