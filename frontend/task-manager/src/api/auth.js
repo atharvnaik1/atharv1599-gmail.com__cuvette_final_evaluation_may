@@ -5,7 +5,7 @@ const API_URL = `${BASE_URL}/api/auth`; // Backend base URL
 // Register a new user
 export const registerUser = async (name, email, password) => {
   try {
-    const response = await axios.post(`${API_URL}/register`, { name, email, password });
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/register`, { name, email, password });
     return response.data; // Assuming it returns a token or user info
   } catch (error) {
     console.error("Error registering user:", error);
@@ -16,7 +16,7 @@ export const registerUser = async (name, email, password) => {
 // Login an existing user
 export const loginUser = async (email, password) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, { email, password });
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/login`, { email, password });
     const { token } = response.data;
 
     // Store the token and set authorization header for future requests
