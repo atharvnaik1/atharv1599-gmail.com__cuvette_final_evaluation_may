@@ -32,6 +32,7 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
         draggable: true,
         progress: undefined,
       });
+      toggleOptions(null);
     }).catch((error) => {
       console.error("Failed to copy link:", error);
       toast.error("Failed to copy link.");
@@ -56,6 +57,7 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
     setCurrentTask(task);
     setTaskStatus(status);
     setShowModal(true);
+    toggleOptions(null);
   };
 
   const closeModal = () => {
@@ -78,6 +80,7 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
 
   const confirmDeleteTask = (taskId) => {
     setTaskToDelete(taskId);
+    toggleOptions(null);
   };
 
   const onDeleteConfirm = async () => {
