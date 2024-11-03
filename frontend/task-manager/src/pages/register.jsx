@@ -98,7 +98,7 @@ function RegisterPage() {
 
         <div className="login-section">
           <p>Have an account?</p>
-          <Link to="/Login" className="login-btn">Login</Link>
+          <Link to="/" className="login-btn">Login</Link>
         </div>
       </div>
     </div>
