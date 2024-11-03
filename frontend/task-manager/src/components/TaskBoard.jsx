@@ -1,3 +1,4 @@
+//<DRAG AND MOVE IN ENABLED>
 import React, { useState, useEffect } from 'react';
 import './TaskBoard.css';
 import { LuCopyMinus } from 'react-icons/lu';
