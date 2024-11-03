@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import './Header.css';
 import { LuUsers2 } from "react-icons/lu";
 import PeopleModal from './PeopleModal';
