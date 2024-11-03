@@ -24,9 +24,9 @@ const AnalyticsPage = () => {
       try {
         const data = await fetchAnalytics();
         setTaskStats({
-          statusAnalytics: data.statusAnalytics || {},
-          priorityAnalytics: data.priorityAnalytics || {},
-          DueDateTask: data.DueDateTask || {},
+          statusAnalytics: data.statusAnalytics ,
+          priorityAnalytics: data.priorityAnalytics ,
+          DueDateTask: data.DueDateTask ,
         });
       } catch (error) {
         console.error("Error fetching analytics:", error);
