@@ -4,11 +4,13 @@ import './login.css';
 import { loginUser } from '../api/auth';
 import { FaRegEnvelope } from 'react-icons/fa';
 import { RiLockLine, RiEyeLine, RiEyeOffLine } from "react-icons/ri";
+import { ClipLoader } from 'react-spinners'; // Import the loader component
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // New state for toggling password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false); // New state for loading indicator
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -20,11 +22,15 @@ function LoginPage() {
       return;
     }
 
+    setLoading(true); // Show the loader when login starts
+
     try {
       const responseData = await loginUser(email, password);
       navigate('/dashboard');
     } catch (error) {
       setError(error);
+    } finally {
+      setLoading(false); // Hide the loader once login is complete
     }
   };
 
@@ -56,7 +62,7 @@ function LoginPage() {
           <div className="login-input-group">
             <RiLockLine className="icon" />
             <input
-              type={showPassword ? "text" : "password"} // Toggle between text and password
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -73,7 +79,9 @@ function LoginPage() {
 
           {error && <p className="login-error-message">{error}</p>}
 
-          <button type="submit" className="login-login-btn">Login</button>
+          <button type="submit" className="login-login-btn" disabled={loading}>
+            {loading ? <ClipLoader size={20} color="#fff" /> : "Login"}
+          </button>
         </form>
 
         <div className="login-register-section">
