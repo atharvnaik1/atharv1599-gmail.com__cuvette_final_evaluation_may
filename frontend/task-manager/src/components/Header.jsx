@@ -52,7 +52,7 @@ const Header = ({ selectedFilter, setSelectedFilter }) => {
   return (
     <div className="header">
       <div className="welcome-section">
-        <h1>Welcome{userName}!</h1> {/* Provide a fallback text */}
+        <h1>Welcome {userName} !</h1> {/* Provide a fallback text */}
         <div className="board-container">
           <h2>Board</h2>
           <div className="addPeople-container" onClick={openPeopleModal}>
