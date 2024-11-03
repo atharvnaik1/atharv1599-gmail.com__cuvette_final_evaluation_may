@@ -3,28 +3,26 @@ import { Link, useNavigate } from 'react-router-dom';
 import './login.css';
 import { loginUser } from '../api/auth';
 import { FaRegEnvelope } from 'react-icons/fa';
-import { RiLockLine } from "react-icons/ri";
+import { RiLockLine, RiEyeLine, RiEyeOffLine } from "react-icons/ri";
+
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // New state for toggling password visibility
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Basic client-side validation
     if (!email || !password) {
       setError('Please enter both email and password.');
       return;
     }
 
     try {
-      // Call the login API function and store token on success
       const responseData = await loginUser(email, password);
-
-      // Redirect to dashboard or another secure route after successful login
-      navigate('/dashboard'); // Adjust '/dashboard' to the route you need
+      navigate('/dashboard');
     } catch (error) {
       setError(error);
     }
@@ -33,7 +31,7 @@ function LoginPage() {
   return (
     <div className="login-container">
       <div className="login-left-section">
-        <img src="../Back.png" alt="Background" className="login-background-image" /> 
+        <img src="../Back.png" alt="Background" className="login-background-image" />
         <img src="../Group-1.png" alt="Front" className="login-front-image" />
         <div className="login-welcome">
           <h1 className="login-welcome-text">Welcome aboard my friend</h1>
@@ -58,12 +56,19 @@ function LoginPage() {
           <div className="login-input-group">
             <RiLockLine className="icon" />
             <input
-              type="password"
+              type={showPassword ? "text" : "password"} // Toggle between text and password
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <button
+              type="button"
+              className="show-password-btn"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <RiEyeOffLine /> : <RiEyeLine />}
+            </button>
           </div>
 
           {error && <p className="login-error-message">{error}</p>}

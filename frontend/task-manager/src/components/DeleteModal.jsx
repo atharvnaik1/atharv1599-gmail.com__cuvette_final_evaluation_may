@@ -6,10 +6,10 @@ const DeleteConfirmationModal = ({ onDeleteConfirm, onCancel }) => {
     <div className="delete-modal-overlay">
       <div className="delete-modal-content">
         <p>Are you sure you want to delete?</p>
-        <button className="confirm-button" onClick={onDeleteConfirm}>
+        <button className="dconfirm-button" onClick={onDeleteConfirm}>
           Yes, Delete
         </button>
-        <button className="cancel-button" onClick={onCancel}>
+        <button className="dcancel-button" onClick={onCancel}>
           Cancel
         </button>
       </div>

@@ -17,7 +17,7 @@
     background-color: #fff;
     border-radius: 8px;
     padding: 20px;
-    width: 300px;
+    max-width: 300px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
@@ -27,36 +27,40 @@
     font-size: 16px;
     color: #333;
     margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
   }
   
   /* Confirm button */
-  .confirm-button {
-    background-color: #009688;
+  .dconfirm-button {
+    background-color: #17A2B8; 
     color: #fff;
     border: none;
     padding: 10px 20px;
-    border-radius: 4px;
+    border-radius: 12px;
+    width: 100%;
     font-size: 16px;
     cursor: pointer;
-    margin-right: 10px;
+    margin-bottom: 10px;
   }
   
   /* Cancel button */
-  .cancel-button {
+  .dcancel-button {
     background-color: transparent;
-    color: #d32f2f;
-    border: 1px solid #d32f2f;
+    color: #CF3636;
+    border: 1px solid #CF3636;
     padding: 10px 20px;
-    border-radius: 4px;
+    border-radius: 12px;
     font-size: 16px;
+    width: 100%;
     cursor: pointer;
   }
   
-  .confirm-button:hover {
+  .dconfirm-button:hover {
     background-color: #00796b;
   }
   
-  .cancel-button:hover {
+  .dcancel-button:hover {
     background-color: #d32f2f;
     color: #fff;
   }

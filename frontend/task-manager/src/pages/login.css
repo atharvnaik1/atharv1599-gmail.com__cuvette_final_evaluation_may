@@ -1,7 +1,7 @@
 
 .login-container {
     display: flex;
-    position: absolute;
+    position: fixed;
     opacity: 1;
   }
   .login-right-section {
@@ -94,6 +94,18 @@
     .login-input-group input:focus {
       border-color: #17A2B8; /* Optional: highlight on focus */
     }
+
+    .show-password-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #888;
+      font-size: 1.2rem;
+    }
   
   .login-error-message {
     color: red;
@@ -144,3 +156,5 @@
     background-color: #138496;
     color: white;
   }
+
+  

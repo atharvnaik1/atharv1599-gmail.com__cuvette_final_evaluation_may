@@ -1,10 +1,10 @@
 .container {
     display: flex;
-    position: absolute;
+    position: fixed;
     opacity: 1;
   }
   .right-section {
-    margin-top: 40px;
+    margin-top: 30px;
     padding: 44.1px 88.2px;
     display: flex;
     /* align-items: flex-end; */
@@ -92,6 +92,22 @@
   .input-group input:focus {
     border-color: #17A2B8; 
   }
+
+  .show-password-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #888;
+    font-size: 1.2rem;
+  }
+  
+  .show-password-btn:hover {
+    color: #4a90e2;
+  }
   
   .error-message {
     color: red;
@@ -114,7 +130,6 @@
   }
   
   .login-section {
-    margin-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;

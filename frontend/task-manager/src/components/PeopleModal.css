@@ -16,8 +16,12 @@
     padding: 20px;
     border-radius: 10px;
     width: 400px;
+    text-align: left;
   }
-  
+  .modal-content h3{
+    font-size:16px;
+    padding-left:10px;
+  }
   .modal-form {
     display: flex;
     flex-direction: column;
@@ -28,27 +32,32 @@
     display: flex;
     flex-direction: column;
   }
-  
-  .modal-actions {
+  .form-input{
+    width: 100%; 
+    max-width: 450px;
+  }
+
+  .modal-btns {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-evenly;
     gap: 10px;
   }
   
-  .cancelbtn, .save-btn {
+  .cancelbutn, .save-butn {
+    width: 100%;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
   }
   
-  .cancelbtn {
-    background-color: #f8d7da;
-    color: #721c24;
+  .cancelbutn {
+    background-color: #fcfcfc;
+    color: #cc3030;
+    border: 1px solid #cc3030;
   }
   
-  .save-btn {
-    background-color: #007bff;
+  .save-butn {
+    background-color: #17A2B8;
     color: white;
   }
-  

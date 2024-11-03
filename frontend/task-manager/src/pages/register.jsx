@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';  // Import Link for navigation
+import { Link } from 'react-router-dom';
 import './register.css';
 import { registerUser } from '../api/auth';
 import { FaRegUser, FaRegEnvelope } from 'react-icons/fa';
-import { RiLockLine } from 'react-icons/ri';
+import { RiLockLine, RiEyeLine, RiEyeOffLine } from 'react-icons/ri';
+
 function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Basic validation for name, email, and password
     if (name === '' || email === '' || password === '' || confirmPassword === '') {
       setError('All fields are required');
     } else if (password !== confirmPassword) {
@@ -26,7 +28,6 @@ function RegisterPage() {
 
     try {
       await registerUser(name, email, password);
-      setSuccess('Registered successfully!');
       setError('');
     } catch (err) {
       setError(err.response?.data?.msg || 'Registration failed');
@@ -36,7 +37,7 @@ function RegisterPage() {
   return (
     <div className="container">
       <div className="left-section">
-        <img src="../Back.png" alt="Background Image" className="background-image" /> 
+        <img src="../Back.png" alt="Background Image" className="background-image" />
         <img src="../Group-1.png" alt="Front Image" className="front-image" />
         <div className="welcome">
           <h1 className="welcome-text">Join us today!</h1>
@@ -72,23 +73,37 @@ function RegisterPage() {
           <div className="input-group">
             <RiLockLine className="icon" />
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <button
+              type="button"
+              className="show-password-btn"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <RiEyeOffLine /> : <RiEyeLine />}
+            </button>
           </div>
 
           <div className="input-group">
             <RiLockLine className="icon" />
             <input
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
+            <button
+              type="button"
+              className="show-password-btn"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              {showConfirmPassword ? <RiEyeOffLine /> : <RiEyeLine />}
+            </button>
           </div>
 
           {error && <p className="error-message">{error}</p>}

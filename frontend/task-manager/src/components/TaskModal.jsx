@@ -182,7 +182,7 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
 
           <div className="form-group">
             <label>Checklist({completedCount}/{totalCount})</label>
-
+            <div className="checklist-item-container">
             {checklist.map((item, index) => (
               <div key={index} className="checklist-item">
                 <input
@@ -204,7 +204,8 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
                   />
               </div>
             ))}
-            <button onClick={addChecklistItem} className="add-checklist-item">+ Add New</button>
+            </div>
+            <button onClick={addChecklistItem} className="add-checklist-item"><span>{"+"}</span> Add New</button>
           </div>
 
           <div className="modal-actions">
