@@ -10,7 +10,7 @@ import { MdDelete } from "react-icons/md";
 import { getPeople } from '../api/PeopleApi';
 
 
-const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
+const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
   const [title, setTitle] = useState(task ? task.title : '');
   const [priority, setPriority] = useState(task ? task.priority : 'Moderate');
   const [assignTo, setAssignTo] = useState(task ? task.assignTo : []);
@@ -104,8 +104,7 @@ const TaskModal = ({ task, closeModal,saveTask ,status = 'to-do' }) => {
       }
       
       
-        // await refreshTasks(); // Refresh tasks on the board
-    
+       
       closeModal();
     } catch (error) {
       console.error("Error saving task:", error);

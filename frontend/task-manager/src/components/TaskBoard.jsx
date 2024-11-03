@@ -61,11 +61,13 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
   const closeModal = () => {
     setShowModal(false);
     setCurrentTask(null);
+    refreshTasks();
   };
 
   const saveTaskHandler = async (newTask) => {
     if (currentTask && currentTask._id) {
       await updateTask(currentTask._id, newTask);
+      
     } else {
       const newTaskWithStatus = { ...newTask, status: taskStatus };
       await saveTask(newTaskWithStatus);
