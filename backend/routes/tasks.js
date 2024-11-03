@@ -4,7 +4,6 @@ const router = express.Router();
 const Task = require('../models/Task');
 const TaskValidator = require("../validator/TaskValidator");
 
-
 router.get("/analytics", auth, async (req, res) => {
   try {
     const getAll = await Task.find({
@@ -20,12 +19,7 @@ router.get("/analytics", auth, async (req, res) => {
       result[status] = (result[status] || 0) + 1;
       return result;
     }, {});
-    // const completedTasks = getAll.reduce((result, Task) => {
-    //   const tasks = Task.tasks || [];
-    //   const completedTasks = tasks.filter((task) => task.isDone);
-    //   result += completedTasks.length;
-    //   return result;
-    // }, 0);
+
     const priorityAnalytics = getAll.reduce((result, task) => {
       const priority = task.priority || "Unknown";
       result[priority] = (result[priority] || 0) + 1;
@@ -36,7 +30,6 @@ router.get("/analytics", auth, async (req, res) => {
       priorityAnalytics,
       DueDateTask,
       statusAnalytics,
-      // completedTasks,
     });
   } catch (error) {
     console.error(error);
@@ -45,12 +38,9 @@ router.get("/analytics", auth, async (req, res) => {
 });
 
 // Get all tasks for the authenticated user
-
-
-
 router.get('/', auth, async (req, res) => {
   try {
-    const tasks = await Task.find({ userId: req.user }).select('_id title priority status assignTo checklist dueDate');;
+    const tasks = await Task.find({ userId: req.user }).select('_id title priority status assignTo checklist dueDate');
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ msg: 'Failed to fetch tasks' });
@@ -60,7 +50,7 @@ router.get('/', auth, async (req, res) => {
 router.get('/:id', auth, async (req, res) => {
   const { id } = req.params;
   try {
-    const tasks= await Task.findById(id);
+    const tasks = await Task.findById(id);
     if (!tasks) return res.status(404).json({ msg: 'Task not found' });
     res.json(tasks);
   } catch (error) {
@@ -68,36 +58,36 @@ router.get('/:id', auth, async (req, res) => {
   }
 });
 
-
-// Create a new task for the authenticated user
+// Create a new task for the authenticated user with validation
 router.post('/', auth, async (req, res) => {
-const { title, priority, status, assignTo, checklist, dueDate } = req.body;
+  try {
+    // Validate request body against TaskValidator schema
+    const validatedData = TaskValidator.parse(req.body);
 
-try {
-  const newTask = new Task({
-    title,
-    priority,
-    status,
-    assignTo,
-    checklist,
-    dueDate,
-    userId: req.user,
-  });
-  const savedTask = await newTask.save();
-  res.status(201).json(savedTask);
-} catch (error) {
-  res.status(400).json({ msg: 'Failed to create task' });
-}
+    const newTask = new Task({
+      ...validatedData,
+      userId: req.user,
+    });
+    const savedTask = await newTask.save();
+    res.status(201).json(savedTask);
+  } catch (error) {
+    if (error instanceof TaskValidator.ValidationError) {
+      return res.status(400).json({ msg: 'Validation failed', details: error.errors });
+    }
+    res.status(400).json({ msg: 'Failed to create task', error });
+  }
 });
-// Update an existing task by _id
+
+// Update an existing task by _id with validation
 router.put('/:id', auth, async (req, res) => {
   const { id } = req.params;
-  const updates= req.body;
-  
   try {
+    // Validate the incoming updates
+    const validatedData = TaskValidator.parse(req.body);
+
     const updatedTask = await Task.findOneAndUpdate(
       { _id: id, userId: req.user },
-      updates,
+      validatedData,
       { new: true, runValidators: true }
     );
 
@@ -105,72 +95,12 @@ router.put('/:id', auth, async (req, res) => {
 
     res.status(200).json({ msg: 'Task updated successfully', updatedTask });
   } catch (error) {
+    if (error instanceof TaskValidator.ValidationError) {
+      return res.status(400).json({ msg: 'Validation failed', details: error.errors });
+    }
     res.status(500).json({ msg: 'Failed to update task', error });
   }
 });
-
-    // if (!updatedTask) return res.status(404).json({ msg: 'Task not found' });
-    // if (TaskData.title) updatedTask.title = TaskData.title;
-    // // if (TaskData.priority) updatedTask.priority = TaskData.priority;
-    // // // if (TaskData.tasks) updatedTask.tasks = TaskData.tasks;
-    // // if (TaskData.dueDate) updatedTask.dueDate = TaskData.dueDate;
-    // // if (TaskData.status) updatedTask.status = TaskData.status;
-    // await updatedTask.save();
-    //   return res.status(200).json({
-    //     status: "success",
-    //     message: "Task updated successfully", updatedTask
-    //   });
-
-    // res.json(updatedTask);
-
-//   } catch (error) { 
-//     if (error.details) {
-//       return res
-//         .status(400)
-//         .json({ error: "Validation failed", details: error.details });
-//     } else {
-//       console.log(error);
-//       return res.status(500).send("Internal server error");
-//     }
-//   }
-// });
-
-
-// router.patch("/update/status/:id", auth, async (req, res) => {
-//   try {
-//     const {id} = req.params;
-//     const { status, tasks } = req.body;
-
-//     if (!id) {
-//       return res.status(400).json({
-//         status: "failed",
-//         error: "ID is required for updating",
-//       });
-//     }
-//     const Taskdata = await Task.findOne({
-//       _id: id,
-//      userId: req.user,
-//     });
-//     if (!Taskdata) {
-//       return res.status(404).json({ error: "TAsk not found" });
-//     }
-//     if (status) {
-//       Taskdata.status = status;
-//     }
-//     if (tasks) {
-//       Taskdata.tasks = tasks;
-//     }
-//     await Taskdata.save();
-//     return res.status(200).json({
-//       status: "success",
-//       message: "Task updated successfully",
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).send("Internal server error");
-//   }
-// });
-
 
 // Delete a task by _id
 router.delete('/:id', auth, async (req, res) => {
@@ -187,6 +117,4 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-
 module.exports = router;
-
