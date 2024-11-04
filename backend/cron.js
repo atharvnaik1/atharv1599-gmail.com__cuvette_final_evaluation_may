@@ -1,23 +1,14 @@
-const cron = require('cron');
-const https = require('https');
+const cron = require('node-cron');
+const axios = require('axios');
 
+// URL to call every 14 minutes
+const url = 'https://atharv1599-gmail-com-cuvette-final.onrender.com';
 
-const backendUrl= "https://atharv1599-gmail-com-cuvette-final.onrender.com"
-
-export const job = new cron.CronJob('*/14 * * * *',function (){
-// */14 12,22 * * * ; */14 * * * *
-  console.log('Restarting server');
-
-https.get(backendUrl,(res)=>{
-
-  if(res.statusCode == 200){
-    console.log("Server Restarted");
-  }else{
-    console.error("Failed to restart");
+// Schedule the cron job to run every 14 minutes
+cron.schedule('*/14 * * * *', async () => {
+  try {
+    await axios.get(url);
+  } catch (error) {
+    // Handle error silently or add any necessary error handling
   }
-})
-.on('error',(err)=>{
-  console.log("Error during restart",err.message);
-})
-})
-
+});

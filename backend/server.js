@@ -8,7 +8,8 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 const bodyParser = require('body-parser'); 
-const job = require("./cron.js");
+require('./cron'); 
+
 
 const app = express();
 connectDB();
@@ -22,7 +23,7 @@ const logToFile = (message) => {
   const logMessage = `${timestamp} - ${message}\n`;
   fs.appendFileSync(logFilePath, logMessage, 'utf8');
 };
-job.start();//cronJOb
+
 // Middleware
 const allowedOrigins = [
   'https://atharv1599-gmail-com-cuvette-final-evaluation-may.vercel.app', // Vercel frontend URL
