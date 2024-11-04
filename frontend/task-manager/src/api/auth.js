@@ -42,7 +42,7 @@ export const loginUser = async (email, password, retries = 3) => {
 };
 export const updatePassword = async ({ name, oldPassword, newPassword, email }) => {
   try {
-    const response = await fetch(`${API_URL}/update-password`, {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/auth/update-password`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

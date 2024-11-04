@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './SettingsPage.css';
 import Sidebar from '../components/Sidebar';
 import { updatePassword } from '../api/auth';
 import { FaRegUser, FaRegEnvelope } from 'react-icons/fa';
 import { RiLockLine } from "react-icons/ri";
+
 const SettingsPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -12,16 +14,34 @@ const SettingsPage = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
+  const navigate = useNavigate(); // Initialize navigate
+
+  const logout = () => {
+    // Clear any stored tokens or user info, if applicable
+    localStorage.removeItem('authToken'); // example token clearing, adjust as needed
+    navigate('/'); // Redirect to the root
+  };
+
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
       const response = await updatePassword({ name, oldPassword, newPassword, email });
-      setMessage(response.status === 'success' ? 'Information updated successfully!' : '');
-      setError('');
-      setOldPassword('');
-      setNewPassword('');
+      
+      if (response.status === 'success') {
+        setMessage('Information updated successfully!');
+        setError('');
+        setOldPassword('');
+        setNewPassword('');
+        logout(); // Log the user out after a successful update
+      } else {
+        setError('Failed to update');
+      }
     } catch (err) {
-      setError(err.message || 'Failed to update');
+      if (err.response && err.response.headers['content-type'].includes('text/html')) {
+        setError('Unexpected server response. Please try again later.');
+      } else {
+        setError(err.message || 'Failed to update');
+      }
       setMessage('');
     }
   };
