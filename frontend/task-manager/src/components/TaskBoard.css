@@ -251,17 +251,19 @@
   justify-content: space-evenly;
   align-items: center;
   /* justify-content: space-between; */
-  /* align-items: center; */
+  
 }
 
 .due-date {
-
- padding: 4px ;
+ padding: 5px 5px ;
   color: #666565;
   font-size: 10px;
-  background-color: #dbdbdb;
-  border-radius: 8px;
+  max-width: 90px;
+  /* background-color: #dbdbdb; */
+  border-radius: 7px;
   margin-right: 20px;
+  align-items: flex-start;
+  
 }
 
 .status-btn {
@@ -312,4 +314,18 @@
   background-color: #EEF2F5;
   border-radius: 10px;
   padding: 16px;
+}
+
+.due-date-red {
+  background-color: #CF3636; 
+  color: white;
+}
+
+.due-date-green {
+  background-color: #63C05B; 
+  color: white;
+}
+
+.due-date-gray {
+  background-color: #dbdbdb; 
 }

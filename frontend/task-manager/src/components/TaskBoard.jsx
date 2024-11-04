@@ -149,6 +149,14 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
         task.priority === 'High' ? 'red' :
         task.priority === 'Moderate' ? 'blue' :
         task.priority === 'Low' ? 'green' : '';
+
+        const isOverdue = task.dueDate && new Date(task.dueDate) < new Date();
+      const dueDateClass = task.status === 'done'
+        ? 'due-date-green' 
+        : isOverdue
+        ? 'due-date-red'
+        : 'due-date-gray';
+
 return(
         <Draggable key={task._id} draggableId={task._id} index={index}>
           {(provided) => (
@@ -203,7 +211,7 @@ return(
                 </div>
               )}
               <div className="task-footer">
-                <div className="due-date">
+              <div className={`due-date ${dueDateClass}`}>
                   {task.dueDate ? format(new Date(task.dueDate), 'MMM d') : ''}
                 </div>
                 {renderStatusButtons(task, status)}
