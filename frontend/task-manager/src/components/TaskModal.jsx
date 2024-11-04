@@ -4,7 +4,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './TaskModal.css';
 import { FaChevronDown } from 'react-icons/fa';
 import { format, addDays, subDays } from "date-fns";
-// import toast from "react-toastify";
 import { saveTask, updateTask } from '../api/taskApi';
 import { MdDelete } from "react-icons/md";
 import { getPeople } from '../api/PeopleApi';
@@ -13,11 +12,12 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
   const [title, setTitle] = useState(task ? task.title : '');
   const [priority, setPriority] = useState(task ? task.priority : 'Moderate');
   const [assignTo, setAssignTo] = useState(task ? task.assignTo : []);
-  const [checklist, setChecklist] = useState(task ? task.checklist : [{ text: '', completed: false }]);
+  const [checklist, setChecklist] = useState(task && task.checklist ? task.checklist : []);
   const [dueDate, setDueDate] = useState(task ? new Date(task.dueDate) : null);
   const [emailList, setEmailList] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showChecklist, setShowChecklist] = useState(checklist.length > 0); // New state to control checklist visibility
 
   // Load email list from database
   useEffect(() => {
@@ -43,7 +43,10 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
     }
   }, [task]);
 
-  const addChecklistItem = () => setChecklist([...checklist, { text: '', completed: false }]);
+  const addChecklistItem = () => {
+    setShowChecklist(true); // Show checklist section when the first item is added
+    setChecklist([...checklist, { text: '', completed: false }]);
+  };
 
   const handleChecklistChange = (index, newValue, isCompleted = null) => {
     setChecklist((prev) => {
@@ -89,7 +92,6 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
     }, {});
 
     localStorage.setItem('assignedInitials', JSON.stringify(initialsMap));
-
 
     try {
       if (task && task._id) {
@@ -149,7 +151,7 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
           <div className="form-group assign-to-group">
             <label>Assign to</label>
             <div className="assign-to-container">
-              <input type="text" placeholder="Select or type to add" value={searchTerm}  onClick={toggleDropdown} onChange={(e) => setSearchTerm(e.target.value)}
+              <input type="text" placeholder="Select or type to add" value={searchTerm} onClick={toggleDropdown} onChange={(e) => setSearchTerm(e.target.value)}
                   className="search-input" />
               <FaChevronDown className="dropdown-icon" onClick={toggleDropdown} />
             </div>
@@ -176,33 +178,36 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
             )}
           </div>
 
-          <div className="form-group">
-            <label>Checklist ({completedCount}/{totalCount})</label>
-            <div className="checklist-item-container">
-              {checklist.map((item, index) => (
-                <div key={index} className="checklist-item">
-                  <input
-                    type="checkbox"
-                    checked={item.completed}
-                    onChange={(e) => handleChecklistChange(index, item.text, e.target.checked)}
-                  />
-                  <input
-                    type="text"
-                    value={item.text}
-                    onChange={(e) => handleChecklistChange(index, e.target.value)}
-                    placeholder="Add Task Here"
-                    className="task-input"
-                  />
-                  <MdDelete 
-                    className="deleteIcon"
-                    size={"30px"}
-                    onClick={() => removeChecklistItem(index)}
-                  />
-                </div>
-              ))}
+         
+            <div className="form-group">
+              <label>Checklist ({completedCount}/{totalCount})</label>
+              {showChecklist && (  <div className="checklist-item-container">
+                {checklist.map((item, index) => (
+                  <div key={index} className="checklist-item">
+                    <input
+                      type="checkbox"
+                      checked={item.completed}
+                      onChange={(e) => handleChecklistChange(index, item.text, e.target.checked)}
+                    />
+                    <input
+                      type="text"
+                      value={item.text}
+                      onChange={(e) => handleChecklistChange(index, e.target.value)}
+                      placeholder="Add Task Here"
+                      className="task-input"
+                    />
+                    <MdDelete 
+                      className="deleteIcon"
+                      size={"30px"}
+                      onClick={() => removeChecklistItem(index)}
+                    />
+                  </div>
+                ))}
+              </div>
+               )}
             </div>
-            <button onClick={addChecklistItem} className="add-checklist-item"><span>{"+"}</span> Add New</button>
-          </div>
+         
+          <button onClick={addChecklistItem} className="add-checklist-item"><span>{"+"}</span> Add New</button>
 
           <div className="modal-actions">
             <div className="duedate-btn">
