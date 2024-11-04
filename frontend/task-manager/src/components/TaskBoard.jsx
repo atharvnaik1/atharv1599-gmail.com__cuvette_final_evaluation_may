@@ -42,7 +42,7 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
   // Fetch tasks from backend when component mounts
   const refreshTasks = async () => {
     try {
-      const data = await fetchTasks();
+      const data = await fetchTasks(selectedFilter);
       setTasks(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Failed to fetch tasks from backend:", error);
@@ -52,7 +52,7 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
 
   useEffect(() => {
     refreshTasks();
-  }, []);
+  }, [selectedFilter]);
 
   const openModal = (task = null, status = 'to-do') => {
     setCurrentTask(task);
@@ -86,14 +86,14 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
 
   const onDeleteConfirm = async () => {
     if (taskToDelete) {
-      await deleteTaskHandler(taskToDelete); // Assuming deleteTaskHandler is defined
-      refreshTasks(); // Refresh tasks after deletion
+      await deleteTaskHandler(taskToDelete); 
+      refreshTasks(); 
     }
-    setTaskToDelete(null); // Close the modal
+    setTaskToDelete(null); 
   };
 
   const onCancelDelete = () => {
-    setTaskToDelete(null); // Close the modal without deleting
+    setTaskToDelete(null); 
   };
 
   const deleteTaskHandler = async (id) => {
@@ -132,18 +132,18 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
     updateTask(task._id, updatedTask).then(refreshTasks);
   };
 
-  const filterTasksByDueDate = (task) => {
-    const dueDate = new Date(task.dueDate);
-    if (selectedFilter === "Today") return isToday(dueDate);
-    if (selectedFilter === "This Week") return isThisWeek(dueDate);
-    if (selectedFilter === "This Month") return isThisMonth(dueDate);
-    return true; // If no specific filter is applied
-  };
+  // const filterTasksByDueDate = (task) => {
+  //   const dueDate = new Date(task.dueDate);
+  //   if (selectedFilter === "Today") return isToday(dueDate);
+  //   if (selectedFilter === "This Week") return isThisWeek(dueDate);
+  //   if (selectedFilter === "This Month") return isThisMonth(dueDate);
+  //   return true; // If no specific filter is applied
+  // };
 
   
   const renderTasksByStatus = (status) => {
     return tasks
-      .filter((task) => task.status === status && filterTasksByDueDate(task))
+      .filter((task) => task.status === status)
       .map((task, index) => {
         const priorityClass =
         task.priority === 'High' ? 'red' :

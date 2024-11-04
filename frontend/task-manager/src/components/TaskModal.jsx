@@ -33,15 +33,7 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
 
     loadEmailList();
   }, []);
-  //   const handleStorageChange = (e) => {
-  //     if (e.key === 'savedEmails') loadEmailList();
-  //   };
 
-  //   window.addEventListener('storage', handleStorageChange);
-  //   return () => window.removeEventListener('storage', handleStorageChange);
-  // }, []);
-
-  // Set initial values when editing an existing task
   useEffect(() => {
     if (task) {
       setTitle(task.title);
@@ -214,7 +206,7 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
               excludeDateIntervals={[
                 {
                   start: subDays(new Date(), 100),
-                  end: addDays(new Date(), 0),
+      end: subDays(new Date(), 10),
                 },
               ]}
               onChange={(date) => setDueDate(date)}

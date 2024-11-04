@@ -20,12 +20,7 @@ router.get("/analytics", auth, async (req, res) => {
       result[status] = (result[status] || 0) + 1;
       return result;
     }, {});
-    // const completedTasks = getAll.reduce((result, Task) => {
-    //   const tasks = Task.tasks || [];
-    //   const completedTasks = tasks.filter((task) => task.isDone);
-    //   result += completedTasks.length;
-    //   return result;
-    // }, 0);
+    
     const priorityAnalytics = getAll.reduce((result, task) => {
       const priority = task.priority || "Unknown";
       result[priority] = (result[priority] || 0) + 1;
@@ -44,18 +39,32 @@ router.get("/analytics", auth, async (req, res) => {
   }
 });
 
-// Get all tasks for the authenticated user
 
+// Get all tasks 
 
+const { startOfToday, endOfToday, startOfWeek, endOfWeek, startOfMonth, endOfMonth } = require('date-fns');
 
 router.get('/', auth, async (req, res) => {
+  const { filter } = req.query; 
+  const filterOptions = { userId: req.user };
+
+  
+  if (filter === 'Today') {
+    filterOptions.dueDate = { $gte: startOfToday(), $lte: endOfToday() };
+  } else if (filter === 'This Week') {
+    filterOptions.dueDate = { $gte: startOfWeek(new Date()), $lte: endOfWeek(new Date()) };
+  } else if (filter === 'This Month') {
+    filterOptions.dueDate = { $gte: startOfMonth(new Date()), $lte: endOfMonth(new Date()) };
+  }
+
   try {
-    const tasks = await Task.find({ userId: req.user }).select('_id title priority status assignTo checklist dueDate');;
+    const tasks = await Task.find(filterOptions).select('_id title priority status assignTo checklist dueDate');
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ msg: 'Failed to fetch tasks' });
   }
 });
+
 
 router.get('/:id', auth, async (req, res) => {
   const { id } = req.params;

@@ -12,10 +12,11 @@ const getAuthHeaders = () => {
 
 
 // Fetch all tasks
-export const fetchTasks = async () => {
+export const fetchTasks = async (filter) => {
   try {
     const response = await axios.get(API_URL, {
-      headers: getAuthHeaders(), // Attach the auth headers
+      headers: getAuthHeaders(),
+      params: { filter }, 
     });
     return response.data;
   } catch (error) {
