@@ -9,7 +9,6 @@ import { saveTask, updateTask } from '../api/taskApi';
 import { MdDelete } from "react-icons/md";
 import { getPeople } from '../api/PeopleApi';
 
-
 const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
   const [title, setTitle] = useState(task ? task.title : '');
   const [priority, setPriority] = useState(task ? task.priority : 'Moderate');
@@ -18,8 +17,8 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
   const [dueDate, setDueDate] = useState(task ? new Date(task.dueDate) : null);
   const [emailList, setEmailList] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // Load email list from localStorage initially
   // Load email list from database
   useEffect(() => {
     const loadEmailList = async () => {
@@ -62,19 +61,14 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
 
   const handleAssignToChange = (email) => {
     if (assignTo.includes(email)) {
-      // Remove the email if already assigned
       setAssignTo(assignTo.filter((assignedEmail) => assignedEmail !== email));
     } else {
-      // Add the email if not assigned
       setAssignTo([...assignTo, email]);
     }
     setDropdownOpen(true);
   };
 
-
   const toggleDropdown = () => setDropdownOpen((prev) => !prev);
-
-  const removeAssignedEmail = (email) => setAssignTo(assignTo.filter((assignedEmail) => assignedEmail !== email));
 
   const handleSave = async () => {
     if (!title.trim()) return;
@@ -87,6 +81,15 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
       dueDate: dueDate ? dueDate.toISOString() : null,
       status: task ? task.status : status,
     };
+     // Generate and store initials in localStorage
+     const initialsMap = assignTo.reduce((acc, email) => {
+      const initials = email.split('@')[0].slice(0, 2).toUpperCase();
+      acc[email] = initials;
+      return acc;
+    }, {});
+
+    localStorage.setItem('assignedInitials', JSON.stringify(initialsMap));
+
 
     try {
       if (task && task._id) {
@@ -94,16 +97,18 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
       } else {
         await saveTask(newTask);
       }
-      
-      
-       
       closeModal();
     } catch (error) {
       console.error("Error saving task:", error);
     }
   };
+
   const completedCount = checklist.filter(item => item.completed).length;
   const totalCount = checklist.length;
+
+  const filteredEmailList = emailList.filter(email =>
+    email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="modal-overlay">
@@ -112,32 +117,31 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
         <div className="modal-form">
           <div className="form-group">
             <div className="title-container">
-            <label className="titel">Title <span>*</span></label>
-            <input
-              className='title-input'
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter Task Title"
-              required
-            />
+              <label className="titel">Title <span>*</span></label>
+              <input
+                className='title-input'
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Enter Task Title"
+                required
+              />
             </div>
           </div>
 
           <div className="form-group">
-          <div className="select-priority-container">
-
-            <label className='select'>Select Priority <span>*</span></label>
-            <div className="priority-options">
-              <button className={`priority-btn ${priority === 'High' ? 'selected' : ''}`} onClick={() => setPriority('High')}>
-                <span className="priority-dot red"></span> High Priority
-              </button>
-              <button className={`priority-btn ${priority === 'Moderate' ? 'selected' : ''}`} onClick={() => setPriority('Moderate')}>
-                <span className="priority-dot blue"></span> Moderate Priority
-              </button>
-              <button className={`priority-btn ${priority === 'Low' ? 'selected' : ''}`} onClick={() => setPriority('Low')}>
-                <span className="priority-dot green"></span> Low Priority
-              </button>
+            <div className="select-priority-container">
+              <label className='select'>Select Priority <span>*</span></label>
+              <div className="priority-options">
+                <button className={`priority-btn ${priority === 'High' ? 'selected' : ''}`} onClick={() => setPriority('High')}>
+                  <span className="priority-dot red"></span> High Priority
+                </button>
+                <button className={`priority-btn ${priority === 'Moderate' ? 'selected' : ''}`} onClick={() => setPriority('Moderate')}>
+                  <span className="priority-dot blue"></span> Moderate Priority
+                </button>
+                <button className={`priority-btn ${priority === 'Low' ? 'selected' : ''}`} onClick={() => setPriority('Low')}>
+                  <span className="priority-dot green"></span> Low Priority
+                </button>
               </div>
             </div>
           </div>
@@ -145,13 +149,14 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
           <div className="form-group assign-to-group">
             <label>Assign to</label>
             <div className="assign-to-container">
-            
-              <input type="text" placeholder="Select or type to add" readOnly onClick={toggleDropdown} />
+              <input type="text" placeholder="Select or type to add" value={searchTerm}  onClick={toggleDropdown} onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-input" />
               <FaChevronDown className="dropdown-icon" onClick={toggleDropdown} />
             </div>
             {dropdownOpen && (
               <div className="dropdown-menu">
-                {emailList.map((email, index) => {
+                
+                {filteredEmailList.map((email, index) => {
                   const initials = email.split('@')[0].slice(0, 2).toUpperCase();
                   const isAssigned = assignTo.includes(email);
                   return (
@@ -172,55 +177,55 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
           </div>
 
           <div className="form-group">
-            <label>Checklist({completedCount}/{totalCount})</label>
+            <label>Checklist ({completedCount}/{totalCount})</label>
             <div className="checklist-item-container">
-            {checklist.map((item, index) => (
-              <div key={index} className="checklist-item">
-                <input
-                  type="checkbox"
-                  checked={item.completed}
-                  onChange={(e) => handleChecklistChange(index, item.text, e.target.checked)}
-                />
-                <input
-                  type="text"
-                  value={item.text}
-                  onChange={(e) => handleChecklistChange(index, e.target.value)}
-                  placeholder="Add Task Here"
-                  className="task-input"
-                />
-                < MdDelete  
-                className="deleteIcon"
-                size={"30px"}
-                onClick={() => removeChecklistItem(index)}
+              {checklist.map((item, index) => (
+                <div key={index} className="checklist-item">
+                  <input
+                    type="checkbox"
+                    checked={item.completed}
+                    onChange={(e) => handleChecklistChange(index, item.text, e.target.checked)}
                   />
-              </div>
-            ))}
+                  <input
+                    type="text"
+                    value={item.text}
+                    onChange={(e) => handleChecklistChange(index, e.target.value)}
+                    placeholder="Add Task Here"
+                    className="task-input"
+                  />
+                  <MdDelete 
+                    className="deleteIcon"
+                    size={"30px"}
+                    onClick={() => removeChecklistItem(index)}
+                  />
+                </div>
+              ))}
             </div>
             <button onClick={addChecklistItem} className="add-checklist-item"><span>{"+"}</span> Add New</button>
           </div>
 
           <div className="modal-actions">
-          <div className="duedate-btn">
-            <DatePicker
-              selected={dueDate}
-              excludeDateIntervals={[
-                {
-                  start: subDays(new Date(), 100),
-      end: subDays(new Date(), 10),
-                },
-              ]}
-              onChange={(date) => setDueDate(date)}
-              customInput={
-                <button className="due-date-btn">
-                  {dueDate ? dueDate.toLocaleDateString('en-US') : 'Select Due Date'}
-                </button>
-              }
-              dateFormat="MM/dd/yyyy"
-            />
+            <div className="duedate-btn">
+              <DatePicker
+                selected={dueDate}
+                excludeDateIntervals={[
+                  {
+                    start: subDays(new Date(), 100),
+                    end: subDays(new Date(), 10),
+                  },
+                ]}
+                onChange={(date) => setDueDate(date)}
+                customInput={
+                  <button className="due-date-btn">
+                    {dueDate ? dueDate.toLocaleDateString('en-US') : 'Select Due Date'}
+                  </button>
+                }
+                dateFormat="MM/dd/yyyy"
+              />
             </div>
             <div className="end-btn">
-            <button onClick={closeModal} className="cancelbtn">Cancel</button>
-            <button onClick={handleSave} className="save-btn">Save</button>
+              <button onClick={closeModal} className="cancelbtn">Cancel</button>
+              <button onClick={handleSave} className="save-btn">Save</button>
             </div>
           </div>
         </div>

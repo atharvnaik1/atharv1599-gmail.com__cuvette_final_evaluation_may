@@ -20,6 +20,13 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
   const [taskStatus, setTaskStatus] = useState('');
   const [activeTaskOptions, setActiveTaskOptions] = useState(null);
   const [taskToDelete, setTaskToDelete] = useState(null);
+  const [assignedInitials, setAssignedInitials] = useState({});
+
+ // Fetch initials from localStorage when the component mounts
+ useEffect(() => {
+  const storedInitials = JSON.parse(localStorage.getItem('assignedInitials')) || {};
+  setAssignedInitials(storedInitials);
+}, []);
 
   const shareTask = (taskId) => {
     const shareableLink = `${window.location.origin}/task/${taskId}`;
@@ -139,7 +146,9 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
   //   if (selectedFilter === "This Month") return isThisMonth(dueDate);
   //   return true; // If no specific filter is applied
   // };
-
+  // const initials = task.assignTo && task.assignTo.length > 0 
+  // ? task.assignTo[0].split('@')[0].slice(0, 2).toUpperCase() 
+  // : '';
   
   const renderTasksByStatus = (status) => {
     return tasks
@@ -157,6 +166,8 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
         ? 'due-date-red'
         : 'due-date-gray';
 
+        const initials = assignedInitials[task.assignTo[0]] || '';
+
 return(
         <Draggable key={task._id} draggableId={task._id} index={index}>
           {(provided) => (
@@ -170,6 +181,7 @@ return(
                 <div className="priorityy">
                 <span className={`priority-dott ${priorityClass}`}></span>
                 <p>{task.priority} priority</p>
+                {initials && <p className="assigned-initials">{initials}</p>}
                 </div>
                 <BsThreeDots
                   className="options-icon"
