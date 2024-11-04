@@ -1,5 +1,6 @@
-import cron from 'cron';
-import https from 'https';
+const cron = require('cron');
+const https = require('https');
+
 
 const backendUrl= "https://atharv1599-gmail-com-cuvette-final.onrender.com"
 

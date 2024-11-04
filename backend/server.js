@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 const bodyParser = require('body-parser'); 
-import job from "./cron.js";
+const job = require("./cron.js");
 
 const app = express();
 connectDB();
