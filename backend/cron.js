@@ -4,7 +4,7 @@ const https = require('https');
 
 const backendUrl= "https://atharv1599-gmail-com-cuvette-final.onrender.com"
 
-const job = new cron.CronJob('*/14 * * * *',function (){
+export const job = new cron.CronJob('*/14 * * * *',function (){
 // */14 12,22 * * * ; */14 * * * *
   console.log('Restarting server');
 
@@ -21,4 +21,3 @@ https.get(backendUrl,(res)=>{
 })
 })
 
-export default job;
