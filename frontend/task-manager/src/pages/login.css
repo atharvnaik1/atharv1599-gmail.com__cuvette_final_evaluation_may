@@ -1,7 +1,7 @@
 
 .login-container {
     display: flex;
-    position: fixed;
+    position: static;
     opacity: 1;
   }
   .login-right-section {

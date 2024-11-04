@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    position: fixed;
+    position: static;
     opacity: 1;
   }
   .right-section {
