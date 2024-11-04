@@ -14,7 +14,8 @@ const auth = async (req, res, next) => {
     const user = await User.findById(decoded.id);
     if (!user) return res.status(404).json({ msg: 'User not found' });
 
-    req.username = user.name; // Attach username to the request
+    req.username = user.name; 
+    req.email = user.email;
     next();
 
   } catch (error) {

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './SettingsPage.css';
 import Sidebar from '../components/Sidebar';
-import { updatePassword } from '../api/auth';
+import { updatePassword,Userdata} from '../api/auth';
 import { FaRegUser, FaRegEnvelope } from 'react-icons/fa';
 import { RiLockLine } from "react-icons/ri";
 
@@ -14,13 +14,28 @@ const SettingsPage = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   const logout = () => {
-    // Clear any stored tokens or user info, if applicable
-    localStorage.removeItem('authToken'); // example token clearing, adjust as needed
-    navigate('/'); // Redirect to the root
+   
+    localStorage.removeItem('token'); 
+    navigate('/'); 
   };
+
+  useEffect(() => {
+    // Fetch user info on mount
+    const fetchUserInfo = async () => {
+      try {
+        const userInfo = await Userdata();
+        setName(userInfo.name);
+        setEmail(userInfo.email);
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+        setError('Could not load user information.');
+      }
+    };
+    fetchUserInfo();
+  }, []);
 
   const handleUpdate = async (e) => {
     e.preventDefault();

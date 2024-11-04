@@ -59,8 +59,9 @@ router.post('/login', async (req, res) => {
 
 router.get("/user", auth, (req, res) => {
   const username = req.username;
-  if (username) {
-    res.status(200).json({ message: "ok", name: username });
+  const email =req.email;
+  if (username && email) {
+    res.status(200).json({ message: "ok", name: username, email: email });
   } else {
     res.status(401).json({ message: "failed" });
   }
