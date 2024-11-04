@@ -7,9 +7,9 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
-const bodyParser = require('body-parser'); // Import body-parser
+const bodyParser = require('body-parser'); 
+import job from "./cron";
 
-// Initialize Express and connect to MongoDB
 const app = express();
 connectDB();
 
@@ -22,11 +22,11 @@ const logToFile = (message) => {
   const logMessage = `${timestamp} - ${message}\n`;
   fs.appendFileSync(logFilePath, logMessage, 'utf8');
 };
-
+job.start();//cronJOb
 // Middleware
 const allowedOrigins = [
   'https://atharv1599-gmail-com-cuvette-final-evaluation-may.vercel.app', // Vercel frontend URL
-  'http://localhost:5173' // Local development URL (optional)
+  // 'http://localhost:5173' // Local development URL (optional)
 ];
 
 app.use(cors({
