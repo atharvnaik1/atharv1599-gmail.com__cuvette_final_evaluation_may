@@ -50,7 +50,7 @@ router.get('/', auth, async (req, res) => {
 
   
   if (filter === 'Today') {
-    filterOptions.dueDate = { $gte: startOfToday(), $lte: endOfToday() };
+    filterOptions.dueDate = { $gte: startOfToday(new Date()), $lte: endOfToday(new Date()) };
   } else if (filter === 'This Week') {
     filterOptions.dueDate = { $gte: startOfWeek(new Date()), $lte: endOfWeek(new Date()) };
   } else if (filter === 'This Month') {
