@@ -186,10 +186,15 @@
     margin: 5px 0;
   }
   .checklist-item input[type="checkbox"] {
-    width: 10%; /* Occupies 10% of the bordered area */
-    margin-right: 10px; /* 10px gap between checkbox and input */
+    width: 10%; 
+    margin-right: 10px; 
 }
 
+.checklist-item input[type="checkbox"]:checked {
+    background: #17A2B8;
+    border: 1px solid #17A2B8;
+    color: white;
+  }
   
   .add-checklist-item {
     color: rgb(155, 154, 154);

@@ -68,8 +68,11 @@ router.get('/', auth, async (req, res) => {
 
 router.get('/:id', auth, async (req, res) => {
   const { id } = req.params;
+  const { readonly } = req.query;
   try {
-    const tasks= await Task.findById(id);
+    const tasks=  readonly 
+    ? await Task.findById(id).select('_id title priority status assignTo checklist dueDate') 
+    : await Task.findOne({ _id: id, userId: req.user });
     if (!tasks) return res.status(404).json({ msg: 'Task not found' });
     res.json(tasks);
   } catch (error) {

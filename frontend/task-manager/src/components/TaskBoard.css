@@ -232,6 +232,11 @@
   border-radius: 6px;
 }
 
+.checklist-item input[type="checkbox"]:checked {
+  background: #18B0FF;
+  color: white;
+}
+
 .checklist-item span {
   font-size: 0.9rem;
   color: #555555;

@@ -29,7 +29,7 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
 }, []);
 
   const shareTask = (taskId) => {
-    const shareableLink = `${window.location.origin}/task/${taskId}`;
+    const shareableLink = `${window.location.origin}/tasks/${taskId}`;
     navigator.clipboard.writeText(shareableLink).then(() => {
       toast.success(<LinkCopiedToast />, {
         position: "top-right",

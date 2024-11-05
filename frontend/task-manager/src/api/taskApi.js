@@ -27,10 +27,11 @@ export const fetchTasks = async (filter) => {
 
 // Fetch a task by ID
 
-export const fetchTaskById = async (id) => {
+export const fetchTaskById = async (id, readonly = false) => {
   try {
     const response = await axios.get(`${API_URL}/${id}`, {
-      headers: getAuthHeaders(), // Attach the auth headers
+      headers: getAuthHeaders(), 
+      params: readonly ? { readonly: true } : {},
     });
     return response.data;
   } catch (error) {

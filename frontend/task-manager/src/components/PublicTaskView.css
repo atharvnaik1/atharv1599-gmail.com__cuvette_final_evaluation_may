@@ -1,0 +1,178 @@
+.page-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+  background-color: #ffffff; /* Optional background color */
+  padding: 20px;
+}
+
+.public-task-view {
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  max-width: 300px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.pt-task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.pt-task-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
+  text-align: left;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.pt-priorityy {
+  display: flex;
+  align-items: center;  
+  color: #a09f9f;
+  font-size: 0.48rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: -5px;
+}
+
+.pt-priority-dott {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+  display: inline-block;
+}
+
+.red {
+  background-color: #FF2473; /* High priority */
+}
+
+.blue {
+  background-color: #18B0FF; /* Moderate priority */
+}
+
+.green {
+  background-color: #63C05B; /* Low priority */
+}
+
+.pt-due-date {
+  padding: 5px;
+  color: #ffffff;
+  background-color: #CF3636;
+  font-size: 0.7rem;
+  border-radius: 8px;
+  margin-left: 10px;
+  text-align: center;
+}
+
+.pt-date {
+  padding: 20px 1px;
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  margin-bottom: 15px;
+  
+}
+
+.pt-task-checklist {
+  margin-top: 10px;
+}
+
+.pt-checklist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #131212;
+  margin-bottom: 10px;
+}
+
+.pt-checklist {
+  max-height: 150px; /* Limit the height for scrolling */
+  overflow-y: auto; /* Enable vertical scroll */
+  padding: 0 10px;
+  gap: 10px;
+}
+
+/* Custom scrollbar styling for checklist */
+.pt-checklist::-webkit-scrollbar {
+  width: 8px;
+}
+
+.pt-checklist::-webkit-scrollbar-thumb {
+  background-color: #cccccc; /* Grey scrollbar */
+  border-radius: 4px;
+}
+
+.pt-checklist::-webkit-scrollbar-track {
+  background-color: #f4f4f4;
+}
+
+.pt-checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  background-color: #f9f9f9;
+}
+
+.pt-checklist-item input[type="checkbox"] {
+  transform: scale(1.2);
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+.pt-checklist-item input[type="checkbox"]:checked {
+  background: #18B0FF;
+  color: white;
+}
+
+.pt-checklist-item span {
+  font-size: 0.9rem;
+  color: #555555;
+}
+
+/* Responsive adjustments for mobile screens */
+@media (max-width: 600px) {
+  .public-task-view {
+    max-width: 60%;
+    padding: 15px;
+  }
+
+  .pt-task-title {
+    font-size: 16px;
+  }
+
+  .pt-priorityy {
+    font-size: 0.45rem;
+  }
+
+  .pt-due-date {
+    font-size: 0.6rem;
+    padding: 3px;
+    margin-left: 5px;
+  }
+
+  .pt-checklist-header {
+    font-size: 0.8rem;
+  }
+
+  .pt-checklist-item span {
+    font-size: 0.8rem;
+  }
+}
