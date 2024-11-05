@@ -151,13 +151,12 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
           <div className="form-group assign-to-group">
             <label>Assign to</label>
             <div className="assign-to-container">
-              <input type="text" placeholder="Select or type to add" value={searchTerm} onClick={toggleDropdown} onChange={(e) => setSearchTerm(e.target.value)}
+              <input type="text" placeholder="Add a assignee" value={searchTerm} onClick={toggleDropdown} onChange={(e) => setSearchTerm(e.target.value)}
                   className="search-input" />
               <FaChevronDown className="dropdown-icon" onClick={toggleDropdown} />
             </div>
             {dropdownOpen && (
               <div className="dropdown-menu">
-                
                 {filteredEmailList.map((email, index) => {
                   const initials = email.split('@')[0].slice(0, 2).toUpperCase();
                   const isAssigned = assignTo.includes(email);
@@ -205,10 +204,10 @@ const TaskModal = ({ task, closeModal, saveTask, status = 'to-do' }) => {
                 ))}
               </div>
                )}
-            </div>
+            
          
           <button onClick={addChecklistItem} className="add-checklist-item"><span>{"+"}</span> Add New</button>
-
+</div>
           <div className="modal-actions">
             <div className="duedate-btn">
               <DatePicker
