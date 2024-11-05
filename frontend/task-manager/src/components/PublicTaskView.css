@@ -138,7 +138,8 @@
 }
 
 .pt-checklist-item input[type="checkbox"]:checked {
-  background: #18B0FF;
+  background:  #17A2B8;
+
   color: white;
 }
 
