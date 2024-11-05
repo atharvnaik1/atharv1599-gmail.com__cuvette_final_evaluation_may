@@ -22,11 +22,14 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [assignedInitials, setAssignedInitials] = useState({});
 
- // Fetch initials from localStorage when the component mounts
- useEffect(() => {
-  const storedInitials = JSON.parse(localStorage.getItem('assignedInitials')) || {};
-  setAssignedInitials(storedInitials);
-}, []);
+  const refreshInitials = () => {
+    const storedInitials = JSON.parse(localStorage.getItem('assignedInitials')) || {};
+    setAssignedInitials(storedInitials);
+  };
+
+  useEffect(() => {
+    refreshInitials();
+  }, []);
 
   const shareTask = (taskId) => {
     const shareableLink = `${window.location.origin}/tasks/${taskId}`;
@@ -72,6 +75,7 @@ const TaskBoard = ({ tasks, setTasks, selectedFilter }) => {
     setShowModal(false);
     setCurrentTask(null);
     refreshTasks();
+    refreshInitials();
   };
 
   const saveTaskHandler = async (newTask) => {
