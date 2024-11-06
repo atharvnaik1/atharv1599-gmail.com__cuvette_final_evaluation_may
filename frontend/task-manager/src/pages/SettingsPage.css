@@ -1,9 +1,10 @@
 .settings-page-container{
   display: flex;
+  position: fixed
 }
 .title{
   position: absolute;
-  margin-left: 100px;         
+  margin-left:230px;         
   left: 12%;
   margin-top: 20px;
   font-size: 22px;
@@ -13,7 +14,7 @@
     padding: 20px;
     border-radius: 8px;
     width: 300px;
-    margin-left: 130px;
+    margin-left: 220px;
     position: absolute;  
   top: 80px;           
   left: 12%;
@@ -78,3 +79,14 @@
     padding-left: 35px; /* To make room for the icon */
   }
   
+  @media (max-width: 600px) {
+    .settings-container {
+      width: 90%;
+      padding: 5px;
+    }
+  }
+  @media (max-width: 400px) {
+    .settings-container {
+      padding: 10px;
+    }
+  }

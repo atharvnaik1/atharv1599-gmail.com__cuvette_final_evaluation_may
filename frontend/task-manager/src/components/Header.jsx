@@ -4,13 +4,11 @@ import { LuUsers2 } from "react-icons/lu";
 import PeopleModal from './PeopleModal';
 import { format } from 'date-fns';
 import { FaChevronDown } from "react-icons/fa6";
-import { Userdata } from '../api/auth'; // Update path as needed
+import { Userdata } from '../api/auth'; 
 
-// import { useAppContext } from '../AppContext/AppLayout'; // Import context hook
 
 
 const Header = ({ selectedFilter, setSelectedFilter }) => {
-  // const { username } = useAppContext() ;
   const [userName, setUserName] = useState('');
   const token = localStorage.getItem('token');
   const [showPeopleModal, setShowPeopleModal] = useState(false);

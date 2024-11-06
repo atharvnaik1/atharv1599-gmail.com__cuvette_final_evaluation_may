@@ -55,3 +55,25 @@
   font-size: 0.9em; /* Smaller font size */
   text-align: right;
 }
+
+@media (max-width: 768px) {
+
+  .boxContainer {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  .box1,
+  .box2 {
+    width: 80%; 
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+.box1,
+.box2 {
+  width: 90%;
+  padding: 15px;
+}
+}
