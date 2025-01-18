@@ -7,8 +7,8 @@ import { RiLockLine, RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import { ClipLoader } from 'react-spinners'; // Import the loader component
 
 function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('new3@gmail.com');
+  const [password, setPassword] = useState('123');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false); // New state for loading indicator
   const [error, setError] = useState('');
