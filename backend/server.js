@@ -26,7 +26,7 @@ const logToFile = (message) => {
 
 // Middleware
 const allowedOrigins = [
-  'https://jirax-clonex.vercel.app/',
+  'https://jirax-clonex.vercel.app',
   'https://atharv1599-gmail-com-cuvette-final-evaluation-may.vercel.app', // Vercel frontend URL
   // 'http://localhost:5173' // Local development URL (optional)
 ];
