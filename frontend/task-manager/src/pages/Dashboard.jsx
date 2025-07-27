@@ -11,7 +11,7 @@ const Dashboard = () => {
 
  
   const [tasks, setTasks] = useState([]);
-  const [selectedFilter, setSelectedFilter] = useState("This Week");
+  const [selectedFilter, setSelectedFilter] = useState("All Time");
 
   
   return (
